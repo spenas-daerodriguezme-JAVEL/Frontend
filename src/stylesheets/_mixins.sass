@@ -1,0 +1,12 @@
+=flex($horizontal: 0, $vertical: 0)
+  display: flex
+  @if $horizontal == 1
+    justify-content: center
+  @else if $horizontal == 2
+    justify-content: flex-end
+
+  @if $horizontal == 1
+    align-items: center
+  @else if $horizontal == 2
+    align-items: flex-end
+
