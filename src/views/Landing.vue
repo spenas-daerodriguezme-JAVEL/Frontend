@@ -2,9 +2,15 @@
   <div class="hello">
     <base-menu></base-menu>
     <div class="image-holder">
-      <div class="img-col"></div>
-      <div class="img-col"></div>
-      <div class="img-col"></div>
+      <div class="img-col">
+        <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
+      </div>
+      <div class="img-col">
+        <img src="../assets/productos/DIFUSOR.JPG" alt="">
+      </div>
+      <div class="img-col">
+        <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
+      </div>
     </div>
     <div class="spacer"></div>
     <base-footer></base-footer>
@@ -12,8 +18,8 @@
 </template>
 
 <script>
-import Menu from './shared/Menu.vue'
-import Footer from './shared/Footer.vue'
+import Menu from '../components/shared/Menu.vue'
+import Footer from '../components/shared/Footer.vue'
 
 export default {
   data () {
@@ -56,6 +62,11 @@ export default {
   position: relative
   transform: translateY(-50%)
   top: 50%
+
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
 
 @media (max-width: 890px)
   .img-col

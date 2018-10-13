@@ -8,15 +8,18 @@
         <div class="b3"></div>
       </div>
       <div class="menu-content">
-        <li><a href="#">Productos</a></li>
+        <li><a href="#">Productos inteligentes</a></li>
         <li><a href="#">Catálogo</a></li>
-        <li><a href="#">Trabaja con nosotros</a></li>
+        <!-- <li><a href="#">Trabaja con nosotros</a></li> -->
       </div>
       <div class="logo">
         <img src="../../assets/logo.png" alt="" class="circle-mask" id="logo-base">
         <img src="../../assets/logo_badge.png" alt="" class="disabled" id="logo-contrast">
       </div>
       <div class="menu-content">
+        <li>
+          <svg class="search__button" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </li>
         <li><a href="#">Nosotros</a>
           <div class="submenu" style="background: #A997B6">
             <div class="sb-title">Nosotros</div>
@@ -39,6 +42,16 @@
             <div class="sb-title">Cuenta</div>
           </div>
         </li>
+        <li>
+          <a href="#">Carrito de compra</a>
+        </li>
+      </div>
+
+      <div class="search-box">
+        <div class="search-box__input">
+          <div class="search-box__errase">BORRAR</div>
+          <input type="text" id="search_input">
+        </div>
       </div>
     </div>
 
@@ -94,6 +107,16 @@ export default {
       document.getElementsByTagName("body")[0].classList.toggle("hide-scrollbar")
       burguer.classList.toggle("burguer-on")
       
+    })
+
+    document.getElementsByClassName("search__button")[0].addEventListener("click", _ => {
+      document.getElementsByClassName("search-box")[0].classList.toggle("search-box--active")
+      document.getElementById("search_input").focus()
+    })
+
+    document.getElementsByClassName("search-box__errase")[0].addEventListener("click", _ => {
+      document.getElementById("search_input").value = ""
+      document.getElementById("search_input").focus()
     })
 
   }
@@ -194,6 +217,7 @@ export default {
   background: coral
   font-size: 16px
   transition: .3s
+  z-index: 1
 
   > *
     transition: .7s
@@ -305,6 +329,64 @@ $burguer-distance: 8px
 .circle-mask
   clip-path: circle(35px at center)
   
+.search__button
+  width: 25px
+  height: 25px
+  transform: scaleX(-1)
+
+  svg
+    fill: black
+
+.search-box
+  top: 100%
+  left: 0
+  position: absolute
+  background: white
+  width: 100%
+  height: 0
+  +flex(1, 1)
+  box-shadow: inset  1px 1px 10px 1px rgba(black, .07) 
+  transition: .5s
+  overflow: hidden
+
+.search-box--active
+  height: 50vh
+
+.search-box__input
+  position: relative
+  width: 450px
+  height: 50px
+  background: white
+
+  input
+    box-sizing: border-box
+    padding: 0
+    padding-right: 83px
+    font-size: 36px
+    width: 100%
+    height: 100%
+    border: 0
+    border-bottom: 2px solid darken(#EDEDED, 1%)
+    font-family: $title-font
+
+    &:focus
+      outline: none
+
+.search-box__errase
+  top: 60%
+  right: 1px 
+  transform: translateY(-50%)
+  position: absolute
+  font-size: 13px
+  font-family: $title-font
+  letter-spacing: 1px
+  padding: 5px 8px
+  border-radius: 4px
+  transition: .3s
+  cursor: pointer
+
+  &:hover
+    background: darken(white, 6.5%)
 
 @media (max-width: 980px)
   .menu-content
