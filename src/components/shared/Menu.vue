@@ -65,6 +65,9 @@
       <li><a href="">Item 4</a></li>
       <li><a href="">Item 5</a></li>
     </div>
+
+    <div class="menu-action"></div>
+
   </div>
 </template>
 
@@ -81,6 +84,7 @@ export default {
       let menu = document.getElementsByClassName("menu")[0]
       let bar = document.getElementsByClassName("bar")[0]
       let menuMobile = document.getElementsByClassName("menu-mobile")[0]
+      let menuMask = document.getElementsByClassName("menu-action")[0]
 
       if(scroll >= 100) {
         menu.classList.add("menu-compact")
@@ -88,10 +92,16 @@ export default {
         Object.assign(menuMobile.style, {
           top: '75px'
         })
+        Object.assign(menuMask.style, {
+          top: '75px'
+        })
       } else {
         menu.classList.remove("menu-compact")
         bar.classList.remove("bar-low")
         Object.assign(menuMobile.style, {
+          top: '100px'
+        })
+        Object.assign(menuMask.style, {
           top: '100px'
         })
       }
@@ -106,7 +116,6 @@ export default {
       document.getElementsByTagName("html")[0].classList.toggle("hide-scrollbar")
       document.getElementsByTagName("body")[0].classList.toggle("hide-scrollbar")
       burguer.classList.toggle("burguer-on")
-      
     })
 
     document.getElementsByClassName("search__button")[0].addEventListener("click", _ => {
@@ -387,6 +396,13 @@ $burguer-distance: 8px
 
   &:hover
     background: darken(white, 6.5%)
+
+.menu-action
+  position: fixed
+  background: rgba(black, .3)
+  width: 100vw
+  height: 100vh
+  display: none
 
 @media (max-width: 980px)
   .menu-content

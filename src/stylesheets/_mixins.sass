@@ -1,3 +1,5 @@
+@import './_fonts.sass'
+
 =flex($horizontal: 0, $vertical: 0)
   display: flex
   @if $horizontal == 1
@@ -10,3 +12,26 @@
   @else if $vertical == 2
     align-items: flex-end
 
+%image-cover
+  width: 100%
+  height: 100%
+  object-fit: cover
+
+%title
+  font-family: $title-font
+  white-space: pre-line
+
+%subtitle
+  padding: 15px 3px 15px 55px
+  font-family: $title-font
+  position: relative
+
+  &:after
+    content: ''
+    position: absolute
+    width: 35px
+    height: 4px
+    background: black
+    top: 50% 
+    left: 0
+    transform: translateY(-50%)
