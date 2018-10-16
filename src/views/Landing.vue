@@ -6,7 +6,7 @@
         <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
       </div>
       <div class="img-col">
-        <img src="../assets/productos/DIFUSOR.JPG" alt="">
+        <img src="../assets/productos/DIFUSOR.jpg" alt="">
       </div>
       <div class="img-col">
         <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
