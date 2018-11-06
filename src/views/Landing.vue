@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <base-menu></base-menu>
     <div class="image-holder">
       <div class="img-col">
         <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
@@ -269,8 +268,6 @@
       </div>
     </div>
 
-    <!-- <div class="spacer"></div> -->
-    <base-footer></base-footer>
   </div>
 </template>
 

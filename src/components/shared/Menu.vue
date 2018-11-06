@@ -9,7 +9,9 @@
       </div>
       <div class="menu-content">
         <li><a href="#">Productos inteligentes</a></li>
-        <li><a href="#">Catálogo</a></li>
+        <li>
+          <router-link tag="a" :to="{name: 'Catalog'}">Catálogo</router-link>
+        </li>
         <!-- <li><a href="#">Trabaja con nosotros</a></li> -->
       </div>
       <div class="logo">

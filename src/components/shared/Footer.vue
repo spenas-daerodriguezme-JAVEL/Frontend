@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import '../../stylesheets/_global.sass'
+@import '../../stylesheets/global.sass'
 
 .footer
   +flex(1, 1)
