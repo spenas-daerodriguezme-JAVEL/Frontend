@@ -33,7 +33,14 @@
         <div class="catalog-box">
           
           <div class="item">
-            <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
+            <div class="item__image">
+              <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
+              <div class="buy__item">
+                <div class="buy__item--inner">
+                  Comprar
+                </div>
+              </div>
+            </div>
           <div class="item__description">
             <div class="item__heading">
               <div class="item__title">
@@ -50,7 +57,14 @@
           </div>
 
           <div class="item">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg" alt="">
+            <div class="item__image">
+              <img src="../assets/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg" alt="">
+              <div class="buy__item">
+                <div class="buy__item--inner">
+                  Comprar
+                </div>
+              </div>
+            </div>
           <div class="item__description">
             <div class="item__heading">
               <div class="item__title">
@@ -67,7 +81,14 @@
           </div>
 
           <div class="item">
-            <img src="../assets/productos/QUITA TINTA.jpg" alt="">
+            <div class="item__image">
+              <img src="../assets/productos/QUITA TINTA.jpg" alt="">
+              <div class="buy__item">
+                <div class="buy__item--inner">
+                  Comprar
+                </div>
+              </div>
+            </div>
           <div class="item__description">
             <div class="item__heading">
               <div class="item__title">
@@ -87,11 +108,20 @@
         <div class="catalog-box2">
 
           <div class="item">
-            <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
+            <div class="item__image">
+              <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
+              <div class="buy__item">
+                <div class="buy__item--inner">
+                  Comprar
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="item">
-            <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
+            <div class="item__image">
+              <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
+            </div>
           <div class="item__description">
             <div class="item__heading">
               <div class="item__title">
@@ -111,7 +141,14 @@
         <div class="catalog-box">
 
           <div class="item">
+            <div class="item__image">
             <img src="../assets/productos/QUITA TINTA.jpg" alt="">
+              <div class="buy__item">
+                <div class="buy__item--inner">
+                  Comprar
+                </div>
+              </div>
+            </div>
           <div class="item__description">
             <div class="item__heading">
               <div class="item__title">
@@ -138,7 +175,15 @@
           </div>
 
           <div class="item">
+            <div class="item__image">
             <img src="../assets/productos/QUITA TINTA.jpg" alt="">
+              <div class="buy__item">
+                <div class="buy__item--inner">
+                  Comprar
+                </div>
+              </div>
+            </div>
+            
           <div class="item__description">
             <div class="item__heading">
               <div class="item__title">
@@ -222,29 +267,55 @@ export default {
   width: 300px
   margin: 15px 5px
   flex-direction: column
-  position: relative
 
   img
-    height: 400px
     @extend %image-cover
 
-  // &:hover > .buy__item
-  //   height: 39px
+  .item__image
+    height: 400px
+    position: relative
+    overflow: hidden
 
-  // .buy__item
-  //   overflow: hidden
-  //   height: 0
-  //   position: absolute
-  //   left: 50%
-  //   top: 400px
-  //   transform: translate(-50%, -100%)
-  //   background: red
-  //   color: white
-  //   text-align: center
-  //   padding: 10px 15px
-  //   z-index: 1
-  //   transition: .3s
-    
+    &:hover > .buy__item
+      transform: translate(-50%, 0%)
+
+  .buy__item
+    background: black
+    position: absolute
+    bottom: 0
+    left: 50%
+    box-sizing: border-box
+    transform: translate(-50%, 100%)
+    left: 50%
+    color: white
+    font-weight: bold
+    font-size: 18px
+    cursor: pointer
+    transition: .3s
+    border: 1px solid white
+
+  .buy__item--inner
+    padding: 13px 18px
+    position: relative
+    overflow: hidden
+
+    &:after
+      content: ''
+      z-index: -1
+      width: 0
+      height: 100%
+      position: absolute
+      background: white
+      top: 0
+      left: 0
+      transition: .3s
+
+    &:hover
+      &:after
+        width: 100% 
+      
+      color: black
+
 .item__description
   margin-top: 20px
 
@@ -270,6 +341,9 @@ export default {
     margin: 0
     width: 50%
     min-width: 300px
+
+  .item__image
+    height: auto
 
 .anounce
   @extend %title
