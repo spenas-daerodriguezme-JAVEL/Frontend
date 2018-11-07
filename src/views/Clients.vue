@@ -14,19 +14,19 @@
 
     <div class="fluid-container">
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image step__image--circular"></div>
         <div class="step__content">REGÍSTRATE EN NUESTRA TIENDA EN LÍNEA.</div>
       </div>
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image step__image--circular"></div>
         <div class="step__content">REALIZA 10 COMPRAS EN EL MES.</div>
       </div>
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image step__image--circular"></div>
         <div class="step__content">LAVA, DESINFECTA, SECA Y GUARDA LOS ENVASES PLÁSTICOS.</div>
       </div>
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image step__image--circular"></div>
         <div class="step__content">OBTÉN RECOMPENSAS.</div>
       </div>
     </div>
@@ -67,6 +67,36 @@
       </div>
     </div>
 
+    <div class="title" style="margin-top: 100px">RECOMENDACIONES PARA DEVOLVER
+      ENVASE PLÁSTICO.
+    </div>
+    <div class="title-zone">
+      <div class="subheading">
+        Puedes regresar todos los envases plásticos y obtener beneficios por eso, pero, es
+        indispensable que los envases regresen en perfectas condiciones. Te invitamos a seguir
+        los siguientes pasos.
+
+      </div>
+    </div>
+
+    <div class="fluid-container" style="margin-bottom: 100px">
+      <div class="step__item">
+        <div class="step__image"></div>
+        <div class="step__content">LAVAR POR DENTRO Y POR FUERA CON DETERGENTE</div>
+      </div>
+      <div class="step__item">
+        <div class="step__image"></div>
+        <div class="step__content">DESINFECTAR CON CLORO Y VOLVER A LAVAR BIEN</div>
+      </div>
+      <div class="step__item">
+        <div class="step__image"></div>
+        <div class="step__content">SECAR A LA SOMBRA PROTEGIDO DEL SOL, LA LLUVIA, EL POLVO Y LA HUMEDAD.</div>
+      </div>
+      <div class="step__item">
+        <div class="step__image"></div>
+        <div class="step__content">GUARDAR LOS ENVASES PLÁSTICOS EN UNA BOLSA HERMÉTICA.</div>
+      </div>
+    </div>
   </div>  
 </template>
 
@@ -94,7 +124,6 @@ export default {
 .subheading
   font-size: 22px
 
-
 .fluid-container
   +flex(1, 0)
   flex-wrap: wrap
@@ -108,13 +137,15 @@ export default {
 
   .step__image
     +squared(110px)
-    border-radius: 50%
     border: 4px solid black
 
   .step__content
     margin-top: 30px
     text-align: center
     font-weight: bold
+
+  .step__image--circular
+    border-radius: 50%
     
 .client
   width: 300px

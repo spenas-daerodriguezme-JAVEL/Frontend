@@ -6,6 +6,7 @@ import Layout from '../views/Layout.vue'
 import Landing from '../views/Landing.vue'
 import Catalog from '../views/Catalog.vue'
 import Clients from '../views/Clients.vue'
+import Motto from '../views/Motto.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
           path: '/clientes',
           name: 'Clients',
           component: Clients
+        },
+        {
+          path: '/mision',
+          name: 'Motto',
+          component: Motto
         },
       ]
     },
