@@ -7,6 +7,7 @@ import Landing from '../views/Landing.vue'
 import Catalog from '../views/Catalog.vue'
 import Clients from '../views/Clients.vue'
 import Motto from '../views/Motto.vue'
+import GiftCard from '../views/GiftCard.vue'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
           path: '/mision',
           name: 'Motto',
           component: Motto
+        },
+        {
+          path: '/tarjeta-regalo',
+          name: 'GiftCard',
+          component: GiftCard
         },
       ]
     },

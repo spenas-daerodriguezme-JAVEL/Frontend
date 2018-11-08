@@ -256,13 +256,6 @@ export default {
   @extend %title
   font-size: 50px
 
-.box60
-  width: 60%
-  box-sizing: border-box
-
-.box40
-  width: 40%
-  box-sizing: border-box
 
 .motto-main
   padding: 30px
