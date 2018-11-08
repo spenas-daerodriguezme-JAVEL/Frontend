@@ -218,6 +218,13 @@ export default {
   height: 100%
   +flex(1, 1)
 
+  li a
+    transition: .2s 
+
+    &:hover
+      // font-style: oblique
+      transform: skewX(-15deg)
+
 .submenu
   overflow: hidden
   position: absolute
@@ -226,9 +233,21 @@ export default {
   width: 550px 
   height: 0
   background: coral
-  font-size: 16px
+  font-size: 19px
   transition: .3s
   z-index: 1
+
+  ul
+    overflow: hidden
+
+  li
+    position: relative
+    left: 0
+    transition: .3s
+
+    &:hover
+      left: 5px
+      transform: skewX(-15deg)
 
   > *
     transition: .7s
@@ -240,7 +259,7 @@ export default {
 .sb-title
   font-family: $title-font
   font-weight: 600
-  font-size: 38px
+  font-size: 46px
   text-align: center
   margin-top: 45px
 
