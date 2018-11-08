@@ -19,7 +19,7 @@
       <div class="section__text">
         <div class="section__text__title">ELIMINADOR DE OLORES:
 
-          Con moléculas aromáticas para reducir olores
+          CON MOLÉCULAS AROMÁTICAS PARA REDUCIR OLORES
         </div>
         <div class="section__text__subtitle">Poder antiséptico natural</div>
         <div class="section__text__content section__text__content--big">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="general-padding">
-      <div class="section__text__title">Experimenta el futuro.</div>
+      <div class="section__text__title">EXPERIMENTA EL FUTURO.</div>
       <div class="splitted">
         <div class="splitted__main">
           <div class="post">
@@ -44,7 +44,7 @@
               <div class="history__title">
                 QUITA TINTA.
 
-                Es increible en todo lo que hace
+                ES INCREIBLE EN TODO SENTIDO
               </div>
               <div class="history__subtitle">
                 Cuida el tejido
@@ -61,7 +61,7 @@
               <div class="history__title">
                 QUITA ÓXIDO INSTANTÁNEO.
 
-                El resultado es absolútamente mágico
+                 EL RESULTADO ES ABSOLÚTAMENTE MÁGICO
               </div>
               <div class="history__subtitle">
                 No decolora
@@ -80,7 +80,7 @@
               <div class="history__title">
                 SILICONA.
 
-                La belleza llevada al extremo
+                LA BELLEZA LLEVADA AL EXTREMO
               </div>
               <div class="history__subtitle">
                 Todo parece nuevo
@@ -98,7 +98,7 @@
                 DETERGENTE
                 PARA LAVADORA.
 
-                Tu forma de lavar cambiará para siempre
+                TU FORMA DE LAVAR CAMBIARÁ PARA SIEMPRE
               </div>
               <div class="history__subtitle">
                 40 ml. por carga de 20 libras
@@ -118,7 +118,7 @@
               <div class="lateral__title">
                 SELLADOR PARA PISOS.
 
-                Brilla por donde lo veas
+                BRILLA POR DONDE LO VEAS
               </div>
               <div class="lateral__subtitle">
                 Dile adiós a la brilladora
@@ -138,7 +138,7 @@
           FRAGANCIA DE
           LARGA DURACIÓN:
           
-          Es perfecta para tí.
+          ES PERFECTA PARA TÍ.
 
         </div>
         <div class="banner__content">
@@ -152,7 +152,7 @@
 
     <div class="shipping">
       <div class="marquee-text">
-        Envíos gratis a todo el mundo.
+      ENVÍOS GRATIS A TODO EL MUNDO.
       </div>
     </div>
 
@@ -513,7 +513,7 @@ export default {
     width: 50%
     color: white
     text-align: center
-    background: #403450
+    background: #4b4645
     +flex(1,  1)
     flex-direction: column
 

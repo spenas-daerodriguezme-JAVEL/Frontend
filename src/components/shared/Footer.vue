@@ -3,14 +3,11 @@
     <div class="subtitle">EL LABORATORIO AGUA DE JAVEL TIENE UN PUNTO DE VENTA.</div>
     <div class="title">CALLE 5 A 54 - 22, BARRIO COLÓN, BOGOTÁ</div>
     <div class="links">
-      <li>Contact</li>
-      <li>Instastore</li>
-      <li>B2B</li>
-      <li>Newsletter</li>
-      <li>Terms</li>
-      <li>Privacy</li>
-      <li>Opening hours</li>
-      <li>Press</li>
+      <li>Productos Inteligentes</li>
+      <li>Catálogo</li>
+      <li>Nosotros</li>
+      <li>Acceder</li>
+      
     </div>
   </div>
 </template>

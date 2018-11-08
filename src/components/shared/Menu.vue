@@ -26,7 +26,7 @@
           <div class="submenu" style="background: #A997B6">
             <div class="sb-title">Nosotros</div>
             <ul>
-              <li>item 1</li>
+              <li><router-link tag="a" :to="{name: 'Motto'}"> Misión </router-link></li>
               <li>item 2</li>
               <li>item 3</li>
               <li>item 4</li>
