@@ -1,0 +1,35 @@
+@import './_variables.sass'
+@import './_fonts.sass'
+@import './_mixins.sass'
+@import './_animations.sass'
+
+.fluid-container
+  +flex(1, 0)
+  flex-wrap: wrap
+  justify-content: space-around
+
+.rigid-container
+  +flex(0, 0)
+
+.image-holder
+  img
+    @extend %image-cover
+    
+.title-res
+  font-size: 4vw
+  @extend %title
+
+.frcenter-all
+  +flex(1, 1)
+.frcenter-h
+  +flex(1, 0)
+.frcenter-v
+  +flex(0, 1)
+
+@media (max-width: 1300px)
+  .title-res
+    font-size: 5vw
+    
+@media (max-width: 900px)
+  .title-res
+    font-size: 48px

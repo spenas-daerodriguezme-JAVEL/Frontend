@@ -1,0 +1,90 @@
+<template>
+  <div class="pagination">
+
+    <div class="page"
+      v-for="page in pages"
+      :key="page"
+      v-show="page == currentPage">
+
+      <slot 
+        :name="page"></slot>
+
+    </div>
+
+    <div class="page-controls">
+      <div @click="prevPage" class="left-control control__item">
+        <svg style="transform: rotate(180deg)" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+
+      <div class="control__item"
+        v-for="val in paginationOptions"
+        :key="val"
+        @click="currentPage = val"
+        :class="{'control__item--active': val == currentPage}">
+          <b>{{ val }}</b>
+      </div>
+
+      <div @click="nextPage" class="right-control control__item">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    pages: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {
+      currentPage: 1
+    }
+  },
+  methods: {
+    nextPage() {
+      if(this.currentPage < this.pages) this.currentPage++
+    },
+    prevPage() {
+      if(this.currentPage > 1) this.currentPage--
+    }
+  },
+  computed: {
+    paginationOptions() {
+      let uniques = new Set([1, this.currentPage, this.pages])
+
+      return [...uniques];
+    }
+  }
+}
+</script>
+
+<style lang="sass" scoped>
+@import '../../stylesheets/global.sass'
+
+.page-controls
+  +flex(1, 1)
+  margin: 50px 0
+
+  .control__item 
+    +flex(1, 1)
+    +squared(45px)
+    margin: 0 2px
+    cursor: pointer
+    border-bottom: 1px solid rgba(black, .25)
+
+    &:hover
+      border-bottom: 1px solid black
+
+    svg
+      +squared(15px)
+      fill: black
+
+  .control__item--active 
+    border-bottom: 1px solid black
+
+</style>
