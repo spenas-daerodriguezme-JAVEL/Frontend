@@ -120,7 +120,7 @@
 
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
+              <img src="../assets/productos/QUITA OXIDO.jpg" alt="">
             </div>
           <div class="item__description">
             <div class="item__heading">
@@ -142,7 +142,7 @@
 
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/QUITA TINTA.jpg" alt="">
+            <img src="" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -277,7 +277,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/ELIMINADORDEOLORES.jpg" alt="">
+            <img src="" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -333,7 +333,7 @@
        <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/LIMPIADOR.jpg" alt="">
+            <img src="../assets/productos/JABON SUPER BLUE 900 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -506,7 +506,7 @@
  <div class="catalog-box2">
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/fwdneuvosavancesyfotos/DESINFECTANTE.jpg">
+              <img src="../assets/productos/DESENGRASANTE IND 900 ML.jpg">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -529,7 +529,7 @@
 
         <div class="item">
           <div class="item__image">
-            <img src="../assets/productos/SELLADOR.jpg">
+            <img src="../assets/productos/CERA 900 ML.jpg">
             <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -786,7 +786,7 @@
 
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/SELLADOR.jpg" alt="">
+            <img src="../assets/productos/JABON PARA MANOS 900 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -815,7 +815,7 @@
 <div class="catalog-box2">
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/DIFUSOR.jpg">
+              <img src="../assets/productos/FRAGANCIA TAHITIAN 60 ML.jpg">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -867,7 +867,7 @@
 <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/CLORO.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA MARACUYA 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -920,7 +920,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/LIMPIADOR.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA COCO 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -955,7 +955,7 @@
 <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/CLORO.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA FRUTOS ROJOS 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -982,7 +982,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIA.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA BAMBU 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1008,7 +1008,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/DIFUSOR.jpg" alt="">
+            <img src="" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1040,7 +1040,7 @@
 
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/fwdneuvosavancesyfotos/CREOLINA.jpg" alt="">
+              <img src="../assets/productos/FRAGANCIA MARACUYA 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1051,7 +1051,7 @@
 
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/fwdneuvosavancesyfotos/CREOLINA.jpg" alt="">
+              <img src="../assets/productos/FRAGANCIA MARACUYA 60 ML.jpg" alt="">
             </div>
           <div class="item__description">
             <div class="item__heading">
@@ -1075,7 +1075,7 @@
 
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA COCO 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1109,7 +1109,7 @@
 
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/SELLADOR.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA CANELA 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1140,7 +1140,7 @@
 <div class="catalog-box2">
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/FRAGANCIASPRAY.jpg">
+              <img src="../assets/productos/FRAGANCIA TAHITIAN 60 ML.jpg">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1164,7 +1164,7 @@
 
         <div class="item">
           <div class="item__image">
-            <img src="../assets/productos/FRAGANCIALD.jpg">
+            <img src="../assets/productos/FRAGANCIA BAMBU 60 ML.jpg">
             <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1192,7 +1192,7 @@
 <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIA.jpg" alt="">
+            <img src="../assets/productos/FRAGANCIA FRUTOS ROJOS 60 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1285,7 +1285,7 @@
 <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIA.jpg" alt="">
+            <img src="../assets/productos/DIFUSOR DE AROMA CHOCOLATE 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1313,7 +1313,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+            <img src="" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1386,7 +1386,7 @@
 
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+              <img src="../assets/productos/DIFUSOR DE AROMA EXOTICO 30 ML.jpg" alt="">
             </div>
           <div class="item__description">
             <div class="item__heading">
@@ -1452,7 +1452,7 @@
 
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/SELLADOR.jpg" alt="">
+            <img src="../assets/productos/DIFUSOR DE AROMA MORA 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1536,7 +1536,7 @@
 <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIA.jpg" alt="">
+            <img src="../assets/productos/PERFUME MEUF 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1562,7 +1562,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+            <img src="../assets/productos/PERFUME FEMME 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1587,7 +1587,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/DIFUSOR.jpg" alt="">
+            <img src="../assets/productos/PERFUME FILLE 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1620,7 +1620,7 @@
 <div class="catalog-box">
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIA.jpg" alt="">
+            <img src="" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1646,7 +1646,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+            <img src="../assets/productos/PERFUME MEC 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1671,7 +1671,7 @@
 
         <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/DIFUSOR.jpg" alt="">
+            <img src="../assets/productos/PERFUME AMANT 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1699,7 +1699,7 @@
 
           <div class="item">
             <div class="item__image">
-              <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+              <img src="../assets/productos/fwdneuvosavancesyfotos/PERFUMEHOMBRE.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar
@@ -1735,7 +1735,7 @@
 
           <div class="item">
             <div class="item__image">
-            <img src="../assets/productos/FRAGANCIASPRAY.jpg" alt="">
+            <img src="../assets/productos/PERFUME MONSIEUR 30 ML.jpg" alt="">
               <div class="buy__item">
                 <div class="buy__item--inner">
                   Comprar

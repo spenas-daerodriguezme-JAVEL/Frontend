@@ -8,10 +8,11 @@
         <div class="b3"></div>
       </div>
       <div class="menu-content">
-        <li><a href="#">Productos inteligentes</a></li>
+        
         <li>
-          <router-link tag="a" :to="{name: 'Catalog'}">Catálogo</router-link>
+          <router-link tag="a" :to="{name: 'Catalog'}">Catálogo Inteligente</router-link>
         </li>
+        <li><a href="#">Usuarios</a></li>
         <!-- <li><a href="#">Trabaja con nosotros</a></li> -->
       </div>
       <div class="logo">
@@ -27,18 +28,14 @@
             <div class="sb-title">Nosotros</div>
             <ul>
               <li><router-link tag="a" :to="{name: 'Motto'}"> Misión </router-link></li>
-              <li>item 2</li>
+              <li>Contactenos</li>
               <li>item 3</li>
               <li>item 4</li>
               <li>item 5</li>
             </ul>
           </div>
         </li>
-        <li><a href="#">Soporte</a>
-          <div class="submenu" style="background: #ADB39F">
-            <div class="sb-title">Soporte</div>
-          </div>
-        </li>
+        
         <li><a href="#">Cuenta</a>
           <div class="submenu" style="background: #CF989C">
             <div class="sb-title">Cuenta</div>
