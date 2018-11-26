@@ -112,7 +112,7 @@
         <div class="splitted__secondary">
           <div class="lateral">
             <div class="lateral__image">
-              <img src="../assets/productos/removedor.jpg" alt="">
+              <img src="../assets/productos/SELLADOR.jpg" alt="">
             </div>
             <div class="lateral--padding">
               <div class="lateral__title">
