@@ -1,5 +1,8 @@
 <template>
   <div class="hello">
+
+    <!-- <loading></loading> -->
+
     <div class="image-holder">
       <div class="img-col">
         <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
@@ -274,6 +277,7 @@
 <script>
 import Menu from '../components/shared/Menu.vue'
 import Footer from '../components/shared/Footer.vue'
+import Loading from '../components/ui/Loading.vue'
 
 export default {
   data () {
@@ -283,14 +287,14 @@ export default {
   },
   components: {
     'BaseMenu': Menu,
-    'BaseFooter': Footer
+    'BaseFooter': Footer,
+    Loading
   }
 }
 </script>
 
 <style lang="sass" scoped>
-@import '../stylesheets/_mixins.sass'
-@import '../stylesheets/_fonts.sass'
+@import "../stylesheets/global.sass"
 
 .spacer
   background: rgba(black, .2)
@@ -313,7 +317,7 @@ export default {
   margin: 0 2%
   margin-bottom: 10%
   height: 80%
-  background: coral
+  background: white
   position: relative
   transform: translateY(-50%)
   top: 50%
@@ -324,6 +328,7 @@ export default {
     object-fit: cover
 
 .img-col__title
+  @extend %title
   white-space: pre-line 
   max-width: 100%
   padding: 0 20px
@@ -332,7 +337,6 @@ export default {
   color: white
   bottom: 11%
   text-align: left
-  font-family: $title-font
 
 .general-padding
   padding: 50px
@@ -345,6 +349,7 @@ export default {
   padding: 50px
 
 .section__text__title
+  @extend %title
   font-family: $title-font
   font-size: 44px
   white-space: pre-line
@@ -609,5 +614,18 @@ export default {
 
   .column__fluid
     margin-top: 0px 
+
+@media (min-width: 1300px)
+  .column__lateral
+    width: 530px
+    font-size: 18px
+
+  .column__fluid
+    max-width: 750px
+    margin-left: 100px
+    justify-content: space-around
+
+  .lateral
+    width: 450px
 
 </style>

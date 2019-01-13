@@ -1,8 +1,8 @@
 <template>
     <div class="selected">
-      <span style="text-transform: uppercase">{{ selectedOption == '' ? ' ' : selectedOption }}</span>
+      <span @click="optionBoxActive = !optionBoxActive" style="text-transform: uppercase">{{ selectedOption == '' ? ' ' : selectedOption }}</span>
 
-      <div class="selector__options" ref="selectorOptions" v-show="optionBoxActive">
+      <div class="selector__options" ref="selectorOptions" v-if="optionBoxActive">
         <div class="selector__options__close">
           <svg @click="optionBoxActive = !optionBoxActive" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </div>
@@ -10,13 +10,13 @@
         <div class="option"
           v-for="(option, index) in options"
           :key="index"
-          :class="{'option--selected': value == option}"
+          :class="{'option--selected': value == option.value}"
           @click="select(option); optionBoxActive = !optionBoxActive">
-            {{ option }}
+            {{ option.label }}
         </div>
       </div>
 
-      <div class="dark-screen" v-show="optionBoxActive"></div>
+      <div class="dark-screen" v-if="optionBoxActive"></div>
 
       <div class="controls" @click="optionBoxActive = !optionBoxActive">
         <svg class="material-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   props: {
     value: {
@@ -36,6 +38,10 @@ export default {
     },
     defaultOption: {
       type: String
+    },
+    defaultFirst: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -45,7 +51,15 @@ export default {
     }
   },
   beforeMount() {
-    this.select(this.defaultOption)
+    if(this.value == '' && !this.defaultFirst) {
+      this.select(this.defaultOption)
+    } else if(this.value == '' && this.defaultFirst){
+      this.select(this.options[0]);
+    } else {
+      this.selectedOption = _.find(this.options, function(o) {
+        return o.value == this.value;
+      }).label;
+    }
   },
   methods: {
     run() {
@@ -58,8 +72,14 @@ export default {
       console.log(data)
     },
     select(option) {
-      this.selectedOption = option
+      this.$emit('update:value', option.value)
+      this.selectedOption = option.label;
       this.$emit('input', this.selectedOption)
+    }
+  },
+  watch: {
+    value() {
+      this.selectedOption = this.value;
     }
   }
 }
@@ -106,7 +126,7 @@ export default {
   text-align: left
   overflow-x: hidden
   overflow-y: auto
-  z-index: 1
+  z-index: 4
   background: white
   position: absolute
   width: 300px
@@ -162,7 +182,8 @@ export default {
   left: 0
   width: 100vw
   height: 100vh
-  animation: fadeIn 1s 
+  animation: fadeIn 1s
+  z-index: 3
 
 @for $i from 1 through 15
   .option:nth-child(#{$i})

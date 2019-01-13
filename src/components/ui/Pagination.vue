@@ -1,14 +1,8 @@
 <template>
   <div class="pagination">
 
-    <div class="page"
-      v-for="page in pages"
-      :key="page"
-      v-show="page == currentPage">
-
-      <slot 
-        :name="page"></slot>
-
+    <div class="page">
+      <slot></slot>
     </div>
 
     <div class="page-controls">
@@ -19,7 +13,7 @@
       <div class="control__item"
         v-for="val in paginationOptions"
         :key="val"
-        @click="currentPage = val"
+        @click="setPage(val)"
         :class="{'control__item--active': val == currentPage}">
           <b>{{ val }}</b>
       </div>
@@ -38,6 +32,10 @@ export default {
     pages: {
       type: Number,
       required: true
+    },
+    current: {
+      type: Number,
+      required: false
     }
   },
   data() {
@@ -48,9 +46,15 @@ export default {
   methods: {
     nextPage() {
       if(this.currentPage < this.pages) this.currentPage++
+      this.$emit("update:current", this.currentPage);
     },
     prevPage() {
       if(this.currentPage > 1) this.currentPage--
+      this.$emit("update:current", this.currentPage);
+    },
+    setPage(page) {
+      this.currentPage = page;
+      this.$emit("update:current", this.currentPage);
     }
   },
   computed: {

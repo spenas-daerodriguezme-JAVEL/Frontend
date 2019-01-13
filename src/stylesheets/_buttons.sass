@@ -1,0 +1,31 @@
+.btn
+  +flex(1, 1)
+  @extend %title 
+  font-size: 15px
+  padding: 12px 19px
+  transition: .2s 
+  position: relative
+  cursor: pointer
+  background: transparent
+  color: white
+  margin: 15px 0
+  overflow: hidden
+  border: 1px solid black
+
+  &:after
+    content: ''
+    position: absolute
+    background: black
+    width: calc(100% + 1px)
+    height: calc(100% + 1px)
+    z-index: -1
+    transition: .2s
+    left: -1px
+
+  &:hover
+    color: black
+    background: white
+
+    &:after
+      left: 50%
+      transform: scaleX(0)

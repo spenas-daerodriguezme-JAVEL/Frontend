@@ -13,10 +13,10 @@
           <router-link tag="a" :to="{name: 'Catalog'}">Catálogo Inteligente</router-link>
         </li>
         <li><a href="#">Usuarios</a></li>
-        <!-- <li><a href="#">Trabaja con nosotros</a></li> -->
       </div>
       <div class="logo">
-        <img src="../../assets/logo.png" alt="" class="circle-mask" id="logo-base">
+        <img src="../../assets/logo.png" alt=""  id="logo-base">
+        <div class="logo_title" :class="{'loading': isLoading}">AGUA DE JAVEL</div>
         <img src="../../assets/logo_badge.png" alt="" class="disabled" id="logo-contrast">
       </div>
       <div class="menu-content">
@@ -42,7 +42,16 @@
           </div>
         </li>
         <li>
-          <a href="#">Carrito de compra</a>
+          <a href="#">
+            <div class="shopping-cart">
+              <div class="shopping-cart__items">{{ cartProducts.length }}</div>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.195 426.195" style="enable-background:new 0 0 426.195 426.195;" xml:space="preserve"><g><g><path d="M213.098,30c23.158,0,41.998,18.84,41.998,41.997h30C285.096,32.298,252.798,0,213.098,0c-39.699,0-71.997,32.298-71.997,71.997h30C171.101,48.84,189.941,30,213.098,30z"/><path d="M383.013,409.543l-19.955-308.686c-0.455-7.938-7.024-14.143-14.976-14.143H78.095c-7.951,0-14.521,6.205-14.976,14.143l-20,309.483c-0.236,4.119,1.236,8.156,4.07,11.156c2.833,3,6.778,4.699,10.905,4.699h309.987c0.008,0,0.014,0,0.02,0c8.284,0,15-6.715,15-15C383.102,410.639,383.071,410.086,383.013,409.543z M183.578,134.397c0,10.487-8.501,18.988-18.988,18.988c-10.487,0-18.988-8.501-18.988-18.988V123.59c0-10.487,8.501-18.988,18.988-18.988c10.487,0,18.988,8.501,18.988,18.988V134.397z M280.595,134.397c0,10.487-8.501,18.988-18.988,18.988s-18.988-8.501-18.988-18.988V123.59c0-10.487,8.501-18.988,18.988-18.988s18.988,8.501,18.988,18.988V134.397z"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+            </div>
+          </a>
+          <div class="submenu" style="background: #98B9CC">
+            <div class="sb-title">Carrito</div>
+            <cart></cart>
+          </div>
         </li>
       </div>
 
@@ -64,18 +73,26 @@
       <li><a href="">Item 4</a></li>
       <li><a href="">Item 5</a></li>
     </div>
-
     <div class="menu-action"></div>
 
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import Cart from './Cart.vue'
+import _ from 'lodash'
+
 export default {
   data() {
     return {
-      
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isLoading',
+      'cartProducts'
+    ])
   },
   mounted() {
     window.onscroll = e => {
@@ -84,6 +101,8 @@ export default {
       let bar = document.getElementsByClassName("bar")[0]
       let menuMobile = document.getElementsByClassName("menu-mobile")[0]
       let menuMask = document.getElementsByClassName("menu-action")[0]
+      let title = document.getElementsByClassName("logo_title")[0]
+
 
       if(scroll >= 100) {
         menu.classList.add("menu-compact")
@@ -94,6 +113,7 @@ export default {
         Object.assign(menuMask.style, {
           top: '75px'
         })
+        title.style.top = "74%";
       } else {
         menu.classList.remove("menu-compact")
         bar.classList.remove("bar-low")
@@ -103,6 +123,7 @@ export default {
         Object.assign(menuMask.style, {
           top: '100px'
         })
+        title.style.top = "85%";
       }
     }
 
@@ -127,6 +148,15 @@ export default {
       document.getElementById("search_input").focus()
     })
 
+
+    window.addEventListener("load", () => {
+      if(document.readyState == "complete") {
+        this.$store.commit('isLoading', false);
+      }
+    })
+  },
+  components: {
+    Cart
   }
 }
 </script>
@@ -142,11 +172,52 @@ export default {
   transform: translateX(-50%)
   width: 70px
   height: 70px
+  z-index: 30
 
   img
     object-fit: cover
     width: 100%
     height: 100%
+
+$loading-transition: 1s
+
+.logo_title
+  display: inline-block
+  @extend %title
+  font-weight: light
+  font-size: 15px
+  position: absolute
+  white-space: nowrap
+  top: 85%
+  left: -30%
+  transition: $loading-transition
+  
+  &:before
+    content: ''
+    transform: scale(0.1)
+    position: fixed
+    z-index: -1000 
+    top: -50vh
+    left: -50vw
+    background: transparent
+    transition: 5s
+
+.loading
+  transform: scale(3.5)
+  top: 50vh !important
+  transition: $loading-transition
+
+  &:before
+    transform: scale(1)
+    content: ''
+    width: 110vw
+    height: 210vh
+    background: #af9e7e
+    position: fixed
+    z-index: -1 
+    top: -50vh
+    left: -50vw
+    transition: 5s
 
 .menu
   width: 100vw
@@ -222,6 +293,10 @@ export default {
       // font-style: oblique
       transform: skewX(-15deg)
 
+    .shopping-cart:hover
+      transition: 0
+      transform: skewX(15deg)
+
 .submenu
   overflow: hidden
   position: absolute
@@ -245,6 +320,9 @@ export default {
     &:hover
       left: 5px
       transform: skewX(-15deg)
+
+    a:hover
+      transform: skewX(7deg)
 
   > *
     transition: .7s
@@ -421,6 +499,19 @@ $burguer-distance: 8px
   width: 100vw
   height: 100vh
   display: none
+
+.shopping-cart
+  position: relative
+
+  .shopping-cart__items
+    @extend %absolute-centered
+    top: 58%
+    color: white
+
+  svg
+    width: 35px
+    height: 35px
+    fill: black
 
 @media (max-width: 980px)
   .menu-content
