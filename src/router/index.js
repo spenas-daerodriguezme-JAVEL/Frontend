@@ -9,6 +9,7 @@ import Catalog from '../views/Catalog.vue'
 import Clients from '../views/Clients.vue'
 import GiftCard from '../views/GiftCard.vue'
 import Checkout from '../views/Checkout.vue'
+import ProductDetail from '../views/ProductDetail.vue'
 import AdminCatalogList from '../views/Admin/AdminCatalogList.vue'
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue'
 
@@ -61,6 +62,11 @@ const router = new Router({
           meta: {
             actionType: 'Editar'
           }
+        },
+        {
+          path: '/product/:id',
+          name: 'ProductDetail',
+          component: ProductDetail
         },
         {
           path: '/admin/new/',

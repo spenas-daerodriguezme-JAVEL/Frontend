@@ -20,9 +20,9 @@
     </div>
     <div class="section-content">
       <div class="section__text">
-        <div class="section__text__title">ELIMINADOR DE OLORES:
+        <div class="section__text__title">Eliminador de olores:
 
-          CON MOLÉCULAS AROMÁTICAS PARA REDUCIR OLORES
+          <span class="font-din">CON MOLÉCULAS AROMÁTICAS PARA REDUCIR OLORES</span>
         </div>
         <div class="section__text__subtitle">Poder antiséptico natural</div>
         <div class="section__text__content section__text__content--big">
@@ -575,6 +575,9 @@ export default {
 
 .btn--white
   border: 1px solid white
+
+.font-din
+  font-family: $title-font-aux
 
 @keyframes marquee
   0%

@@ -2,7 +2,7 @@
     <div class="selected">
       <span @click="optionBoxActive = !optionBoxActive" style="text-transform: uppercase">{{ selectedOption == '' ? ' ' : selectedOption }}</span>
 
-      <div class="selector__options" ref="selectorOptions" v-if="optionBoxActive">
+      <div class="selector__options" ref="selectorOptions" v-show="optionBoxActive">
         <div class="selector__options__close">
           <svg @click="optionBoxActive = !optionBoxActive" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </div>
@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="dark-screen" v-if="optionBoxActive"></div>
+      <div class="dark-screen" v-show="optionBoxActive" ref="darkScreen"></div>
 
       <div class="controls" @click="optionBoxActive = !optionBoxActive">
         <svg class="material-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -60,6 +60,12 @@ export default {
         return o.value == this.value;
       }).label;
     }
+  },
+  mounted() {
+    let self = this;
+    this.$refs.darkScreen.addEventListener('click', function (event) {
+      self.optionBoxActive = !self.optionBoxActive;
+    })
   },
   methods: {
     run() {

@@ -15,8 +15,12 @@
         <li><a href="#">Usuarios</a></li>
       </div>
       <div class="logo">
-        <img src="../../assets/logo.png" alt=""  id="logo-base">
-        <div class="logo_title" :class="{'loading': isLoading}">AGUA DE JAVEL</div>
+        <!-- <img src="../../assets/logo.png" alt=""  id="logo-base"> -->
+        <div class="logo_title" :class="{'loading': isLoading}">
+          <router-link tag="a" :to="{name: 'Landing'}">
+            <img src="../../assets/javel_logo.png" alt="">
+          </router-link>
+        </div>
         <img src="../../assets/logo_badge.png" alt="" class="disabled" id="logo-contrast">
       </div>
       <div class="menu-content">
@@ -103,7 +107,6 @@ export default {
       let menuMask = document.getElementsByClassName("menu-action")[0]
       let title = document.getElementsByClassName("logo_title")[0]
 
-
       if(scroll >= 100) {
         menu.classList.add("menu-compact")
         bar.classList.add("bar-low")
@@ -185,11 +188,12 @@ $loading-transition: 1s
   display: inline-block
   @extend %title
   font-weight: light
-  font-size: 15px
+  font-size: 38px
   position: absolute
   white-space: nowrap
-  top: 85%
-  left: -30%
+  top: 30% !important
+  // top: 85%
+  left: -100%
   transition: $loading-transition
   
   &:before
