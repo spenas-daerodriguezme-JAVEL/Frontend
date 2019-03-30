@@ -1,6 +1,6 @@
 version: '2.1'
 services:
   javel_front:
-    image: Dandarprox/javel_front
+    image: daerodriguezme/javel_front
     ports:
      - "8080:8080"
