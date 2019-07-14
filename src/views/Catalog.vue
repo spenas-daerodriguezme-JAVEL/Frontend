@@ -56,8 +56,8 @@
 
           <div class="item">
             <div class="anounce"
-              v-if="products[5] && products[5].promotion_title != ''">
-              {{ products[5].promotion_title }}
+              v-if="products[5] && products[5].description.promotion_title != ''">
+              {{ products[5].description.promotion_title }}
             </div>
           </div>
 
@@ -98,6 +98,7 @@ import Product from '../components/Product.vue'
 import Pagination from '../components/ui/Pagination.vue'
 import CustomSelector from '../components/ui/CustomSelector.vue'
 import util from '../util/index'
+
 export default {
   data() {
     return {
@@ -276,6 +277,10 @@ export default {
   @extend %title
   font-size: 45px
   text-align: center
+  text-transform: lowercase
+
+  &:first-letter
+    text-transform: capitalize
 
 .my-test
   position: fixed

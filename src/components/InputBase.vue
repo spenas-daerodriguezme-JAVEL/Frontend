@@ -4,7 +4,8 @@
       :value="value"
       ref="refValue"
       @input="updateValue"
-      type="text">
+      :autocomplete="autocomplete ? 'on': 'false'"
+      :type="type">
 
     <div class="label-base"
       :class="{'input-wcontent': hasContent}">{{ label }}</div>
@@ -26,6 +27,16 @@ export default {
       type: String,
       default: '',
       required: true
+    },
+    type: {
+      type: String,
+      default: 'text',
+      required: false
+    },
+    autocomplete: {
+      type: Boolean,
+      default: true,
+      required: false
     }
   },
   data() {

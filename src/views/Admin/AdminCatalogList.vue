@@ -16,15 +16,15 @@
         <div class="content">
           <div class="image">
             <svg class="material-icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-            <img :src="product.src" alt="">
+            <img :src="product.images[0] ? URI + product.images[0].url : ''" alt="">
           </div>
           <div class="text-zone">
             <div class="title">{{ product.name }}</div>
-            {{ product.price[0].price | toMoney }}
+            {{ product.price | toMoney }}
           </div>
           <div class="button-group">
             <div class="button"
-              @click="editItem(product._id.$oid)">Editar</div>
+              @click="editItem(product.id)">Editar</div>
             <div class="button button--black" 
               @click="activateModal(index)">Eliminar</div>
           </div>
@@ -46,10 +46,11 @@ import _ from 'lodash'
 import Sortable from './Sortable'
 import VAPI from '../../http_common'
 import ModalMessage from '../../components/ui/ModalMessage.vue'
-
+const URI = process.env.URI
 export default {
   data() {
     return {
+      URI,
       deletion: -1,
       activeModal: false,
       products: [
@@ -67,7 +68,7 @@ export default {
     let obj = new Sortable(document.querySelector('#sort_1'), null);
     obj.success = results => {
         this.products.forEach((product, index) => {
-        if(product.position != results[index]) this.changePosition(product._id.$oid, results[index]);
+        if(product.position != results[index]) this.changePosition(product.id, results[index]);
         product.position = results[index]
       })
     }
@@ -114,17 +115,6 @@ export default {
       try {
         const res = await VAPI.get('products');
         this.products = _.sortBy(res.data, [function(o) { return o.position }]);
-
-        for (let i = 0; i < this.products.length; i++) {
-          const ans = await VAPI.get(`products/${this.products[i]._id.$oid}/preview?image_id=1`, {responseType: 'arraybuffer'});
-           if(ans.status == 200) {
-            let image = Buffer.from(ans.data, 'binary').toString('base64');
-            let copy = JSON.parse(JSON.stringify(this.products[i]))
-            copy.src = `data:image/png;base64,${image}`;
-            this.$set(this.products, i, copy);
-          }
-        }
-
       } catch (e) {
         console.error("Error al cargar todos los productos");
       }

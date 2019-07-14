@@ -4,17 +4,17 @@
     <div
       v-if="isDouble"
       class="img-aux">
-      <img :src="images[1]" alt="">
+      <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt="">
     </div>
 
     <div class="wrapper__single">
       <div class="display" ref="display">
-        <img :src="images[0]" alt="">
+        <img :src="data.images.length != 0 ? URI + data.images[0].url : ''" alt="">
         <img
-          v-for="(image, index) in images"
+          v-for="(image, index) in data.images"
           :key="index"
           v-show="activeImage == index && index != 0"
-          :src="image">
+          :src="image.url ? URI + image.url : ''">
         <div class="buy__item">
           <div class="buy__item--inner"
             @click="sendToCart">Comprar</div>
@@ -23,15 +23,15 @@
       <div class="product__description">
         <div class="product__heading">
           <div class="product__title">{{ data.name }}
-          <custom-selector
+          <!-- <custom-selector
             class="selector--product"
             :value="selectedPresentation"
             :default-first="true "
-            :options="presentationOptions"></custom-selector>
+            :options="presentationOptions"></custom-selector> -->
           </div>
-          <div class="product__price">{{ data.price[0].price | toMoney }}</div>
+          <div class="product__price">{{ data.price | toMoney }}</div>
         </div>
-        {{ data.catalog_description | trimText }}
+        {{ data.description.catalog_description | trimText(100) }}
       </div>
     </div>
   </div>
@@ -42,6 +42,8 @@ import { mapMutations } from 'vuex'
 import util from '../util/index'
 import VAPI from '../http_common'
 import CustomSelector from './ui/CustomSelector.vue'
+
+const URI = process.env.URI
 
 export default {
   props: {
@@ -63,6 +65,7 @@ export default {
   },
   data() {
     return {
+      URI,
       presentationOptions: [],
       selectedPresentation: '',
       selectedVersion: 0,
@@ -81,17 +84,19 @@ export default {
     }
   },
   async mounted() {
-    await this.getImages(this.data._id.$oid);
+    if(!this.isDouble) {
+      this.setImages();
+    }
   },
   beforeMount() {
-    this.presentationOptions = this.data.price.map(
-      function(o, index) {
-        return {
-          label: o.dimention,
-          value: index
-        }
-      }
-    );
+    // this.presentationOptions = this.data.price.map(
+    //   function(o, index) {
+    //     return {
+    //       label: o.dimention,
+    //       value: index
+    //     }
+    //   }
+    // );
   },
   methods: {
     ...mapMutations([
@@ -135,7 +140,7 @@ export default {
       let rect = display.getBoundingClientRect();
 
       let limits = [];
-      let imgSize = this.images.length;
+      let imgSize = this.data.images.length;
       let blockSize = rect.width / (imgSize - 1);
 
       for (let i = 0; i < imgSize - 1; i++) {
@@ -155,7 +160,6 @@ export default {
 
       display.onmouseleave = function() {
         self.activeImage = -1;
-        
       }
     }
   },

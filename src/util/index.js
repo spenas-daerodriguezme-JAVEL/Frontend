@@ -45,10 +45,15 @@ function deepCopy(elem) {
   return JSON.parse(JSON.stringify(elem));
 }
 
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
 export default {
   toMoney,
   pairLabelValue,
   pairLabelAsc,
   trimText,
-  deepCopy
+  deepCopy,
+  mod
 }

@@ -5,10 +5,14 @@ import { store } from '../store/index'
 import Motto from '../views/Motto.vue'
 import Layout from '../views/Layout.vue'
 import Landing from '../views/Landing.vue'
+import Contact from '../views/Contact.vue'
 import Catalog from '../views/Catalog.vue'
 import Clients from '../views/Clients.vue'
 import GiftCard from '../views/GiftCard.vue'
 import Checkout from '../views/Checkout.vue'
+import MyAccount from '../views/MyAccount.vue'
+import CreateAccount from '../views/CreateAccount.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import AdminCatalogList from '../views/Admin/AdminCatalogList.vue'
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue'
@@ -80,6 +84,26 @@ const router = new Router({
           path: '/checkout',
           name: 'Checkout',
           component: Checkout
+        },
+        {
+          path: '/create-account',
+          name: 'CreateAccount',
+          component: CreateAccount
+        },
+        {
+          path: '/reset-password',
+          name: 'ForgotPassword',
+          component: ForgotPassword
+        },
+        {
+          path: '/contact',
+          name: 'Contact',
+          component: Contact
+        },
+        {
+          path: '/my-account',
+          name: 'MyAccount',
+          component: MyAccount
         }
       ]
     },

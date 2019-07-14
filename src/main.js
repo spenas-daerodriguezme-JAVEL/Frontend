@@ -6,10 +6,19 @@ import App from './App'
 import router from './router'
 import { store } from './store/index'
 
+import VueCarousel from '@chenfengyuan/vue-carousel';
+import BootstrapVue from 'bootstrap-vue'
+
+
+Vue.use(VueCarousel);
 Vue.use(Vuex)
 
-Vue.config.productionTip = false
+Vue.use(BootstrapVue)
 
+
+Vue.config.productionTip = false
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -1,0 +1,54 @@
+@import './_variables.scss';
+
+@mixin squared($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin maxSquared($size) {
+  max-width: $size;
+  max-height: $size;
+}
+
+@mixin minSquared($size) {
+  min-width: $size;
+  min-height: $size;
+}
+
+@mixin absoluteAdjust($top: 50%, $left: 50%, $transformTop: 50%, $transformLeft: 50%) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  transform: translate(-$transformLeft, -$transformTop);
+}
+
+%screenSize {
+  width: 100vw;
+  height: 100vh;
+}
+
+%imageCover {
+  @include squared(100%);
+  object-fit: cover;
+}
+
+%imageContain {
+  @include squared(100%);
+  object-fit: contain;
+}
+
+%absoluteCentered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+%buttonBehaviour {
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+%defaultTransition {
+  transition: 0.35s;
+}

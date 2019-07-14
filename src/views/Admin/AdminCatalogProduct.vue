@@ -226,12 +226,13 @@
 import util from '../../util/index'
 import VAPI from '../../http_common'
 import CustomSelector from '../../components/ui/CustomSelector.vue'
-
+const URI = process.env.URI
 const basePrice = {dimention: '', price: 0};
 
 export default {
   data() {
     return {
+      URI,
       currentAction: '',
       product: {
         name: '',
@@ -308,6 +309,14 @@ export default {
         console.log(`Error: ${e}`);
       }
     },
+    setImages() {
+      for (let i = 1; i <= 3; i++) {
+        if(this.product.images[i - 1]) {
+          this.$refs[`preview_${i}`].src = URI + this.product.images[i - 1].url;
+          this.$refs[`preview_${i}`].style = "display: inline-block";
+        }
+      }
+    },
     async saveForm() {
       try {
         let formData = new FormData();
@@ -315,7 +324,7 @@ export default {
         for (const key in this.product) {
           if(key == 'images') {
             for (let i = 0; i < this.product.images.length; i++) {
-              if(this.product.images[i] != '') {
+              if(this.product.images[i] instanceof File) {
                 formData.append(`image_${i + 1}`, this.product.images[i]);
               }
             }
@@ -366,10 +375,22 @@ export default {
         const product_id = this.$route.params.id;
         const res = await VAPI.get(`products/${product_id}`);
 
-        for (const key in this.product) {
-          if(key == 'images') continue;
-          this.product[key] = res.data[key];
+        console.log("RES is", res);
+        for (const key in res.data) {
+          console.log("Keys are", key);
+          if(key == 'price') continue;
+          if(key == 'description') {
+            
+            for (const key2 in res.data.description) {
+              this.product[key2] = res.data.description[key2];
+              console.log(res.data.description[key2]);
+            }
+          } else {
+            this.product[key] = res.data[key];
+            console.log(this.product[key]);
+          }
         }
+
       } catch (e) {
         console.error("Error cargando el producto");        
       }
@@ -379,11 +400,12 @@ export default {
     if(this.currentAction == 'Editar') {
     }
   },
-  beforeMount() {
+  async beforeMount() {
     this.currentAction = this.$route.meta.actionType;
     if(this.currentAction == 'Editar') {
-      this.editProduct();
-      this.getImages(this.$route.params.id);
+      await this.editProduct();
+      this.setImages();
+      // this.getImages(this.$route.params.id);
     }
   },
   filters: {

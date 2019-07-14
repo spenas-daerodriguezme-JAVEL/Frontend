@@ -38,4 +38,22 @@ html, body
   font-family: $body-font
   overflow-x: hidden
 
+.hlp__image-cover
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+.title--center
+  font-family: $title-font
+  text-align: center
+  white-space: pre-line
+  font-size: 60px
+  font-weight: bold
+  margin: 20px 10px
+
+.title--third
+  max-width: 700px
+  margin: 0 auto
+
 </style>

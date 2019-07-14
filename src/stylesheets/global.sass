@@ -45,6 +45,26 @@
   width: 40%
   box-sizing: border-box
 
+// Table
+table
+  width: 100%
+
+  th, td
+    border-collapse: collapse
+    box-sizing: border-box
+  
+  tr
+    th
+      text-align: left
+      padding: 0
+      margin: 0
+      height: 60px
+      border-bottom: 2px solid black  
+
+    &:not(:first-child)
+      height: 50px
+  
+
 @media (max-width: 1300px)
   .title-res
     font-size: 5vw
