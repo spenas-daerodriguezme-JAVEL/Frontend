@@ -1,2 +1,12 @@
 @import './_variables.scss';
 @import './mixins.scss';
+
+// Helpers
+.text--bold {
+  font-weight: bold;
+}
+@for $i from 5 to 80 {
+  .text--fs#{$i} {
+    font-size: #{$i}px;
+  }
+}

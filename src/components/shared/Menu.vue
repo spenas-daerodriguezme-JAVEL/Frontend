@@ -2,7 +2,7 @@
   <div class="menu__container">
     <div class="menu">
       <div class="menu__logo">
-        <img src="../../assets/Javel_logo_solid.png" alt="">
+        <img src="../../assets/aguadejavel_logo.png" alt="">
       </div>
 
       <div class="menu__content">
@@ -20,9 +20,9 @@
           class="menu__item">Cuenta</div>
       </div>
 
-
     </div>
     <div class="menu__filter"
+      v-if="isActive"
       @click="isActive = false"
       :class="{'menu__filter--active': isActive}">
         <div class="menu__item__dropdown"></div>
@@ -50,11 +50,10 @@ export default {
 
 .menu {
   width: 100vw;
+  height: $menu-height;
   left: 0;
   top: 0;
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
   align-items: center;
   padding: 20px;
   position: fixed;
@@ -82,8 +81,6 @@ export default {
 }
 
 .menu__logo {
-  margin-bottom: 20px;
-
   img {
     height: 55px;
   }
@@ -97,8 +94,7 @@ export default {
 .menu__item {
   font-family: $title-font;
   margin: 5px 17px;
-  text-transform: uppercase;
-  font-size: 15px;
+  font-size: 18px;
   cursor: pointer;
 
   &:hover {

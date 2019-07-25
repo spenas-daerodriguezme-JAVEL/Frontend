@@ -44,6 +44,12 @@
   transform: translate(-50%, -50%);
 }
 
+%absoluteCenterVertical {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 %buttonBehaviour {
   transition: 0.3s;
   cursor: pointer;

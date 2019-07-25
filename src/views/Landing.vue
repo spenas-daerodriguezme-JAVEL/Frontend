@@ -1,68 +1,74 @@
 <template>
   <div class="landing">
-    <b-carousel
-      id="carousel-1"
-      v-model="slide"
-      :interval="4000"
-      controls
-      indicators
-      background="#ababab"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-      @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-    >
-      <!-- Slides with image only -->
-      <b-carousel-slide
-        class="rel">
-        <img
-          slot="img"
-          class="carrousel-item"
-          src="../../static/fotoslanding/IMG_1214.jpg"
-          alt="image slot">
-
-        <div class="text--test">asdasdasd</div>
-      </b-carousel-slide>
-      <b-carousel-slide>
-        <img
-          slot="img"
-          class="carrousel-item"
-          src="../../static/fotoslanding/IMG_1237.jpg"
-          alt="image slot">
-      </b-carousel-slide>
-      <b-carousel-slide>
-        <img
-          slot="img"
-          class="carrousel-item"
-          src="../../static/fotoslanding/IMG_1279.jpg"
-          alt="image slot">
-      </b-carousel-slide>
-      <b-carousel-slide>
-        <img
-          slot="img"
-          class="carrousel-item"
-          src="../../static/fotoslanding/IMG_1282.jpg"
-          alt="image slot">
-      </b-carousel-slide>
-      <b-carousel-slide>
-        <img
-          slot="img"
-          class="carrousel-item"
-          src="../../static/fotoslanding/IMG_1283.jpg"
-          alt="image slot">
-      </b-carousel-slide>
-    </b-carousel>
+    <div class="carousel__wrapper">
+      <carousel
+        :images="images"></carousel>
+    </div>
   </div>
 </template>
 
 <script>
 import Slider from '../components/ui/Slider.vue';
+import Carousel from '../components/ui/Carousel.vue';
+
 export default {
   components: {
-    Slider
+    Slider,
+    Carousel
   },
   data() {
     return {
+      images: [
+        {
+          src: '../../static/fotoslanding/IMG_1214.jpg',
+          position: {
+            top: '15%',
+            left: '10%'
+          },
+          title: 'Cuidado textil',
+          subtitle: 'Una experiencia única.'
+        },
+        {
+          src: '../../static/fotoslanding/IMG_1237.JPG',
+          position: {
+            top: '15%',
+            right: '10%'
+          },
+          title: 'Fragancias',
+          subtitle: 'Hay un aroma para cada lugar.'
+        },
+        {
+          src: '../../static/fotoslanding/IMG_1279.jpg',
+          position: {
+            center: true
+          },
+          title: 'Perfumes',
+          subtitle: 'Imagina enamorar a todos.',
+          textColor: 'white'
+        },
+        {
+          src: '../../static/fotoslanding/IMG_1282.JPG',
+          position: {
+            top: '10%',
+            hcenter: true
+          },
+          imagePosition: {
+            x: '50%',
+            y: '20%'
+          },
+          title: 'Quita manchas',
+          subtitle: 'Esta listo para cualquier desafío.'
+        },
+        {
+          src: '../../static/fotoslanding/IMG_1283.jpg',
+          position: {
+            top: '10%',
+            hcenter: true
+          },
+          title: 'Tratamiento de superficies',
+          subtitle: 'Sin restregar y sin esfuerzo, como por arte de magia.'
+        }
+      ]
     }
   }
 }
@@ -70,16 +76,9 @@ export default {
 
 
 <style lang="scss" scoped>
-.carrousel-item {
-  width: 100vw;
-  height: calc(110vh - #{$menu-height});
-  position: relative;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.carousel__wrapper {
+  height: 80vh;
 }
 
 .text--test {
