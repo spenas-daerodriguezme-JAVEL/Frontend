@@ -4,7 +4,8 @@
     <div
       v-if="isDouble"
       class="img-aux">
-      <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt="">
+      <!-- <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt=""> -->
+      <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
     </div>
 
     <div class="wrapper__single">

@@ -6,19 +6,15 @@ import App from './App'
 import router from './router'
 import { store } from './store/index'
 
-import VueCarousel from '@chenfengyuan/vue-carousel';
-import BootstrapVue from 'bootstrap-vue'
+import InputBase from './components/InputBase.vue';
+import ModalInfo from './components/ui/ModalInfo.vue';
 
-
-Vue.use(VueCarousel);
 Vue.use(Vuex)
 
-Vue.use(BootstrapVue)
-
+Vue.component('input-base', InputBase);
+Vue.component('modal-info', ModalInfo);
 
 Vue.config.productionTip = false
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

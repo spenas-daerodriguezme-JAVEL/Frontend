@@ -78,7 +78,7 @@ export default {
 <style lang="scss" scoped>
 
 .carousel__wrapper {
-  height: 80vh;
+  height: calc(100vh - #{$menu-height});
 }
 
 .text--test {

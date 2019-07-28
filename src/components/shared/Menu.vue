@@ -1,42 +1,149 @@
 <template>
   <div class="menu__container">
     <div class="menu">
-      <div class="menu__logo">
+      <router-link 
+        tag="a"
+        :to="{name : 'Landing'}"
+        class="menu__logo">
         <img src="../../assets/aguadejavel_logo.png" alt="">
-      </div>
+      </router-link>
 
       <div class="menu__content">
+        <router-link
+          tag="div"
+          :to="{name: 'Catalog'}"
+          @click="isActive = false; selectedMenu = ''"
+          class="menu__item">Catálogo</router-link> 
+        <router-link
+          tag="div"
+          :to="{}"
+          @click="isActive = false; selectedMenu = ''"
+          class="menu__item">Usuarios</router-link>
         <div
-          @click="isActive = !isActive" 
-          class="menu__item">Catálogo</div>
-        <div
-          @click="isActive = !isActive" 
-          class="menu__item">Usuarios</div>
-        <div
-          @click="isActive = !isActive" 
+          @click="isActive = true; selectedMenu = 'Nosotros'" 
           class="menu__item">Nosotros</div>
         <div
-          @click="isActive = !isActive" 
+          @click="isActive = true; selectedMenu = 'Cuenta'" 
           class="menu__item">Cuenta</div>
       </div>
 
+      <div class="menu__shopping-bag">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.195 426.195" style="enable-background:new 0 0 426.195 426.195;" xml:space="preserve"><g><g><path d="M213.098,30c23.158,0,41.998,18.84,41.998,41.997h30C285.096,32.298,252.798,0,213.098,0c-39.699,0-71.997,32.298-71.997,71.997h30C171.101,48.84,189.941,30,213.098,30z"/><path d="M383.013,409.543l-19.955-308.686c-0.455-7.938-7.024-14.143-14.976-14.143H78.095c-7.951,0-14.521,6.205-14.976,14.143l-20,309.483c-0.236,4.119,1.236,8.156,4.07,11.156c2.833,3,6.778,4.699,10.905,4.699h309.987c0.008,0,0.014,0,0.02,0c8.284,0,15-6.715,15-15C383.102,410.639,383.071,410.086,383.013,409.543z M183.578,134.397c0,10.487-8.501,18.988-18.988,18.988c-10.487,0-18.988-8.501-18.988-18.988V123.59c0-10.487,8.501-18.988,18.988-18.988c10.487,0,18.988,8.501,18.988,18.988V134.397z M280.595,134.397c0,10.487-8.501,18.988-18.988,18.988s-18.988-8.501-18.988-18.988V123.59c0-10.487,8.501-18.988,18.988-18.988s18.988,8.501,18.988,18.988V134.397z"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+        <div class="menu__shopping-bag__count">0</div>
+      </div>
     </div>
+
     <div class="menu__filter"
-      v-if="isActive"
-      @click="isActive = false"
+      v-show="isActive"
+      ref="filter"
       :class="{'menu__filter--active': isActive}">
-        <div class="menu__item__dropdown"></div>
+        <div class="menu__item__dropdown" ref="dropdown">
+          <div v-if="selectedMenu == 'Cuenta'">
+            <div class="title__menu">Ingresa a tu cuenta</div>
+
+            <div class="form__row">
+              <input-base
+                :hasError="formError"
+                v-model="userAccount.email"
+                label="Email"></input-base>
+            </div>
+            
+            <div class="form__row">
+              <input-base
+                :hasError="formError"
+                v-model="userAccount.password"
+                type="password"
+                label="Contraseña"></input-base>
+            </div>
+
+            <div class="text--error"
+              style="margin: 5px 0"
+              v-if="formError">Usuario o Contraseña incorrectos</div>
+            <router-link 
+              tag="div"
+              @click.native="isActive = false"
+              :to="{name: 'CreateAccount'}"
+              class="new-account text--fs14">
+              ¿Eres nuevo?, Crea una cuenta
+            </router-link>
+
+            <div class="btn"
+              @click="login">Ingresar</div>
+          </div>
+
+          <div v-if="selectedMenu == 'Nosotros'">
+            <div class="title__menu">Nosotros</div>
+            <div class="about">
+              <a href="">Acerca de </a>
+              <a href="">Contáctenos</a>
+            </div>
+          </div>
+        </div>
     </div>
+
+    <modal-info
+      useSlot
+      autoSize
+      ref="modal"
+      :duration="1200">
+      <div class="modal__message">
+        <div class="title__menu">Inicio de sesión exitoso</div>
+      </div>
+    </modal-info>
 
     <div class="menu__spacer"></div>
   </div>
 </template>
 
 <script>
+import VAPI from '../../http_common';
+
 export default {
   data() {
     return {
       isActive: false,
+      selectedMenu: '',
+      userAccount: {
+        email: 'yomero@mail.com',
+        password: 'hp12345'
+      },
+      formError: false
+    }
+  },
+  mounted() {
+    this.$refs.filter.addEventListener('click', (e) => {
+      let dropdown = this.$refs.dropdown.getBoundingClientRect();
+
+      if ( e.clientX <= dropdown.right 
+        && e.clientX >= dropdown.left
+        && e.clientY <= dropdown.bottom
+        && e.clientY >= dropdown.top) {
+      } else {
+        this.isActive = false;
+      }
+
+    });
+
+  },
+  methods: {
+    async login() {
+      try {
+        const res = await VAPI.post('/auth/login', this.userAccount);
+        localStorage.clear();
+        localStorage.jwt = res.data.token;
+  
+        if (res.status == 200) {
+          this.$refs.modal.triggerModal();
+          this.formError = false;
+          this.isActive = false;
+        }
+  
+        if (res.status == 401) {
+          this.formError = true;
+        }
+      } catch (error) {
+        this.formError = true;        
+      }
     }
   }
 }
@@ -50,6 +157,7 @@ export default {
 
 .menu {
   width: 100vw;
+  box-sizing: border-box;
   height: $menu-height;
   left: 0;
   top: 0;
@@ -60,6 +168,20 @@ export default {
   border-bottom: 1px solid rgba(black, 0.15);
   z-index: 2;
   background: white;
+}
+
+.menu__shopping-bag {
+  @include squared(35px);
+  position: absolute;
+  right: 35px;
+}
+
+.menu__shopping-bag__count {
+  position: absolute;
+  right: 13px;
+  color: white;
+  top: calc(50% + 5px);
+  transform: translateY(-50%);
 }
 
 .menu--black {
@@ -74,10 +196,6 @@ export default {
     color: darken($color: #FFF, $amount: 30%);
   }
 
-  .menu__item__dropdown--black {
-    background: linear-gradient(black, black), 
-              linear-gradient(to right, #8f6B29, #FDE08D, #DF9F28);
-  }
 }
 
 .menu__logo {
@@ -120,18 +238,17 @@ export default {
 
 .menu__item__dropdown {
   position: fixed;
-  top: #{$menu-height + 2px};
+  top: #{$menu-height};
   right: 1px;
   width: 430px;
-  height: calc(100vh - #{$menu-height} - 5px);
   background: white;
   box-sizing: border-box;
-
-   background: linear-gradient(white, white), 
-              linear-gradient(to right, #8f6B29, #FDE08D, #DF9F28);
-  background-origin: padding-box, border-box;
-  background-repeat: no-repeat; /* this is important */
   border: 5px solid transparent;
+  padding: 20px;
+
+  > div {
+    min-height: 360px;
+  }
 }
 
 .border-gradient {
@@ -142,5 +259,38 @@ export default {
   border-image: linear-gradient(to left, #743ad5, #d53a9d);
 }
 
-// filter: brightness(0) invert(1);
+.new-account {
+  text-decoration: underline;
+  transition: 0.2s;
+  cursor: pointer;
+  transform: skewX(0deg);
+  text-align: right;
+
+  a {
+    color: inherit;
+  }
+
+  &:hover {
+    transform: skewX(-10deg);
+  }
+}
+
+.about {
+  margin-top: 60px;
+  min-height: 100px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+
+  a {
+    color: inherit;
+
+    &:hover {
+      transform: skewX(-10deg);
+    }
+  }
+
+}
+
 </style>

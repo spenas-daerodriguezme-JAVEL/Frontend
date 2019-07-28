@@ -1,5 +1,6 @@
 <template>
-  <div class="input-base">
+  <div class="input-base"
+    :class="{'input-base--error': hasError}">
     <input
       :value="value"
       ref="refValue"
@@ -37,6 +38,10 @@ export default {
       type: Boolean,
       default: true,
       required: false
+    },
+    hasError: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -56,6 +61,10 @@ export default {
       this.$emit('input', this.$refs.refValue.value);
     }
   },
+  mounted() {
+    if (this.value != '') this.hasContent = true;
+    else this.hasContent = false;
+  }
 }
 </script>
 
@@ -68,7 +77,8 @@ export default {
   position: relative
   box-sizing: border-box
   border: 1px solid #D6DEEB
-  white-space: normal
+  border: 1px solid #D6DEEB
+
 
 input
   border: 0
@@ -92,5 +102,13 @@ input
 
 .input-wcontent
   top: 7px
+
+</style>
+
+<style lang="scss" scoped>
+
+.input-base--error {
+  border-color: $color-error;
+}
 
 </style>

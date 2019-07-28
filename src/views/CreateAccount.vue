@@ -17,15 +17,17 @@
           <input-base
             :label="'Apellido'"
             class="input--medium"
-            v-model="account.lastName"></input-base>
+            v-model="account.lastname"></input-base>
         </div>
 
         <div class="frow">
           <input-base
             :label="'Correo'"
+            type="email"
             class="input--medium"
             v-model="account.email"></input-base>
           <input-base
+            :hasError="!passwordMatch"
             :label="'Contraseña'"
             class="input--medium"
             type="password"
@@ -33,11 +35,40 @@
         </div>
 
         <div class="frow">
+          <input-base
+            :hasError="!passwordMatch"
+            :label="'Confirmar contraseña'"
+            class="input--medium"
+            type="password"
+            v-model="account.passwordConfirmation"></input-base>
+        </div>
+
+        <div class="text--error text--right"
+          v-if="!passwordMatch">Las contraseñas no coinciden</div>
+
+        <div class="text--error text--right"
+          style="margin-top: 10px"
+          v-if="userTaken"><b>Existen errores en el formulario:</b> {{ formErrors }}</div>
+
+        <div class="frow">
           <div class="btn"
+            @click="register"
             style="max-width: 100px; margin-left: 20px">Regístrate</div>
         </div>
       </div>  
+
     </div>    
+
+    <modal-info
+      useSlot
+      autoSize 
+      ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">
+          Registro exitoso
+        </div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
@@ -45,16 +76,25 @@
 import Cart from '../components/shared/Cart.vue'
 import InputBase from '../components/InputBase.vue'
 import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
+import VAPI from '../http_common';
 
 export default {
   data() {
     return {
       account: {
         name: '',
-        lastName: '',
+        lastname: '',
         email: '',
         password: '',
-      }
+        passwordConfirmation: '',
+      },
+      userTaken: false,
+      formErrors: ''
+    }
+  },
+  computed: {
+    passwordMatch() {
+      return this.account.password == this.account.passwordConfirmation;
     }
   },
   mounted() {
@@ -87,9 +127,47 @@ export default {
     })
 
   },
-  components: {
+  components: { 
     InputBase,
     Cart
+  },
+  methods: {
+    async register() {
+      try {
+        let modal = this.$refs.modal;
+        let data = _.pick(this.account, [
+          'name',
+          'lastname',
+          'password',
+          'email'
+        ]);
+
+        const res = await VAPI.post('/users', data);
+
+        if (res.status == 201) {
+          modal.triggerModal();
+          this.userTaken = false;
+          this.formErrors = ''
+
+          setTimeout(() => {
+            this.$router.push({
+              name: 'Landing'
+            });
+          }, 3000);
+        }
+
+      } catch (error) {
+
+        error.response.data.errors.forEach((e, i) => {
+          this.formErrors += e + ' ';
+        });
+
+        if (error.response.status == 422) {
+          this.userTaken = true;
+        }
+      }
+
+    }
   }
 }
 </script>
@@ -116,7 +194,8 @@ h1
 .fix__products
   width: 30vw
   height: 100vh
-  background:#B0B2A1
+  background: black
+  color: white
 
 .pad
   padding: 30px
@@ -155,5 +234,13 @@ h1
   .w-30, .w-70
     height: auto
     width: 100%
+
+</style>
+
+<style lang="scss" scoped>
+
+.fix__products {
+  background: $color-black-soft;
+}
 
 </style>
