@@ -1,24 +1,27 @@
 <template>
   <div class="price-slider">
     <span>
-      from
-      <input
-        @input="setRange"
-        v-model.number="minValue"
-        type="number"
-        min="0"
-        :max="MAX_VALUE"
-      />
-      to
-      <input
-        @input="setRange"
-        v-model.number="maxValue"
-        type="number"
-        min="0"
-        :max="MAX_VALUE"
-      />
+      <!-- <div class="range">
+        <input
+          :step="STEP"
+          @input="setRange"
+          v-model.number="minValue"
+          type="number"
+          min="0"
+          :max="MAX_VALUE"
+        />
+        <input
+          :step="STEP"
+          @input="setRange"
+          v-model.number="maxValue"
+          type="number"
+          min="0"
+          :max="MAX_VALUE"
+        />
+      </div> -->
     </span>
     <input
+      ref="left"
       @input="setInput"
       v-model.number="inputMinValue"
       :max="MAX_VALUE"
@@ -27,6 +30,7 @@
       type="range"
     />
     <input
+      ref="right"
       @input="setInput"
       v-model.number="inputMaxValue"
       :max="MAX_VALUE"
@@ -52,7 +56,11 @@ export default {
       STEP: 1000
     };
   },
-  mounted() {},
+  mounted() {
+    const left = this.$refs.left;
+    const right = this.$refs.right;
+
+  },
   methods: {
     setRange(value) {
       if (this.minValue > this.maxValue) {
@@ -87,7 +95,7 @@ input {
   margin: auto;
   text-align: center;
   position: relative;
-  height: 6em;
+  height: 70px;
 }
 .price-slider svg,
 .price-slider input[type="range"] {
@@ -98,9 +106,10 @@ input {
 input[type="number"] {
   border: 1px solid #ddd;
   text-align: center;
-  font-size: 1.6em;
+  font-size: 1em;
   -moz-appearance: textfield;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -116,35 +125,53 @@ input[type="range"] {
 input[type="range"]:focus {
   outline: none;
 }
-input[type="range"]:focus::-webkit-slider-runnable-track {
-  background: #1da1f2;
-}
-input[type="range"]:focus::-ms-fill-lower {
-  background: #1da1f2;
-}
-input[type="range"]:focus::-ms-fill-upper {
-  background: #1da1f2;
-}
+
+$slideColor: black;
+
 input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
-  background: #1da1f2;
   border-radius: 1px;
   box-shadow: none;
   border: 0;
 }
+
+// * Thumb
 input[type="range"]::-webkit-slider-thumb {
   z-index: 2;
   position: relative;
   box-shadow: 0px 0px 0px #000;
-  border: 1px solid #1da1f2;
+  border: 1px solid $slideColor;
   height: 18px;
   width: 18px;
   border-radius: 25px;
-  background: #a1d0ff;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -7px;
+  transition: .3s;
+
+  &:hover {
+    background: black;
+  }
 }
+
+.range {
+  display: flex;
+  justify-content: space-around;
+
+  input {
+    font-size: 18px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+.floating-price {
+  position: absolute;
+  font-weight: bolder; 
+}
+
 </style>

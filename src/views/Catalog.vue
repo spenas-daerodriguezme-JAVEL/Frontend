@@ -1,8 +1,7 @@
 <template>
   <div class="catalog">
     <div class="title">
-      BIENVENIDOS
-      AL FUTURO.
+      BIENVENIDOS AL FUTURO.
     </div>
     <div class="filter-container">
       <div class="filter-box">
@@ -12,14 +11,15 @@
           placeholder="Selecciona"
           v-model="selected"
           :default-first="true"
-          :options="options"></custom-selector>
-
+          :options="options"
+        ></custom-selector>
       </div>
       <div class="filter-box">
         Tu pones los límites.
         <b>FILTRAR.</b>
-
-        <RangeSlider></RangeSlider>
+        <div class="price-range">
+          <RangeSlider></RangeSlider>
+        </div>
       </div>
       <div class="filter-box">
         ¡Déjanos ayudarte!
@@ -30,15 +30,16 @@
     <pagination
       style="padding: 30px 50px"
       :current.sync="currentPage"
-      :pages="pages">
-
+      :pages="pages"
+    >
       <div>
         <div class="catalog-box">
           <product-base
             v-for="(product, index) in productInterval(1, 3)"
             :key="index + 1"
             :resize="resizedWindow"
-            :data="product"></product-base>
+            :data="product"
+          ></product-base>
         </div>
 
         <div class="catalog-box">
@@ -47,19 +48,23 @@
             :key="index + 2"
             :is-double="true"
             :resize="resizedWindow"
-            :data="product"></product-base>
+            :data="product"
+          ></product-base>
         </div>
-        
+
         <div class="catalog-box">
           <product-base
             v-for="(product, index) in productInterval(5, 5)"
             :key="index + 3"
             :resize="resizedWindow"
-            :data="product"></product-base>
+            :data="product"
+          ></product-base>
 
           <div class="item">
-            <div class="anounce"
-              v-if="products[5] && products[5].promoTitle != ''">
+            <div
+              class="anounce"
+              v-if="products[5] && products[5].promoTitle != ''"
+            >
               {{ products[5].promoTitle }}
             </div>
           </div>
@@ -68,16 +73,18 @@
             v-for="(product, index) in productInterval(6, 6)"
             :key="index + 4"
             :resize="resizedWindow"
-            :data="product"></product-base>
+            :data="product"
+          ></product-base>
         </div>
-        
+
         <div class="catalog-box">
           <product-base
             v-for="(product, index) in productInterval(7, 7)"
             :key="index + 5"
             :is-double="true"
             :resize="resizedWindow"
-            :data="product"></product-base>
+            :data="product"
+          ></product-base>
         </div>
 
         <div class="catalog-box">
@@ -85,23 +92,22 @@
             v-for="(product, index) in productInterval(8, 10)"
             :key="index + 6"
             :resize="resizedWindow"
-            :data="product"></product-base>
+            :data="product"
+          ></product-base>
         </div>
       </div>
-
     </pagination>
-
   </div>
 </template>
 
 <script>
-import _ from 'lodash'
-import VAPI from "../http_common"
-import Product from '../components/Product.vue'
-import Pagination from '../components/ui/Pagination.vue'
-import CustomSelector from '../components/ui/CustomSelector.vue'
-import util from '../util/index'
-import RangeSlider from '../components/ui/RangeSlider.vue';
+import _ from "lodash";
+import VAPI from "../http_common";
+import Product from "../components/Product.vue";
+import Pagination from "../components/ui/Pagination.vue";
+import CustomSelector from "../components/ui/CustomSelector.vue";
+import util from "../util/index";
+import RangeSlider from "../components/ui/RangeSlider.vue";
 
 export default {
   data() {
@@ -109,14 +115,14 @@ export default {
       pages: 0,
       resizedWindow: false,
       currentPage: 1,
-      selected: '',
+      selected: "",
       products: [],
       options: [
-        { value: 'all', label: 'Todo' },
-        { value: 'price', label: 'Precio' },
-        { value: 'businessLine', label: 'Línea de producto' },
+        { value: "all", label: "Todo" },
+        { value: "price", label: "Precio" },
+        { value: "businessLine", label: "Línea de producto" }
       ]
-    }
+    };
   },
   async beforeMount() {
     await this.getCatalogPage(1);
@@ -129,7 +135,7 @@ export default {
         this.productList = res.data.products;
         this.pages = res.data.pages;
       } catch (e) {
-        console.error("Error al leer pagina del catalogo", e);        
+        console.error("Error al leer pagina del catalogo", e);
       }
     },
     productInterval(start, end) {
@@ -148,7 +154,7 @@ export default {
     let self = this;
     window.onresize = _.debounce(function() {
       self.resizedWindow = !self.resizedWindow;
-    }, 350)
+    }, 350);
   },
   computed: {
     productList: {
@@ -158,15 +164,15 @@ export default {
       get() {
         return this.products;
       }
-    },
+    }
   },
   components: {
     CustomSelector,
     Pagination,
-    'ProductBase': Product,
-    RangeSlider,
+    ProductBase: Product,
+    RangeSlider
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>
@@ -183,7 +189,7 @@ export default {
   margin: 80px 0
   +flex(1, 0)
   flex-wrap: wrap
-  justify-content: space-around 
+  justify-content: space-around
   padding: 0 30px
 
 .filter-box
@@ -191,11 +197,16 @@ export default {
   flex-direction: column
   width: 200px
   text-align: center
-  
+  position: relative
+
+.price-range
+  @extend %absolute-centered
+  top: calc(10px + 100%)
+
 .catalog-box
   +flex(0, 0)
   justify-content: space-around
-  flex-wrap: wrap 
+  flex-wrap: wrap
 
 .item
   +flex(0, 0)
@@ -247,8 +258,8 @@ export default {
 
     &:hover
       &:after
-        width: 100% 
-      
+        width: 100%
+
       color: black
 
 .item__description
@@ -299,5 +310,4 @@ export default {
 @media (max-width: 630px)
   .catalog-box2
     flex-wrap: wrap
-
 </style>
