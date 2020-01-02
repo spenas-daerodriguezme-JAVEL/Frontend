@@ -1,37 +1,31 @@
 <template>
   <div class="checkout">
     <div class="row">
-     <div class="w-30 fix__products center--responsive"
-      style="padding: 30px" ref="column">
-        <h1 ref="title1" class="title--responsive">Bienvenido</h1>  
-      </div>  
+      <div class="w-30 fix__products center--responsive" style="padding: 30px" ref="column">
+        <h1 ref="title1" class="title--responsive">Bienvenido</h1>
+      </div>
 
       <div class="w-70 pad" ref="column2">
-        <h1 ref="title2">Crea tu cuenta</h1>  
+        <h1 ref="title2">Crea tu cuenta</h1>
 
         <div class="frow">
-          <input-base
-            :label="'Nombre'"
-            class="input--medium"
-            v-model="account.name"></input-base>
-          <input-base
-            :label="'Apellido'"
-            class="input--medium"
-            v-model="account.lastname"></input-base>
+          <input-base :label="'Nombre'" class="input--medium" v-model="account.name"></input-base>
+          <input-base :label="'Apellido'" class="input--medium" v-model="account.lastname"></input-base>
         </div>
 
         <div class="frow">
-          <input-base
-            :label="'Correo'"
-            type="email"
-            class="input--medium"
+          <input-base 
+            :label="'Correo'" 
+            type="email" 
+            class="input--medium" 
             v-model="account.email"></input-base>
           <input-base
             :hasError="!passwordMatch"
             :label="'Contraseña'"
             class="input--medium"
             type="password"
-            v-model="account.password"></input-base>
+            v-model="account.password"
+          ></input-base>
         </div>
 
         <div class="frow">
@@ -40,94 +34,149 @@
             :label="'Confirmar contraseña'"
             class="input--medium"
             type="password"
-            v-model="account.passwordConfirmation"></input-base>
+            v-model="account.passwordConfirmation"
+          ></input-base>
+          <input-base
+            :hasError="!passwordMatch"
+            :label="'Teléfono'"
+            class="input--medium"
+            type="text"
+            v-model="account.telephone"
+          ></input-base>
         </div>
-
-        <div class="text--error text--right"
-          v-if="!passwordMatch">Las contraseñas no coinciden</div>
-
-        <div class="text--error text--right"
-          style="margin-top: 10px"
-          v-if="userTaken"><b>Existen errores en el formulario:</b> {{ formErrors }}</div>
 
         <div class="frow">
-          <div class="btn"
-            @click="register"
-            style="max-width: 100px; margin-left: 20px">Regístrate</div>
+          <input-base
+            :label="'Dirección'"
+            class="input--medium"
+            v-model="account.address"
+          ></input-base>
         </div>
-      </div>  
 
-    </div>    
+        <div class="frow">
+          <custom-selector
+            label="Estado"
+            class="input-base input--medium"
+            v-model="account.state"
+            :options="stateOptions"
+          ></custom-selector>
+        </div>
 
-    <modal-info
-      useSlot
-      autoSize 
-      ref="modal">
+        <div class="frow">
+          <custom-selector 
+            label="Ciudad"
+            class="input-base input--medium"
+            v-model="account.city" 
+            :options="cityOptions"
+          ></custom-selector>
+        </div>
+
+        <div class="text--error text--right" v-if="!passwordMatch">Las contraseñas no coinciden</div>
+
+        <div class="text--error text--right" style="margin-top: 10px" v-if="userTaken">
+          <b>Existen errores en el formulario:</b>
+          {{ formErrors }}
+        </div>
+
+        <div class="frow">
+          <div class="btn" @click="register" style="max-width: 100px; margin-left: 20px">Regístrate</div>
+        </div>
+      </div>
+    </div>
+
+    <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
-        <div class="title__menu">
-          Registro exitoso
-        </div>
+        <div class="title__menu">Registro exitoso</div>
       </div>
     </modal-info>
   </div>
 </template>
 
 <script>
-import Cart from '../components/shared/Cart.vue'
-import InputBase from '../components/InputBase.vue'
-import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
-import VAPI from '../http_common';
+import VAPI from "../http_common";
+import Cart from "../components/shared/Cart.vue";
+import InputBase from "../components/InputBase.vue";
+import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
+import { STATES } from "../colombia";
+import util from "../util/index";
 
 export default {
   data() {
     return {
       account: {
-        name: '',
-        lastname: '',
-        email: '',
-        password: '',
-        passwordConfirmation: '',
+        name: "Daniel",
+        lastname: "Rodiruge",
+        email: "dlsxsp@gmail.com",
+        password: "Daniel96",
+        passwordConfirmation: "Daniel96",
+        state: "Amazonas",
+        city: "Leticia",
+        address: "asdasda",
+        telephone: "12353445"
       },
+      // account: {
+      //   name: "",
+      //   lastname: "",
+      //   email: "",
+      //   password: "",
+      //   passwordConfirmation: "",
+      //   state: "",
+      //   city: "",
+      //   address: "",
+      //   telephone: ""
+      // },
       userTaken: false,
-      formErrors: ''
-    }
+      formErrors: "",
+      stateOptions: []
+    };
   },
   computed: {
     passwordMatch() {
       return this.account.password == this.account.passwordConfirmation;
+    },
+    cityOptions() {
+      if (this.account.state != "") {
+        return util.pairLabelValue(
+          STATES.find(state => {
+            return state.departamento === this.account.state;
+          }).ciudades
+        );
+      }
+
+      return [{ value: "", label: "" }];
     }
+  },
+  beforeMount() {
+    this.stateOptions = util.pairLabelValue(
+      STATES.map(state => state.departamento)
+    );
   },
   mounted() {
     let title = this.$refs.title1;
     let welcome = this.$refs.title2;
     console.log(this.$refs);
-    
-    TweenMax
 
     let tl = new TimelineLite();
 
-    tl
-      .from(title, 1.5, {
-        x: 100,
-        opacity: 0
-      })
+    tl.from(title, 1.5, {
+      x: 100,
+      opacity: 0
+    })
       .delay(0.1)
       .from(welcome, 0.5, {
         y: 90,
         opacity: 0
       });
 
-
     let column = this.$refs.column;
     let column2 = this.$refs.column2;
     let bounds = column.getBoundingClientRect();
 
     Object.assign([column.style, column2.style], {
-      'height': `calc(100vh - ${bounds.top}px)`
-    })
-
+      height: `calc(100vh - ${bounds.top}px)`
+    });
   },
-  components: { 
+  components: {
     InputBase,
     Cart
   },
@@ -135,45 +184,37 @@ export default {
     async register() {
       try {
         let modal = this.$refs.modal;
-        let data = _.pick(this.account, [
-          'name',
-          'lastname',
-          'password',
-          'email'
-        ]);
+        let data = _.omit(this.account, ["passwordConfirmation"]);
 
-        const res = await VAPI.post('/users', data);
+        const res = await VAPI.post("/api/users", data);
+        localStorage.setItem('id', res.data._id);
+        localStorage.setItem('name', res.data.name);
+        localStorage.setItem('token', res.data.token);
 
-        if (res.status == 201) {
+        if (res.status == 200) {
           modal.triggerModal();
           this.userTaken = false;
-          this.formErrors = ''
+          this.formErrors = "";
 
           setTimeout(() => {
             this.$router.push({
-              name: 'Landing'
+              name: "Landing"
             });
           }, 3000);
         }
-
       } catch (error) {
-
-        error.response.data.errors.forEach((e, i) => {
-          this.formErrors += e + ' ';
-        });
-
-        if (error.response.status == 422) {
-          this.userTaken = true;
-        }
+        console.error(error);
       }
-
     }
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>
 @import '../stylesheets/global.sass'
+
+.label
+  width: 100px
 
 h1
   font-size: 40px
@@ -238,9 +279,7 @@ h1
 </style>
 
 <style lang="scss" scoped>
-
 .fix__products {
   background: $color-black-soft;
 }
-
 </style>

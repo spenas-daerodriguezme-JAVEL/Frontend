@@ -49,11 +49,22 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
+function locationInBox(event, box) {
+  const dimentions = box.getBoundingClientRect();
+  console.log(event, dimentions);
+
+  return event.clientX >= dimentions.left 
+         && event.clientX <= dimentions.right 
+         && event.clientY <= dimentions.top 
+         && event.clientY >= dimentions.bottom;
+}
+
 export default {
   toMoney,
   pairLabelValue,
   pairLabelAsc,
   trimText,
   deepCopy,
-  mod
+  mod,
+  locationInBox,
 }

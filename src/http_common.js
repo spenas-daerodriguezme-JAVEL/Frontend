@@ -6,7 +6,7 @@ import { store } from './store/index'
 const URI = process.env.URI
 
 const VAPI = axios.create({
-    baseURL: URI,
+    baseURL: 'http://localhost:3000',
     timeout: 60000
 })
 

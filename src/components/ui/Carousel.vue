@@ -162,7 +162,7 @@ export default {
 }
 
 .carousel--transition {
-  transition: 0.7s ease-in-out;
+  transition: 0.6s ease-in-out;
 }
 
 .carousel__controls {

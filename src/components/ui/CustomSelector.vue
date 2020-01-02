@@ -1,216 +1,277 @@
 <template>
-    <div class="selected">
-      <span @click="optionBoxActive = !optionBoxActive" style="text-transform: uppercase">{{ selectedOption == '' ? ' ' : selectedOption }}</span>
+  <div
+    tabindex="0"
+    @click="open" 
+    class="selector">
+    <div
+      v-if="isActive"
+      @click="close" 
+      class="wrapper"></div>
 
-      <div class="selector__options" ref="selectorOptions" v-show="optionBoxActive">
-        <div class="selector__options__close">
-          <svg @click="optionBoxActive = !optionBoxActive" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    <div class="label">{{ label }}</div>
+    <div
+      class="input">{{ showValue }}</div>
+    <div class="control"><i class="fa fa-caret-down"></i></div>
+
+    <!-- Dropdown -->
+      <div
+        v-if="isActive" 
+        @click="close"
+        class="close">Cerrar</div>
+      <template v-if="isActive">
+        <input
+          ref="inputSearch"
+          @keypress.="handleEsc"
+          v-model="search" 
+          type="text" 
+          class="search"
+          placeholder="Buscar...">
+        <div
+          ref="dropdown"
+          :class="{'dropdown--up': opensUp}" 
+          class="dropdown">
+          <transition-group tag="span" name="item">
+            <div
+              v-for="option in queryItems"
+              :key="option.value"
+              :class="{ 'dropdown__item--selected': option.value === value }"
+              @click="select($event, option)"
+              class="dropdown__item">{{ option.label }}</div>
+          </transition-group>
         </div>
-
-        <div class="option"
-          v-for="(option, index) in options"
-          :key="index"
-          :class="{'option--selected': value == option.value}"
-          @click="select(option); optionBoxActive = !optionBoxActive">
-            {{ option.label }}
-        </div>
-      </div>
-
-      <div class="dark-screen" v-show="optionBoxActive" ref="darkScreen"></div>
-
-      <div class="controls" @click="optionBoxActive = !optionBoxActive">
-        <svg class="material-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        <svg class="material-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </div>
-    </div>
+      </template>
+  </div>
 </template>
 
 <script>
-import _ from 'lodash'
+import { locationInBox } from '../../util/index';
 
 export default {
+  model: {
+    prop: 'value',
+    event: 'select',
+  },
   props: {
     value: {
       type: String,
+      default: '',
     },
     options: {
       type: Array,
+      default: () => [],
     },
-    defaultOption: {
-      type: String
+    label: {
+      type: String,
+      default: '',
     },
-    defaultFirst: {
-      type: Boolean,
-      default: false
+    placeholder: {
+      type: String,
+      default: 'Selecciona una opción',
     }
   },
   data() {
     return {
-      optionBoxActive: false,
-      selectedOption: ''
+      search: '',
+      opensUp: false,
+      isActive: false,
     }
   },
-  beforeMount() {
-    if(this.value == '' && !this.defaultFirst) {
-      this.select(this.defaultOption)
-    } else if(this.value == '' && this.defaultFirst){
-      this.select(this.options[0]);
-    } else {
-      this.selectedOption = _.find(this.options, function(o) {
-        return o.value == this.value;
-      }).label;
+  computed: {
+    showValue() {
+      if (this.value === '') return this.placeholder;
+
+      const res = this.options.find(opt => opt.value === this.value);
+      if (res) return res.label
+      else this.$emit('select', '');
+      // return this.options.find(opt => opt.value === this.value).label;
+    },
+    queryItems() {
+      return this.options.filter(option => {
+        return option.label
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase()
+          .includes(
+            this.search
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
+          )
+      })
     }
-  },
-  mounted() {
-    let self = this;
-    this.$refs.darkScreen.addEventListener('click', function (event) {
-      self.optionBoxActive = !self.optionBoxActive;
-    })
   },
   methods: {
-    run() {
-      console.log("Run")
-      console.log(`State: ${this.optionBoxActive}`)
-      this.optionBoxActive = false
-      console.log(`State: ${this.optionBoxActive}`)
+    open() {
+      this.isActive = true;
+
+      setTimeout(() => {
+
+        const dropdown = this.$refs.dropdown;
+        const bounds = dropdown.getBoundingClientRect();
+
+        this.opensUp = bounds.bottom > window.innerHeight;
+      }, 0);
     },
-    log(data) {
-      console.log(data)
+    close(event) {
+      this.isActive = false;
+      event.stopPropagation();
     },
-    select(option) {
-      this.$emit('update:value', option.value)
-      this.selectedOption = option.label;
-      this.$emit('input', this.selectedOption)
-    }
-  },
-  watch: {
-    value() {
-      this.selectedOption = this.value;
+    handleEsc() {
+      if (this.search.length > 0) this.search = '';
+      else this.close();
+    },
+    select(event, option) {
+      this.$emit('select', option.value);
+      this.isActive = false;
+      event.stopPropagation();
     }
   }
 }
 </script>
 
-<style lang="sass" scoped>
-@import '../../stylesheets/global.sass'
+<style lang="scss" scoped>
 
-.selected
-  display: inline-block
-  box-sizing: border-box
-  height: 29px
-  padding: 5px 20px
-  position: relative
-  font-weight: bold
-  transition: .3s
-  cursor: pointer
-  min-width: 80px
-  text-align: center
-  font-size: 18px
+.selector {
+  border: 1px solid rgb(214, 222, 235);
+  min-width: 180px;
+  height: 60px;
+  position: relative;
+  box-sizing: border-box;
+  transition: .2s;
 
-.controls
-  +flex(1, 1)
-  top: 50%
-  right: 1px
-  height: 100%
-  position: absolute
-  flex-direction: column
-  transform: translateY(-50%)
+  &:hover {
+    background: rgba(black, .05);
+  }
 
-  svg
-    width: 12px
-    height: 12px
-    fill: black
+  .input {
+    box-sizing: border-box;
+    padding: 25px 30px 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    cursor: pointer;
+    font-style: oblique;
+    font-size: 16px;
+  }
+}
 
-    &:first-child
-      transform: rotate(-90deg)
+.label {
+  font-weight: bold;
+  font-size: 15px;
+  position: absolute;
+  top: 7px;
+  left: 30px;
+}
 
-    &:last-child
-      margin-top: -5px
-      transform: rotate(90deg)
+.control {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
 
-.selector__options
-  text-align: left
-  overflow-x: hidden
-  overflow-y: auto
-  z-index: 4
-  background: white
-  position: absolute
-  width: 300px
-  max-height: 400px
-  top: 50%
-  left: 0
-  transform: translate(-0%, -50%)
-  box-shadow: 1px 1px 15px 1px rgba(black, .2)
-  animation: fadeIn .3s
-  font-weight: normal
+// Dropdown
 
-.selector__options__close
-  width: 100%
-  text-align: right
-  padding-top: 5px
+$selectionColor: #ADB39F;
 
-  svg
-    fill: black
-    width: 25px
-    height: 25px
-    transition: .3s
-    cursor: pointer
+.wrapper {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
+  background: rgba($color: #000000, $alpha: .5);
+}
 
-    &:hover
-      transform: rotate(90deg)
+.dropdown {
+  z-index: 11;
+  background: white;
+  position: absolute;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+}
 
-.option
-  position: relative
-  width: 130%
-  box-sizing: border-box
-  padding: 15px 20px
-  padding-left: 50px 
-  transition: .15s
-  left: -25px
-  opacity: 0
+.dropdown--up {
+  bottom: 100%;
+}
 
-  &:first-child
-    border-top: 1px solid red
+.dropdown__item {
+  padding: 17px 10px;
+  cursor: pointer;
+  transition: .2s;
 
-  &:hover
-    transform: skewX(-10deg)
+  &:hover, &.dropdown__item--selected {
+    background: $selectionColor;
+    padding-left: 11px;
+  }
 
-    &:not(.option--selected)
-      background: lighten(#ADB39F, 13%)
+  &.dropdown__item--selected {
+    background: darken($selectionColor, 8%);
+  }
+}
 
-.option--selected
-  background: #ADB39F
+.search {
+  font-family: 'Avenir';
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 11;
+  height: 53px;
+  background: $selectionColor;
+  color: white;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(black, .5);
+  border-bottom-width: 2px;
 
-.dark-screen
-  background: rgba(black, .5)
-  position: fixed
-  top: 0
-  left: 0
-  width: 100vw
-  height: 100vh
-  animation: fadeIn 1s
-  z-index: 3
+  &::placeholder {
+    color: inherit;
+  }
+}
 
-@for $i from 1 through 15
-  .option:nth-child(#{$i})
-    animation: slideIn .2s forwards
-    animation-delay: ($i - 1) * 0.07s - 0.07s
+.close {
+  border-radius: 30px;
+  padding: 3px 7px;
+  background: rgba(black, .3);
+  position: absolute;
+  right: 10px;
+  top: 20px;
+  color: white;
+  z-index: 12;
+  cursor: pointer;
+  transition: .3s;
 
-@keyframes fadeIn
-  from
-    opacity: 0
-  
-  to
-    opacity: 1
+  &:hover {
+    background: rgba(black, .2);
+  }
+}
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, 
+.fade-leave-to {
+  opacity: 0;
+}
 
-@keyframes slideIn
-  from
-    opacity: 0
-    left: -100px
+// Group
+.item-enter-active,
+.item-leave-active {
+  transition: opacity .3s cubic-bezier(0.55, 0.055, 0.675, 0.19)  ;
+}
 
-  to
-    opacity: 1
-    left: -25px
+.item-enter,
+.item-leave-to {
+  opacity: 0;
+}
 
 </style>

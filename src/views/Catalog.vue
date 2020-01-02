@@ -9,6 +9,7 @@
         Mira más específico.
 
         <custom-selector
+          placeholder="Selecciona"
           v-model="selected"
           :default-first="true"
           :options="options"></custom-selector>
@@ -17,6 +18,8 @@
       <div class="filter-box">
         Tu pones los límites.
         <b>FILTRAR.</b>
+
+        <RangeSlider></RangeSlider>
       </div>
       <div class="filter-box">
         ¡Déjanos ayudarte!
@@ -56,8 +59,8 @@
 
           <div class="item">
             <div class="anounce"
-              v-if="products[5] && products[5].description.promotion_title != ''">
-              {{ products[5].description.promotion_title }}
+              v-if="products[5] && products[5].promoTitle != ''">
+              {{ products[5].promoTitle }}
             </div>
           </div>
 
@@ -98,6 +101,7 @@ import Product from '../components/Product.vue'
 import Pagination from '../components/ui/Pagination.vue'
 import CustomSelector from '../components/ui/CustomSelector.vue'
 import util from '../util/index'
+import RangeSlider from '../components/ui/RangeSlider.vue';
 
 export default {
   data() {
@@ -106,13 +110,12 @@ export default {
       resizedWindow: false,
       currentPage: 1,
       selected: '',
-      products: '',
-      options: util.pairLabelValue([
-        'Todo',
-        'Todo 1',
-        'Todo 2',
-        'Todo 3'
-      ])
+      products: [],
+      options: [
+        { value: 'all', label: 'Todo' },
+        { value: 'price', label: 'Precio' },
+        { value: 'businessLine', label: 'Línea de producto' },
+      ]
     }
   },
   async beforeMount() {
@@ -121,9 +124,9 @@ export default {
   methods: {
     async getCatalogPage(page) {
       try {
-        const res = await VAPI.get(`/catalog/${page}`);
+        const res = await VAPI.get(`/api/product?from=${page}`);
         console.log(res);
-        this.productList = res.data.results;
+        this.productList = res.data.products;
         this.pages = res.data.pages;
       } catch (e) {
         console.error("Error al leer pagina del catalogo", e);        
@@ -136,6 +139,9 @@ export default {
   watch: {
     currentPage(val) {
       this.getCatalogPage(val);
+    },
+    async selected(val) {
+      const res = await VAPI.get(`/api/product?from=${page}`);
     }
   },
   mounted() {
@@ -157,7 +163,8 @@ export default {
   components: {
     CustomSelector,
     Pagination,
-    'ProductBase': Product
+    'ProductBase': Product,
+    RangeSlider,
   }
 }
 </script>

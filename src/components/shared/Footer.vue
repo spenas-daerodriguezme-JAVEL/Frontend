@@ -32,6 +32,7 @@ export default {
   flex-direction: column
   padding: 50px
   background: white
+  border-top: 1px solid rgba(black, 0.3)
 
 .title
   @extend %title

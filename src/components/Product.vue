@@ -10,7 +10,8 @@
 
     <div class="wrapper__single">
       <div class="display" ref="display">
-        <img :src="data.images.length != 0 ? URI + data.images[0].url : ''" alt="">
+        <!-- <img :src="data.images.length != 0 ? URI + data.images[0].url : ''" alt=""> -->
+        <img src="../assets/productos/QUITAOXIDO.jpg" alt="">
         <img
           v-for="(image, index) in data.images"
           :key="index"
@@ -32,7 +33,7 @@
           </div>
           <div class="product__price">{{ data.price | toMoney }}</div>
         </div>
-        {{ data.description.catalog_description | trimText(100) }}
+        {{ data.description | trimText(100) }}
       </div>
     </div>
   </div>

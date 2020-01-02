@@ -8,18 +8,20 @@ import { store } from './store/index'
 
 import InputBase from './components/InputBase.vue';
 import ModalInfo from './components/ui/ModalInfo.vue';
+import CustomSelector from './components/ui/CustomSelector.vue';
 
 Vue.use(Vuex)
 
 Vue.component('input-base', InputBase);
 Vue.component('modal-info', ModalInfo);
+Vue.component('custom-selector', CustomSelector)
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  store,
+  store,  
   components: { App },
   template: '<App/>'
 })

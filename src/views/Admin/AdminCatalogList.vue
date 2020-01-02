@@ -69,7 +69,8 @@ export default {
     obj.success = results => {
         this.products.forEach((product, index) => {
         if(product.position != results[index]) this.changePosition(product.id, results[index]);
-        product.position = results[index]
+        // product.position = results[index]
+        this.$set(this.products[index], 'position', results[index]);
       })
     }
 
@@ -77,7 +78,7 @@ export default {
   methods: {
     async changePosition(id, position) {
       try {
-        const res = await VAPI.put(`change-position/${id}`, {
+        const res = await VAPI.put(`change_position/${id}`, {
           position
         })
       } catch (e) {
