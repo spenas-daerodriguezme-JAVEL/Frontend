@@ -1,11 +1,11 @@
 <template>
   <div class="catalog">
     <div class="title">
-      BIENVENIDOS AL FUTURO.
+      BIENVENIDOS AL FUTURO
     </div>
     <div class="filter-container">
       <div class="filter-box">
-        Mira más específico.
+        Mira más específico
 
         <CustomSelector
           placeholder="Selecciona"
@@ -15,8 +15,8 @@
         />
       </div>
       <div class="filter-box">
-        Tu pones los límites.
-        <b>FILTRAR.</b>
+        Tu pones los límites
+        <b>FILTRAR</b>
         <div class="price-range">
           <RangeSlider
             v-model="ranges"
@@ -25,7 +25,7 @@
       </div>
       <div class="filter-box">
         ¡Déjanos ayudarte!
-        <b>BUSCAR.</b>
+        <b>BUSCAR</b>
       </div>
     </div>
 

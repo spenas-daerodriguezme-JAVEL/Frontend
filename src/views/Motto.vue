@@ -16,41 +16,44 @@
     </div>
 
 
-    <div class="shipping">
-      <div class="marquee-text">
-        NUESTRO OBJETIVO ES TRANSFORMAR EL OFICIO DE LA LIMPIEZA EN ALGO MÁS INTELIGENTE.
-      </div>
+     <div class="shipping">
+      <div
+        class="marquee-text"
+      >CREAMOS UN LUGAR DONDE LAS PERSONAS PUEDAN ENCONTRAR Y COMPRAR EN LÍNEA TODO TIPO DE PRODUCTOS QUÍMICOS A PRECIOS MUY BAJOS</div>
     </div>
 
     <div class="fluid-container">
       <div class="column-text">
-        <b>PRODUCTOS INTELIGENTES.</b>
+        <b>PRODUCTOS</b>
 
-        Perseguimos la perfección, porque, no aceptamos lo ordinario. Siempre ha sido y será una cuestión de calidad. Queremos que nuestros productos sean inteligentes para que hagan el oficio de la limpieza prácticamente solos. Para lograr eso, compramos las materias primas más costosas del mercado y nos preocupamos por desarrollar nuevas técnicas y tecnologías que cumplan con los altos estándares del laboratorio y la protección y preservación ambiental.
+        Garantizamos la satisfacción de nuestros clientes, porque, nos preocupamos por desarrollar nuevas fórmulas, técnicas y tecnologías que cumplan con los estándares más altos de la industria química
 
-        <b>PUNTOS DE VENTA.</b>
+        <b>CENTROS DE SERVICIO AL CLIENTE</b>
 
-        Somos conscientes que hacemos parte de una comunidad y por eso, nos tomamos muy enserio la tarea de ser buenos vecinos. Queremos ser bienvenidos dondequiera que hagamos negocios.
+        Nos anticipamos a nuestros clientes con el fin de resolver sus inquietudes y asesorarlos correctamente
+
       </div>
 
       <div class="column-text">
-        <b>COLABORADORES.</b>
+        <b>COLABORADORES</b>
 
-        Siempre nos tratamos con respeto y dignidad, porque, estamos comprometidos con la inclusión y la diversidad. Nos preocupa el desarrollo profesional y personal de cada colaborador. Trabajamos con personas que tengan discapacidades físicas o mentales y nos comprometemos a proporcionarles la adaptación adecuada.
+        estamos comprometidos con la inclusión y la diversidad. Por eso, nos tratamos con respeto y dignidad.
 
-        <b>CLIENTES.</b>
+        <b>CLIENTES</b>
 
-        Nos entregamos de lleno a lo que hacemos y nos encanta conectar positivamente con todos nuestros clientes, porque, no se trata de venderles un producto. Se trata de cambiar para siempre la forma de limpiar.
+        Estamos centrados en nuestros clientes. Ellos son nuestra prioridad. Nos ganamos su confianza y construimos relaciones comerciales a largo plazo
+
       </div>
 
       <div class="column-text column-text--black">
-        <b>MEDIO AMBIENTE.</b>
+        <b>MEDIO AMBIENTE</b>
 
-        Estamos comprometidos con el medio ambiente desde todas las áreas de nuestro negocio, porque, para nosotros es muy importante contribuir día a día con la preservación de nuestras especies. Queremos ser los líderes. Por eso, nuestra meta es producir cero basura y para lograrlo tratamos de recuperar todos los envases plásticos que vendemos, al mismo tiempo que trabajamos arduamente hacia una transición operativa en la cual toda nuestra materia prima sea biodegradable.
-      
-        <b>TECNOLOGÍA.</b>
+        Recuperamos todos los envases plásticos que utilizamos y trabajamos arduamente hacia una transición operativa en la cual todos nuestros productos sean biodegradables, porque, nuestro compromiso es contribuir día a día con la preservación de las especies y su hábitat
 
-        La revolución tecnológica nos inspira cada vez más, porque, nos encanta pensar diferente. Estaremos atentos a cada avance y lo aplicaremos rigurosamente para mejorar la vida de todos.
+        <b>TECNOLOGÍA</b>
+
+        Creemos en un futuro conectado donde cada avance mejorará la calidad de vida de todos nosotros. Por eso, nos actualizamos constantemente y nos enfocamos en los desarrollos que nos permitirán elevar el nivel de nuestra empresa en todas las áreas
+
       </div>
     </div>
 
@@ -60,25 +63,27 @@
 
     <div class="fluid-container">
       <div class="column-text">
-        <b>ACCESIBILIDAD.</b>
+        <b>ACCESIBILIDAD</b>
 
-        Queremos que todas las personas disfruten de las tareas cotidianas sin restregar y sin esfuerzo con la ayuda de productos inteligentes. Por eso, trabajamos para que cada producto que fabrique o comercialice el Laboratorio Agua de Javel sea extraordinario y accesible desde el primer momento, porque, el valor real de nuestras composiciones no esta en su potencia sino en cuánto tiempo reduce el oficio de la limpieza.
+        Entregamos rápidamente todos nuestros productos y trabajamos para tener los precios más bajos de la industria química, porque, estamos obsesionados con la satisfacción total de nuestros clientes
+
       </div>
 
       <div class="column-text">
-        <b>OLOR.</b>
+        <b>SEGURIDAD</b>
 
-        La mayoría de nuestros productos tienen un olor característico que permite identificarlos, incluso sin leer la etiqueta. Parece magia, pero es el resultado de un gran esfuerzo para hacer del oficio una experiencia agradable. Nos preocupamos por la salud, la integridad y la seguridad de nuestros clientes. Por tal razón, los aromas de nuestros productos no son tóxicos ni peligrosos.
-      </div>
-
-      <div class="column-text">
-        <b>INNOVACIÓN.</b>
-
-        Invertimos todos nuestros recursos financieros, físicos y mentales en la creación de nuevas técnicas y tecnologías que nos permitan transformar el oficio de limpiar.
+      Nos preocupamos por la salud, la integridad y la seguridad de nuestros clientes. Por eso, los capacitamos continuamente sobre las indicaciones de peligro y los consejos de prudencia que deben cumplir siempre para evitar accidentes
       
-        <b>INVERSIONISTAS.</b>
+      </div>
 
-        Respondemos íntegramente para que el Laboratorio Agua de Javel y todos aquellos que se relacionan con nosotros crezcan y perduren.
+      <div class="column-text">
+        <b>INNOVACIÓN</b>
+
+        Invertimos todos nuestros recursos en proyectos innovadores que simplifiquen los procesos de compra y recepción de productos a nuestros clientes
+      
+        <b>INVERSIONISTAS</b>
+
+        Respondemos íntegramente con todas nuestras responsabilidades para que aquellos que se relacionen con nosotros crezcan y perduren
       </div>
     </div>
 
