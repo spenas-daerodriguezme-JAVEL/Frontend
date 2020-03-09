@@ -1,0 +1,18 @@
+.trfade-enter-active,
+.trfade-leave-active {
+  transition: opacity .5s;
+}
+.trfade-enter,
+.trfade-leave-to {
+  opacity: 0;
+}
+
+.trfadegrow-enter-active,
+.trfadegrow-leave-active {
+  transition: .3s;
+}
+.trfadegrow-enter,
+.trfadegrow-leave-to {
+  opacity: 0;
+  max-height: 0;
+}

@@ -1,25 +1,5 @@
 <template>
   <div class="price-slider">
-    <span>
-      <!-- <div class="range">
-        <input
-          :step="STEP"
-          @input="setRange"
-          v-model.number="minValue"
-          type="number"
-          min="0"
-          :max="MAX_VALUE"
-        />
-        <input
-          :step="STEP"
-          @input="setRange"
-          v-model.number="maxValue"
-          type="number"
-          min="0"
-          :max="MAX_VALUE"
-        />
-      </div> -->
-    </span>
     <input
       ref="left"
       @input="setInput"
@@ -38,30 +18,87 @@
       min="0"
       type="range"
     />
+    <div ref="sleft" class="slider-floating">${{ animatedMinValue }}</div>
+    <div ref="sright" class="slider-floating">${{ animatedMaxValue }}</div>
   </div>
 </template>
 
 <script>
 const MAX_VALUE = 300000;
+import { TweenLite } from 'gsap/all';
 
 export default {
+  model: {
+    prop: 'value',
+    event: 'change',
+  },
+  props: {
+    value: {
+      type: Object
+    }
+  },
   data() {
     return {
       minValue: 0,
       maxValue: MAX_VALUE,
       inputMinValue: 0,
       inputMaxValue: MAX_VALUE,
+      tweenMinValue: 0,
+      tweenMaxValue: MAX_VALUE,
+      sleft: null,
+      sright: null,
 
       MAX_VALUE: MAX_VALUE,
       STEP: 1000
     };
   },
+  computed: {
+    animatedMinValue() {
+      return this.tweenMinValue.toFixed(0);
+    },
+    animatedMaxValue() {
+      return this.tweenMaxValue.toFixed(0);
+    },
+  },
+  watch: {
+    inputMinValue: {
+      handler(value) {
+        TweenLite.to(this.$data, 0.4, { tweenMinValue: value });
+        this.setSlidersPositions();
+        this.$emit('change', {
+          minValue: this.inputMinValue,
+          maxValue: this.inputMaxValue,
+        });
+      },
+      inmediate: true,
+    },
+    inputMaxValue: {
+      handler(value) {
+        TweenLite.to(this.$data, 0.4, { tweenMaxValue: value });
+        this.setSlidersPositions();
+        this.$emit('change', {
+          minValue: this.inputMinValue,
+          maxValue: this.inputMaxValue,
+        });
+      },
+      inmediate: true,
+    },
+  },
   mounted() {
     const left = this.$refs.left;
     const right = this.$refs.right;
 
+    const { sleft, sright } = this.$refs;
+    this.sleft = sleft;
+    this.sright = sright;
+
+    this.setSlidersPositions();
   },
   methods: {
+    setSlidersPositions() {
+      this.sleft.style.left = `${this.inputMinValue * 100 / MAX_VALUE}%`;
+      this.sright.style.left = `${this.inputMaxValue * 100 / MAX_VALUE}%`;
+    },
     setRange(value) {
       if (this.minValue > this.maxValue) {
         [this.minValue, this.maxValue] = [this.maxValue, this.minValue];
@@ -89,6 +126,9 @@ export default {
 input {
   box-shadow: 0;
   outline: 0;
+  position: relative;
+
+  border: 1px solid rgba(black, .3);
 }
 .price-slider {
   width: 300px;
@@ -150,6 +190,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -7px;
   transition: .3s;
+  background: white;
 
   &:hover {
     background: black;
@@ -171,7 +212,20 @@ input[type="range"]::-webkit-slider-thumb {
 
 .floating-price {
   position: absolute;
-  font-weight: bolder; 
+  font-weight: bolder;
+}
+
+.slider-floating {
+  font-size: 15px;
+  font-weight: bolder;
+  position: absolute;
+  left: 0;
+  top: 20px;
+  transform: translateX(-50%);
+
+  &:first-of-type {
+    top: calc(100% + 20px);
+  }
 }
 
 </style>

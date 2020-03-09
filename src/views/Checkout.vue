@@ -2,7 +2,7 @@
   <div class="checkout">
     <div class="row">
       <div class="w-70 pad">
-        <h1 ref="title">Detalles</h1>  
+        <h1 ref="title">Detalles</h1>
 
         <div class="frow">
           <input-base
@@ -41,14 +41,14 @@
             v-model="country"></input-base>
         </div>
 
-      </div>  
+      </div>
 
       <div class="w-30 fix__products">
         <h2 style="padding-left: 30px">Tu orden</h2>
         <cart
-          :details="true"></cart>  
-      </div>  
-    </div>    
+          :details="true"></cart>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -72,7 +72,7 @@ export default {
   mounted() {
     let title = this.$refs.title;
     console.log(this.$refs);
-    
+
     TweenMax.from(title, 1.5, {
       x: 100,
       opacity: 0
@@ -94,9 +94,9 @@ h1
 .row
   +flex(0, 0)
   min-height: 100vh
-  
+
   > *
-    box-sizing: border-box 
+    box-sizing: border-box
 
 .w-70
   width: 70%
@@ -109,7 +109,8 @@ h1
   height: 100vh
   position: fixed
   right: 0
-  background:#98B9CC
+  background: #0d0d0d
+  color: white
 
 .pad
   padding: 30px

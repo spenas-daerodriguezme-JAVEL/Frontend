@@ -20,34 +20,34 @@ export default {
     return {
       images: [
         {
-          src: '../../static/fotoslanding/IMG_1214.jpg',
+          // src: '../../static/fotoslanding/IMG_1214.jpg',
           position: {
             top: '15%',
             left: '10%'
           },
-          title: 'Cuidado textil',
-          subtitle: 'Una experiencia única.'
+          title: 'Jabones y detergentes',
+          // subtitle: 'Una experiencia única.'
         },
         {
-          src: '../../static/fotoslanding/IMG_1237.JPG',
+          // src: '../../static/fotoslanding/IMG_1237.JPG',
           position: {
             top: '15%',
             right: '10%'
           },
           title: 'Fragancias',
-          subtitle: 'Hay un aroma para cada lugar.'
+          // subtitle: 'Hay un aroma para cada lugar.'
         },
         {
-          src: '../../static/fotoslanding/IMG_1279.jpg',
+          // src: '../../static/fotoslanding/IMG_1279.jpg',
           position: {
             center: true
           },
-          title: 'Perfumes',
-          subtitle: 'Imagina enamorar a todos.',
+          title: 'Perfumes y preparados de tocador',
+          // subtitle: 'Imagina enamorar a todos.',
           textColor: 'white'
         },
         {
-          src: '../../static/fotoslanding/IMG_1282.JPG',
+          // src: '../../static/fotoslanding/IMG_1282.JPG',
           position: {
             top: '10%',
             hcenter: true
@@ -57,16 +57,16 @@ export default {
             y: '20%'
           },
           title: 'Quita manchas',
-          subtitle: 'Esta listo para cualquier desafío.'
+          // subtitle: 'Esta listo para cualquier desafío.'
         },
         {
-          src: '../../static/fotoslanding/IMG_1283.jpg',
+          // src: '../../static/fotoslanding/IMG_1283.jpg',
           position: {
             top: '10%',
             hcenter: true
           },
-          title: 'Tratamiento de superficies',
-          subtitle: 'Sin restregar y sin esfuerzo, como por arte de magia.'
+          title: 'Preparados para limpiar y pulir',
+          // subtitle: 'Sin restregar y sin esfuerzo, como por arte de magia.'
         }
       ]
     }

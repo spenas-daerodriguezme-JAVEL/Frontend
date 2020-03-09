@@ -1,7 +1,12 @@
 <template>
   <div class="input-base"
-    :class="{'input-base--error': hasError}">
+    :class="{
+      'input-base--error': hasError,
+      'input-base--focus': hasFocus
+    }">
     <input
+      @focus="hasFocus = true"
+      @blur="hasFocus = false"
       :value="value"
       ref="refValue"
       @input="updateValue"
@@ -46,6 +51,7 @@ export default {
   },
   data() {
     return {
+      hasFocus: false,
       localValue: '',
       isFocused: false,
       hasContent: false
@@ -77,8 +83,9 @@ export default {
   position: relative
   box-sizing: border-box
   border: 1px solid #D6DEEB
-  border: 1px solid #D6DEEB
 
+.input-base--focus
+  border: 2px solid black
 
 input
   border: 0
@@ -86,9 +93,9 @@ input
   padding: 20px 30px 0
   box-sizing: border-box
 
-  &:focus 
-    outline: 0    
-    
+  &:focus
+    outline: 0
+
     + .label-base
       top: 7px
 

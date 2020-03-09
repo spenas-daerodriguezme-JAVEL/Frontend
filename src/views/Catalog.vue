@@ -7,18 +7,20 @@
       <div class="filter-box">
         Mira más específico.
 
-        <custom-selector
+        <CustomSelector
           placeholder="Selecciona"
           v-model="selected"
           :default-first="true"
           :options="options"
-        ></custom-selector>
+        />
       </div>
       <div class="filter-box">
         Tu pones los límites.
         <b>FILTRAR.</b>
         <div class="price-range">
-          <RangeSlider></RangeSlider>
+          <RangeSlider
+            v-model="ranges"
+          />
         </div>
       </div>
       <div class="filter-box">
@@ -112,6 +114,7 @@ import RangeSlider from "../components/ui/RangeSlider.vue";
 export default {
   data() {
     return {
+      ranges: null,
       pages: 0,
       resizedWindow: false,
       currentPage: 1,

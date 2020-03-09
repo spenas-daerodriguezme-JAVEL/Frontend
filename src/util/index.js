@@ -10,11 +10,11 @@ function toMoney(val) {
 
   val.splice(val.length, 1, '$')
   return val.reverse().join('');
-} 
+}
 
 function pairLabelValue(list) {
   let arr = []
-  
+
   for(const elem of list) {
     arr.push({
       label: elem,
@@ -53,10 +53,14 @@ function locationInBox(event, box) {
   const dimentions = box.getBoundingClientRect();
   console.log(event, dimentions);
 
-  return event.clientX >= dimentions.left 
-         && event.clientX <= dimentions.right 
-         && event.clientY <= dimentions.top 
+  return event.clientX >= dimentions.left
+         && event.clientX <= dimentions.right
+         && event.clientY <= dimentions.top
          && event.clientY >= dimentions.bottom;
+}
+
+function removeAccents(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 export default {
@@ -67,4 +71,5 @@ export default {
   deepCopy,
   mod,
   locationInBox,
+  removeAccents,
 }

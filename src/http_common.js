@@ -6,7 +6,7 @@ import { store } from './store/index'
 const URI = process.env.URI
 
 const VAPI = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://aguadejavel.com:3000',
     timeout: 60000
 })
 
@@ -17,7 +17,7 @@ const VAPI = axios.create({
 //   }
 //   return config
 // })
-  
+
 // VAPI.interceptors.response.use(function (response) {
 //   if(response.status === 401){
 //     Vue.localStorage.remove('token')

@@ -1,11 +1,11 @@
 <template>
   <div class="cart">
-    
+
     <div class="box" :class="{'box-general': details}">
 
       <div v-for="(product, index) in cartProducts"
         :key="index">
-        <div class="hr"></div>
+        <div class="hr hr--white"></div>
         <div class="row">
           <div class="product__general">
             <div class="product__image" style="background: coral">
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="hr hr--total"></div>
+      <div class="hr hr--total hr--white"></div>
 
       <div class="row"
         style="margin-bottom: 30px">
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <div class="btn btn--right"
+    <div class="btn btn--right btn--white"
       style="margin-top: 10px"
       @click="toCheckout">{{ details ? 'Comprar' : 'Crear orden'}}</div>
   </div>
@@ -81,7 +81,7 @@ export default {
 @import "../../stylesheets/global.sass"
 
 .cart
-  padding: 15px 30px 0 
+  padding: 15px 30px 0
   font-size: 17px
 
 .box
@@ -100,6 +100,9 @@ export default {
 .hr--total
   height: 4px
 
+.hr--white
+  background: white
+
 .row
   +flex(1, 1)
   padding: 0 10px
@@ -114,7 +117,7 @@ export default {
   width: 50px
   height: 70px
   margin-right: 25px
-  
+
   img
     @extend %image-cover
 
@@ -129,5 +132,6 @@ export default {
   width: 200px
   margin-top: auto
   margin-left: auto
+
 
 </style>

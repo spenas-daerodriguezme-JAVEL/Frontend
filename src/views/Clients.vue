@@ -14,19 +14,19 @@
 
     <div class="fluid-container">
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">1</div>
         <div class="step__content">REGÍSTRATE EN NUESTRA TIENDA EN LÍNEA.</div>
       </div>
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">2</div>
         <div class="step__content">REALIZA 10 COMPRAS EN EL MES.</div>
       </div>
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">3</div>
         <div class="step__content">LAVA, DESINFECTA, SECA Y GUARDA LOS ENVASES PLÁSTICOS.</div>
       </div>
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">4</div>
         <div class="step__content">OBTÉN RECOMPENSAS.</div>
       </div>
     </div>
@@ -81,23 +81,23 @@
 
     <div class="fluid-container" style="margin-bottom: 100px">
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image">1</div>
         <div class="step__content">LAVAR POR DENTRO Y POR FUERA CON DETERGENTE</div>
       </div>
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image">2</div>
         <div class="step__content">DESINFECTAR CON CLORO Y VOLVER A LAVAR BIEN</div>
       </div>
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image">3</div>
         <div class="step__content">SECAR A LA SOMBRA PROTEGIDO DEL SOL, LA LLUVIA, EL POLVO Y LA HUMEDAD.</div>
       </div>
       <div class="step__item">
-        <div class="step__image"></div>
+        <div class="step__image">4</div>
         <div class="step__content">GUARDAR LOS ENVASES PLÁSTICOS EN UNA BOLSA HERMÉTICA.</div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -133,11 +133,14 @@ export default {
   width: 200px
   +flex(0, 1)
   flex-direction: column
-  margin: 20px 10px 
+  margin: 20px 10px
 
   .step__image
+    +flex(1, 1)
     +squared(110px)
     border: 4px solid black
+    font-size: 2.3rem
+    font-weight: bold
 
   .step__content
     margin-top: 30px
@@ -146,10 +149,10 @@ export default {
 
   .step__image--circular
     border-radius: 50%
-    
+
 .client
   width: 300px
-  margin: 10px 
+  margin: 10px
 
   .client__description
     text-align: center
@@ -165,5 +168,5 @@ export default {
     li
       font-size: 14px
       margin: 8px 0
-  
+
 </style>

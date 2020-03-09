@@ -1,12 +1,18 @@
 <template>
   <div id="app">
     <router-view/>
+    <ChatBubble/>
   </div>
 </template>
 
 <script>
+import ChatBubble from './components/shared/ChatBubble.vue';
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    ChatBubble,
+  }
 }
 </script>
 
@@ -17,12 +23,12 @@ export default {
   font-family: 'Avenir'
   font-weight: normal
   src: url("./assets/fonts/avenir-lt-std-cufonfonts/AvenirLTStd-Medium.otf") format("opentype")
-  
+
 @font-face
   font-family: 'Avenir'
   font-weight: light
   src: url("./assets/fonts/avenir-lt-std-cufonfonts/AvenirLTStd-Light.otf") format("opentype")
-  
+
 @font-face
   font-family: 'Avenir'
   font-weight: bold

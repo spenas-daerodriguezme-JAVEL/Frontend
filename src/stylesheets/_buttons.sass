@@ -1,9 +1,9 @@
 .btn
   +flex(1, 1)
-  @extend %title 
+  @extend %title
   font-size: 15px
   padding: 12px 19px
-  transition: .2s 
+  transition: .2s
   position: relative
   cursor: pointer
   background: transparent
@@ -30,3 +30,15 @@
       left: 50%
       transform: scaleX(0)
 
+.btn--white
+  color: black
+
+  &:after
+    background: white
+
+  &:hover
+    color: black
+    background: white
+
+    &::after
+      left: 0

@@ -1,7 +1,7 @@
 <template>
   <div class="menu__container">
     <div class="menu">
-      <router-link 
+      <router-link
         tag="a"
         :to="{name : 'Landing'}"
         class="menu__logo">
@@ -13,17 +13,17 @@
           tag="div"
           :to="{name: 'Catalog'}"
           @click="isActive = false; selectedMenu = ''"
-          class="menu__item">Catálogo</router-link> 
+          class="menu__item">Catálogo</router-link>
         <router-link
           tag="div"
           :to="{}"
           @click="isActive = false; selectedMenu = ''"
           class="menu__item">Usuarios</router-link>
         <div
-          @click="isActive = true; selectedMenu = 'Nosotros'" 
+          @click="isActive = true; selectedMenu = 'Nosotros'"
           class="menu__item">Nosotros</div>
         <div
-          @click="isActive = true; selectedMenu = 'Cuenta'" 
+          @click="isActive = true; selectedMenu = 'Cuenta'"
           class="menu__item">Cuenta</div>
       </div>
 
@@ -33,53 +33,29 @@
       </div>
     </div>
 
-    <div class="menu__filter"
-      v-show="isActive"
-      ref="filter"
-      :class="{'menu__filter--active': isActive}">
-        <div class="menu__item__dropdown" ref="dropdown">
-          <div v-if="selectedMenu == 'Cuenta'">
-            <div class="title__menu">Ingresa a tu cuenta</div>
+    <transition name="trfade1">
+      <div class="menu__filter"
+        v-show="isActive"
+        ref="filter"
+        :class="{'menu__filter--active': isActive}">
+            <div class="menu__item__dropdown" ref="dropdown">
+              <div v-if="selectedMenu == 'Cuenta'">
+                <Login
+                  @click="isActive = true"
+                  @close="isActive = false"
+                />
+              </div>
 
-            <div class="form__row">
-              <input-base
-                :hasError="formError"
-                v-model="userAccount.email"
-                label="Email"></input-base>
+              <div v-if="selectedMenu == 'Nosotros'">
+                <div class="title__menu">Nosotros</div>
+                <div class="about">
+                  <a href="">Acerca de </a>
+                  <a href="">Contáctenos</a>
+                </div>
+              </div>
             </div>
-            
-            <div class="form__row">
-              <input-base
-                :hasError="formError"
-                v-model="userAccount.password"
-                type="password"
-                label="Contraseña"></input-base>
-            </div>
-
-            <div class="text--error"
-              style="margin: 5px 0"
-              v-if="formError">Usuario o Contraseña incorrectos</div>
-            <router-link 
-              tag="div"
-              @click.native="isActive = false"
-              :to="{name: 'CreateAccount'}"
-              class="new-account text--fs14">
-              ¿Eres nuevo?, Crea una cuenta
-            </router-link>
-
-            <div class="btn"
-              @click="login">Ingresar</div>
-          </div>
-
-          <div v-if="selectedMenu == 'Nosotros'">
-            <div class="title__menu">Nosotros</div>
-            <div class="about">
-              <a href="">Acerca de </a>
-              <a href="">Contáctenos</a>
-            </div>
-          </div>
-        </div>
-    </div>
+      </div>
+    </transition>
 
     <modal-info
       useSlot
@@ -97,8 +73,12 @@
 
 <script>
 import VAPI from '../../http_common';
+import Login from './Login.vue';
 
 export default {
+  components: {
+    Login,
+  },
   data() {
     return {
       isActive: false,
@@ -114,7 +94,7 @@ export default {
     this.$refs.filter.addEventListener('click', (e) => {
       let dropdown = this.$refs.dropdown.getBoundingClientRect();
 
-      if ( e.clientX <= dropdown.right 
+      if ( e.clientX <= dropdown.right
         && e.clientX >= dropdown.left
         && e.clientY <= dropdown.bottom
         && e.clientY >= dropdown.top) {
@@ -125,31 +105,27 @@ export default {
     });
 
   },
-  methods: {
-    async login() {
-      try {
-        const res = await VAPI.post('/auth/login', this.userAccount);
-        localStorage.clear();
-        localStorage.jwt = res.data.token;
-  
-        if (res.status == 200) {
-          this.$refs.modal.triggerModal();
-          this.formError = false;
-          this.isActive = false;
-        }
-  
-        if (res.status == 401) {
-          this.formError = true;
-        }
-      } catch (error) {
-        this.formError = true;        
-      }
-    }
-  }
 }
 </script>
 
 <style lang="scss" scoped>
+
+.trfade1-enter-active,
+.trfade1-leave-active {
+  transition: opacity .5s;
+
+  .menu__item__dropdown {
+    transition: .3s;
+  }
+}
+.trfade1-enter,
+.trfade1-leave-to {
+  opacity: 0;
+
+  .menu__item__dropdown {
+    opacity: 0;
+  }
+}
 
 .menu__spacer {
   height: $menu-height;
@@ -228,7 +204,7 @@ export default {
   position: fixed;
   z-index: -10;
   opacity: 0;
-  top: #{$menu-height + 2px};
+  top: #{$menu-height};
   left: 0;
   transition: 0.3s;
   z-index: 1;
@@ -259,22 +235,6 @@ export default {
 }
 .border-gradient-purple {
   border-image: linear-gradient(to left, #743ad5, #d53a9d);
-}
-
-.new-account {
-  text-decoration: underline;
-  transition: 0.2s;
-  cursor: pointer;
-  transform: skewX(0deg);
-  text-align: right;
-
-  a {
-    color: inherit;
-  }
-
-  &:hover {
-    transform: skewX(-10deg);
-  }
 }
 
 .about {

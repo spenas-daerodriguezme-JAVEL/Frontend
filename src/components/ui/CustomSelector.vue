@@ -1,11 +1,11 @@
 <template>
   <div
     tabindex="0"
-    @click="open" 
+    @click="open"
     class="selector">
     <div
       v-if="isActive"
-      @click="close" 
+      @click="close"
       class="wrapper"></div>
 
     <div class="label">{{ label }}</div>
@@ -15,20 +15,20 @@
 
     <!-- Dropdown -->
       <div
-        v-if="isActive" 
+        v-if="isActive"
         @click="close"
         class="close">Cerrar</div>
       <template v-if="isActive">
         <input
           ref="inputSearch"
           @keypress.="handleEsc"
-          v-model="search" 
-          type="text" 
+          v-model="search"
+          type="text"
           class="search"
           placeholder="Buscar...">
         <div
           ref="dropdown"
-          :class="{'dropdown--up': opensUp}" 
+          :class="{'dropdown--up': opensUp}"
           class="dropdown">
           <transition-group tag="span" name="item">
             <div
@@ -223,7 +223,7 @@ $selectionColor: #ADB39F;
   bottom: 0;
   left: 0;
   z-index: 11;
-  height: 53px;
+  height: 100%;
   background: $selectionColor;
   color: white;
   padding: 0 20px;
@@ -258,7 +258,7 @@ $selectionColor: #ADB39F;
 .fade-leave-active {
   transition: opacity .5s;
 }
-.fade-enter, 
+.fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
