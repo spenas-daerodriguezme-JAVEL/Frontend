@@ -9,7 +9,7 @@
           ELECTRÓNICA.
         </div>
 
-        Obsequiar una tarjeta regalo es regalar productos inteligentes que hacen el oficio de la limpieza prácticamente solos. Selecciona el formato, el importe y el mensaje que la acompañará.
+        Selecciona el formato, el importe y el mensaje que la acompañará.
       </div>
       <div class="box60 image-holder" style="height: 90vh">
         <img src="../assets/placeholders/philosophy.jpg" alt="">
@@ -75,19 +75,19 @@
     </div>
     <div class="fluid-container" style="margin-bottom: 100px">
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">1</div>
         <div class="step__content">SIN CONGESTIÓN EN LAS VÍAS.</div>
       </div>
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
-        <div class="step__content">ENTREGA OPORTUNA</div>
+        <div class="step__image step__image--circular">2</div>
+        <div class="step__content">ENTREGA RÁPIDA</div>
       </div>
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">3</div>
         <div class="step__content">VÁLIDA EN TIENDA FÍSICA.</div>
       </div>
       <div class="step__item">
-        <div class="step__image step__image--circular"></div>
+        <div class="step__image step__image--circular">4</div>
         <div class="step__content">ES UN OBSEQUIO PERFECTO.</div>
       </div>
     </div>
@@ -172,8 +172,11 @@ export default {
   margin: 20px 10px 
 
   .step__image
+    +flex(1, 1)
     +squared(110px)
     border: 4px solid black
+    font-size: 2.3rem
+    font-weight: bold
 
   .step__content
     margin-top: 30px
@@ -182,5 +185,4 @@ export default {
 
   .step__image--circular
     border-radius: 50%
-
 </style>

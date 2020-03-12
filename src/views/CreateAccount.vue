@@ -19,6 +19,14 @@
             type="email" 
             class="input--medium" 
             v-model="account.email"></input-base>
+          <input-base 
+            :label="'Cedula o NIT'" 
+            type="email" 
+            class="input--medium" 
+            v-model="account.cedula"></input-base>
+        </div>
+
+        <div class="frow">
           <input-base
             :hasError="!passwordMatch"
             :label="'Contraseña'"
@@ -26,9 +34,6 @@
             type="password"
             v-model="account.password"
           ></input-base>
-        </div>
-
-        <div class="frow">
           <input-base
             :hasError="!passwordMatch"
             :label="'Confirmar contraseña'"
@@ -36,6 +41,9 @@
             type="password"
             v-model="account.passwordConfirmation"
           ></input-base>
+        </div>
+
+        <div class="frow">
           <input-base
             :hasError="!passwordMatch"
             :label="'Teléfono'"
@@ -43,9 +51,6 @@
             type="text"
             v-model="account.telephone"
           ></input-base>
-        </div>
-
-        <div class="frow">
           <input-base
             :label="'Dirección'"
             class="input--medium"
@@ -112,7 +117,8 @@ export default {
         state: "Amazonas",
         city: "Leticia",
         address: "asdasda",
-        telephone: "12353445"
+        telephone: "12353445",
+        cedula: "10435423",
       },
       // account: {
       //   name: "",
