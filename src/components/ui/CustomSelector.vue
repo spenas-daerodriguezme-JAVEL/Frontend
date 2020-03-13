@@ -176,7 +176,7 @@ export default {
 
 // Dropdown
 
-$selectionColor: #ADB39F;
+$selectionColor: gray;
 
 .wrapper {
   top: 0;

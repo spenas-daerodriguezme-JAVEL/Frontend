@@ -66,7 +66,7 @@
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
     </div>
 
-    <div class="title--center">Fácil aplicación</div>
+    <div class="title--center">Modo de empleo</div>
     <div class="steps__container">
       <div class="steps__item">
         <div class="step__count">1</div>
