@@ -5,7 +5,7 @@
     <selector-list
       :options="options">
     
-    <div slot="General">
+    <div slot="Órdenes de compra y devoluciones">
       <div class="contact__detail">
         <div class="contact__item">
           <div class="contact__title">Contacto</div>
@@ -81,9 +81,10 @@ export default {
   data() {
     return {
       options: [
-        'General',
         'Información de contacto',
-        'Pedidos y devoluciones',
+        'Órdenes de compra y devoluciones',
+        'Solicitud de productos',
+        'Quejas, reclamos, sugerencias y felicitaciones',
       ]
     }
   },

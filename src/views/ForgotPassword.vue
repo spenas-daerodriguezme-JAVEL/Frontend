@@ -22,7 +22,7 @@
             Recibirás un enlace para crear una nueva contraseña mediante tu correo.
           </div>
           <div class="btn"
-            style="max-width: 200px; margin-left: 20px">Reiniciar contraseña</div>
+            style="max-width: 200px; margin-left: 5px">Reiniciar contraseña</div>
         </div>
       </div>  
     </div>    

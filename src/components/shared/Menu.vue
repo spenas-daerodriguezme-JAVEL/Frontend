@@ -18,7 +18,7 @@
           tag="div"
           :to="{}"
           @click="isActive = false; selectedMenu = ''"
-          class="menu__item">Usuarios</router-link>
+          class="menu__item">Clientes</router-link>
         <div
           @click="isActive = true; selectedMenu = 'Nosotros'"
           class="menu__item">Nosotros</div>

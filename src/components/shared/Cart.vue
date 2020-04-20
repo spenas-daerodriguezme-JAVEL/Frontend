@@ -28,7 +28,7 @@
 
     <div class="btn btn--right btn--white"
       style="margin-top: 10px"
-      @click="toCheckout">{{ details ? 'Comprar' : 'Crear orden'}}</div>
+      @click="toCheckout">{{ details ? 'Pagar' : 'Crear orden'}}</div>
   </div>
 </template>
 

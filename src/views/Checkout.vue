@@ -2,7 +2,7 @@
   <div class="checkout">
     <div class="row">
       <div class="w-70 pad">
-        <h1 ref="title">Detalles</h1>
+        <h1 ref="title">Facturación electrónica</h1>
 
         <div class="frow">
           <input-base
@@ -13,6 +13,10 @@
             :label="'Apellido'"
             class="input--medium"
             v-model="lastName"></input-base>
+                  <input-base
+            :label="'Cédula o NIT'"
+            class="input--medium"
+            v-model="email"></input-base>
         </div>
 
         <div class="frow">
@@ -25,6 +29,7 @@
             class="input--medium"
             v-model="address"></input-base>
         </div>
+        
 
         <div class="frow">
           <input-base
@@ -44,7 +49,7 @@
       </div>
 
       <div class="w-30 fix__products">
-        <h2 style="padding-left: 30px">Tu orden</h2>
+        <h2 style="padding-left: 30px">Orden de compra</h2>
         <cart
           :details="true"></cart>
       </div>
