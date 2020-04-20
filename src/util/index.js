@@ -63,6 +63,15 @@ function removeAccents(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
+function typeWriter(text, element, letterTime = 150) {
+  element.placeholder = '';
+  for (let i = 0; i < text.length; i++) {
+    setTimeout(() => {
+      element.placeholder = text.substr(0, i + 1);
+    }, i * letterTime);
+  }
+}
+
 export default {
   toMoney,
   pairLabelValue,
@@ -72,4 +81,5 @@ export default {
   mod,
   locationInBox,
   removeAccents,
+  typeWriter,
 }

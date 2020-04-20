@@ -28,6 +28,10 @@
 
 <script>
 export default {
+  model: {
+    prop: 'current',
+    event: 'update'
+  },
   props: {
     pages: {
       type: Number,
@@ -46,15 +50,15 @@ export default {
   methods: {
     nextPage() {
       if(this.currentPage < this.pages) this.currentPage++
-      this.$emit("update:current", this.currentPage);
+      this.$emit("update", this.currentPage);
     },
     prevPage() {
       if(this.currentPage > 1) this.currentPage--
-      this.$emit("update:current", this.currentPage);
+      this.$emit("update", this.currentPage);
     },
     setPage(page) {
       this.currentPage = page;
-      this.$emit("update:current", this.currentPage);
+      this.$emit("update", this.currentPage);
     }
   },
   computed: {
@@ -74,7 +78,7 @@ export default {
   +flex(1, 1)
   margin: 50px 0
 
-  .control__item 
+  .control__item
     +flex(1, 1)
     +squared(45px)
     margin: 0 2px
@@ -88,7 +92,7 @@ export default {
       +squared(15px)
       fill: black
 
-  .control__item--active 
+  .control__item--active
     border-bottom: 1px solid black
 
 </style>

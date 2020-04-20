@@ -6,6 +6,7 @@ import Motto from '../views/Motto.vue'
 import Layout from '../views/Layout.vue'
 import Landing from '../views/Landing.vue'
 import Contact from '../views/Contact.vue'
+import Search from '../views/Search.vue';
 import Catalog from '../views/Catalog.vue'
 import Clients from '../views/Clients.vue'
 import GiftCard from '../views/GiftCard.vue'
@@ -38,6 +39,11 @@ const router = new Router({
           path: '/catalogo',
           name: 'Catalog',
           component: Catalog
+        },
+        {
+          path: '/buscar',
+          name: 'Search',
+          component: Search
         },
         {
           path: '/clientes',
@@ -114,7 +120,7 @@ const router = new Router({
 // router.beforeResolve((from, to, next) => {
 //   store.state.isLoading = true;
 //   next();
-// }); 
+// });
 
 // router.afterEach((to, from) => {
 //   store.state.isLoading = false;

@@ -18,8 +18,8 @@
       min="0"
       type="range"
     />
-    <div ref="sleft" class="slider-floating">${{ animatedMinValue }}</div>
-    <div ref="sright" class="slider-floating">${{ animatedMaxValue }}</div>
+    <div ref="sleft" class="slider-floating">{{ animatedMinValue | money }}</div>
+    <div ref="sright" class="slider-floating">{{ animatedMaxValue | money }}</div>
   </div>
 </template>
 
@@ -170,9 +170,11 @@ $slideColor: black;
 
 input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
-  height: 5px;
+  height: 1px;
+  background: transparent;
   cursor: pointer;
   border-radius: 1px;
+  border-color: transparent;
   box-shadow: none;
   border: 0;
 }
@@ -181,6 +183,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]::-webkit-slider-thumb {
   z-index: 2;
   position: relative;
+  top: -2px;
   box-shadow: 0px 0px 0px #000;
   border: 1px solid $slideColor;
   height: 18px;

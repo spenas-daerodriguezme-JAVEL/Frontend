@@ -69,12 +69,17 @@ export default {};
 
 .footer
   +flex(1, 1)
-  position: relative
+  width: 100vw
+  position: fixed
+  z-index: 0
+  bottom: 0
+  left: 0
   flex-direction: column
   padding: 50px
   background: black
   color: white
   border-top: 1px solid rgba(black, 0.3)
+  backface-visibility: hidden
 
 .title
   @extend %title

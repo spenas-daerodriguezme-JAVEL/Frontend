@@ -1,12 +1,11 @@
 <template>
   <div class="catalog">
     <div class="title">
-      BIENVENIDOS AL FUTURO.
+      BIENVENIDOS AL FUTURO
     </div>
     <div class="filter-container">
       <div class="filter-box">
-        Mira más específico.
-
+        Línea de producto
         <CustomSelector
           placeholder="Selecciona"
           v-model="selected"
@@ -15,8 +14,8 @@
         />
       </div>
       <div class="filter-box">
-        Tu pones los límites.
-        <b>FILTRAR.</b>
+        Tú pones los límites
+        <b>FILTRAR</b>
         <div class="price-range">
           <RangeSlider
             v-model="ranges"
@@ -25,13 +24,15 @@
       </div>
       <div class="filter-box">
         ¡Déjanos ayudarte!
-        <b>BUSCAR.</b>
+        <router-link
+          class="rt-link"
+          :to="{name: 'Search'}"><b>BUSCAR</b></router-link>
       </div>
     </div>
 
     <pagination
       style="padding: 30px 50px"
-      :current.sync="currentPage"
+      v-model="currentPage"
       :pages="pages"
     >
       <div>
@@ -110,11 +111,15 @@ import Pagination from "../components/ui/Pagination.vue";
 import CustomSelector from "../components/ui/CustomSelector.vue";
 import util from "../util/index";
 import RangeSlider from "../components/ui/RangeSlider.vue";
+import { TweenLite } from 'gsap/all';
 
 export default {
   data() {
     return {
-      ranges: null,
+      ranges: {
+        minValue: 0,
+        maxValue: 300000
+      },
       pages: 0,
       resizedWindow: false,
       currentPage: 1,
@@ -128,29 +133,42 @@ export default {
     };
   },
   async beforeMount() {
-    await this.getCatalogPage(1);
+    this.filter();
+    try {
+      const { data } = await VAPI.get('/api/product/businesslinelist');
+      this.options = data['businessLines'].map(option => ({ value: option, label: option }));
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
-    async getCatalogPage(page) {
-      try {
-        const res = await VAPI.get(`/api/product?from=${page}`);
-        console.log(res);
-        this.productList = res.data.products;
-        this.pages = res.data.pages;
-      } catch (e) {
-        console.error("Error al leer pagina del catalogo", e);
-      }
+    async getCatalogPage() {
+      this.filter();
     },
     productInterval(start, end) {
       return this.products.slice(start - 1, end);
+    },
+    async filter() {
+      const businessLine = this.selected != '' ? `businessline/${this.selected}` : '';
+      const isPriceRangeDefault = this.ranges.minValue === 0 && this.ranges.maxValue === 300000;
+      const price = isPriceRangeDefault ? '' : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
+
+      const isMultipleSearch = price !== '' && businessLine !== '';
+      const page = this.currentPage !== 1 ? `?from=${this.currentPage}` : '';
+
+      const { data } = await VAPI.get(`/api/product/${businessLine}${isMultipleSearch ? '/' : ''}${price}${page}`);
+      this.productList = data.products;
+      this.pages = data.pages;
     }
   },
   watch: {
     currentPage(val) {
       this.getCatalogPage(val);
     },
-    async selected(val) {
-      const res = await VAPI.get(`/api/product?from=${page}`);
+    ranges: {
+      handler: _.debounce(function() { this.filter(); }, 800, {
+        maxWait: 100
+      })
     }
   },
   mounted() {
@@ -158,6 +176,11 @@ export default {
     window.onresize = _.debounce(function() {
       self.resizedWindow = !self.resizedWindow;
     }, 350);
+
+    TweenLite.from('.title', 1.3, {
+      opacity: 0,
+      yPercent: -20
+    })
   },
   computed: {
     productList: {
@@ -177,6 +200,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>
 
 <style lang="sass" scoped>
 @import '../stylesheets/global.sass'
