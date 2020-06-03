@@ -32,7 +32,7 @@ export default {
   },
   components: {
     BaseMenu: Menu,
-    BaseFooter: Footer
+    BaseFooter: Footer,
   },
   mounted() {
     const { $el: footer } = this.$refs.footer;

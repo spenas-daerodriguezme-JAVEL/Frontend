@@ -1,6 +1,9 @@
 <template>
   <div class="search">
     <div class="search__wrapper">
+      <div
+        @click="triggerSearch"
+        class="search__trigger">Buscar</div>
       <transition name="trfade">
         <div
           v-show="showPlaceholder"
@@ -9,13 +12,17 @@
           <transition-group name="trfade" tag="div" class="search__placeholder-letter">
             <span
               v-for="(letter, idx) in message"
-              :key="idx"
+              :key="letter + idx"
             >{{ letter }}</span>
           </transition-group>
         </div>
       </transition>
       <input
-        type="text" class="search__input" ref="search"
+        class="search__input"
+        ref="search"
+        type="text"
+        v-model="search"
+        @keypress.enter="triggerSearch"
       >
     </div>
   </div>
@@ -28,6 +35,7 @@ import UTIL from '../util/index';
 export default {
   data() {
     return {
+      search: '',
       showPlaceholder: true,
       message: [],
       typerTimers: [],
@@ -68,6 +76,19 @@ export default {
       clearInterval(this.caretTimer);
       this.showPlaceholder = false;
       this.$refs.search.focus();
+    },
+    /*
+      Triggers search if search term is different from
+      empty string
+    */
+    triggerSearch() {
+      if (this.search != '') {
+        this.$router.push({ name: 'Catalog',
+          query: {
+            searchTerm: UTIL.removeAccents(this.search)
+          }
+        });
+      }
     }
   }
 }
@@ -93,6 +114,7 @@ export default {
   border-bottom: 2px solid rgba($color-black-soft, .1);
   font-size: 29px;
   padding: 0 10px;
+  font-family: 'Avenir';
 }
 
 .search__placeholder {
@@ -104,6 +126,16 @@ export default {
   top: 0;
   left: 0;
   cursor: text;
+}
+
+.search__trigger {
+  @extend %absoluteCenterVertical;
+  @extend %buttonBehavior;
+  right: 10px;
+  padding: 5px 20px;
+  background: black;
+  color: white;
+  border-radius: 30px;
 }
 
 .search__placeholder-letter {

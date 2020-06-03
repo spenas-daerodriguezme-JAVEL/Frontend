@@ -6,12 +6,12 @@
         v-for="image in images"
         :style="{'width': `${itemSize}px`}"
         :key="image.title">
-        <img :src="image.src" :alt="image.title" 
+        <img :src="image.src" :alt="image.title"
           :style="{'object-position': image.imagePosition ? `${image.imagePosition.x} ${image.imagePosition.y}` : '50% 50%'}">
 
         <div class="carousel__description"
           :class="{
-            'carousel__description--white-text': image.textColor, 
+            'carousel__description--white-text': image.textColor,
             'carousel__description--centered': image.position.center,
             'carousel__description--hcenter': image.position.hcenter
           }"
@@ -19,13 +19,13 @@
           <div class="text--bold text--fs38">{{ image.title }}</div>
           <br/>
           <div
-            style="margin-bottom: 10px;" 
+            style="margin-bottom: 10px;"
             class="text--fs25">{{ image.subtitle }}</div>
           <a href="">Ver en el catálogo</a>
         </div>
       </div>
     </div>
-   
+
     <div class="carousel__controls carousel__controls--left"
       @click="translateImage(1)">
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.175 477.175" style="enable-background:new 0 0 477.175 477.175;" xml:space="preserve"> <g> <path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225 c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z"/> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
@@ -84,7 +84,7 @@ export default {
       let container = this.$refs['carousel__container'];
 
       container.classList.add('carousel--transition');
-      container.style.transform = `translateX(${carouselSize * direction}px)`;
+      container.style.transform = `translateX(${carouselSize * direction}px) translateZ(0) scale(1.0, 1.0)`;
       let items = container.querySelectorAll('.carousel__item')
       let firstItem = items[0];
       let lastItem = items[items.length - 1];
@@ -117,6 +117,7 @@ export default {
   width: 10000px;
   height: 100%;
   top: 0;
+  backface-visibility: hidden;
 }
 
 .carousel__item {
@@ -174,11 +175,11 @@ export default {
 
 $control-distance: 20px;
 .carousel__controls--left {
-  left: $control-distance; 
+  left: $control-distance;
 }
 
 .carousel__controls--right {
-  right: $control-distance; 
+  right: $control-distance;
 
   svg {
     transform: rotate(180deg);

@@ -35,7 +35,14 @@
       v-model="currentPage"
       :pages="pages"
     >
+      <LoadingAnimation v-show="isLoading"/>
       <div>
+        <div
+          v-if="productList.length == 0"
+          class="no-results">
+          No se han encontrado resultados
+        </div>
+
         <div class="catalog-box">
           <product-base
             v-for="(product, index) in productInterval(1, 3)"
@@ -112,10 +119,12 @@ import CustomSelector from "../components/ui/CustomSelector.vue";
 import util from "../util/index";
 import RangeSlider from "../components/ui/RangeSlider.vue";
 import { TweenLite } from 'gsap/all';
+import Loading from '@views/Loading.vue';
 
 export default {
   data() {
     return {
+      isLoading: false,
       ranges: {
         minValue: 0,
         maxValue: 300000
@@ -133,14 +142,25 @@ export default {
     };
   },
   async beforeMount() {
-    this.filter();
+    const { searchTerm } = this.$route.query;
+
+    if (searchTerm) {
+      this.isLoading = true;
+      const { data } = await this.$http.get(`/api/product/search/${searchTerm}`);
+      this.productList = data.products;
+      this.pages = data.pages;
+      this.isLoading = false;
+    } else {
+      this.filter();
+    }
+
     try {
       const { data } = await VAPI.get('/api/product/businesslinelist');
       this.options = data['businessLines'].map(option => ({ value: option, label: option }));
     } catch (error) {
       console.error(error);
     }
-  },
+},
   methods: {
     async getCatalogPage() {
       this.filter();
@@ -149,6 +169,7 @@ export default {
       return this.products.slice(start - 1, end);
     },
     async filter() {
+      this.isLoading = true;
       const businessLine = this.selected != '' ? `businessline/${this.selected}` : '';
       const isPriceRangeDefault = this.ranges.minValue === 0 && this.ranges.maxValue === 300000;
       const price = isPriceRangeDefault ? '' : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
@@ -159,6 +180,7 @@ export default {
       const { data } = await VAPI.get(`/api/product/${businessLine}${isMultipleSearch ? '/' : ''}${price}${page}`);
       this.productList = data.products;
       this.pages = data.pages;
+      this.isLoading = false;
     }
   },
   watch: {
@@ -169,6 +191,9 @@ export default {
       handler: _.debounce(function() { this.filter(); }, 800, {
         maxWait: 100
       })
+    },
+    selected() {
+      this.filter();
     }
   },
   mounted() {
@@ -196,7 +221,8 @@ export default {
     CustomSelector,
     Pagination,
     ProductBase: Product,
-    RangeSlider
+    RangeSlider,
+    LoadingAnimation: Loading
   }
 };
 </script>
@@ -336,6 +362,11 @@ export default {
   top: 100px
   +squared(50px)
   background: red
+
+.no-results
+  font-weight: 20px
+  text-align: center
+
 
 @media (max-width: 630px)
   .catalog-box2

@@ -74,6 +74,9 @@ export default {
 <style lang="sass" scoped>
 @import '../../stylesheets/global.sass'
 
+.pagination
+  position: relative
+
 .page-controls
   +flex(1, 1)
   margin: 50px 0

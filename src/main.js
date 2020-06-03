@@ -11,6 +11,7 @@ import ModalInfo from './components/ui/ModalInfo.vue';
 import CustomSelector from './components/ui/CustomSelector.vue';
 
 import UTIL from './util/index';
+import VAPI from './http_common';
 
 Vue.use(Vuex)
 
@@ -18,8 +19,11 @@ Vue.component('input-base', InputBase);
 Vue.component('modal-info', ModalInfo);
 Vue.component('custom-selector', CustomSelector);
 
+Vue.extend()
+
 // Filters
 Vue.filter('money', UTIL.toMoney);
+Vue.prototype.$http = VAPI;
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */

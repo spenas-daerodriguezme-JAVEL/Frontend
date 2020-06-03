@@ -18,6 +18,8 @@ import ProductDetail from '../views/ProductDetail.vue'
 import AdminCatalogList from '../views/Admin/AdminCatalogList.vue'
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue'
 
+import NotFound from '../views/NotFound.vue';
+
 Vue.use(Router)
 
 const router = new Router({
@@ -110,6 +112,10 @@ const router = new Router({
           path: '/my-account',
           name: 'MyAccount',
           component: MyAccount
+        },
+        {
+          path: '*',
+          component: NotFound
         }
       ]
     },
