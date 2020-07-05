@@ -6,6 +6,7 @@ import Motto from '../views/Motto.vue'
 import Layout from '../views/Layout.vue'
 import Landing from '../views/Landing.vue'
 import Contact from '../views/Contact.vue'
+import Search from '../views/Search.vue';
 import Catalog from '../views/Catalog.vue'
 import Clients from '../views/Clients.vue'
 import GiftCard from '../views/GiftCard.vue'
@@ -16,6 +17,8 @@ import ForgotPassword from '../views/ForgotPassword.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import AdminCatalogList from '../views/Admin/AdminCatalogList.vue'
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue'
+
+import NotFound from '../views/NotFound.vue';
 
 Vue.use(Router)
 
@@ -38,6 +41,11 @@ const router = new Router({
           path: '/catalogo',
           name: 'Catalog',
           component: Catalog
+        },
+        {
+          path: '/buscar',
+          name: 'Search',
+          component: Search
         },
         {
           path: '/clientes',
@@ -104,6 +112,10 @@ const router = new Router({
           path: '/my-account',
           name: 'MyAccount',
           component: MyAccount
+        },
+        {
+          path: '*',
+          component: NotFound
         }
       ]
     },
@@ -114,7 +126,7 @@ const router = new Router({
 // router.beforeResolve((from, to, next) => {
 //   store.state.isLoading = true;
 //   next();
-// }); 
+// });
 
 // router.afterEach((to, from) => {
 //   store.state.isLoading = false;

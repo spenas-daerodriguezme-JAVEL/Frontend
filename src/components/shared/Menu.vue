@@ -207,7 +207,7 @@ export default {
   top: #{$menu-height};
   left: 0;
   transition: 0.3s;
-  z-index: 1;
+  z-index: 2;
 }
 
 .menu__filter--active {

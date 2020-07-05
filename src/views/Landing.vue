@@ -20,7 +20,7 @@ export default {
     return {
       images: [
         {
-          // src: '../../static/fotoslanding/IMG_1214.jpg',
+          src: '../../static/fotoslanding/IMG_1214.jpg',
           position: {
             top: '15%',
             left: '10%'
@@ -29,7 +29,7 @@ export default {
           // subtitle: 'Una experiencia única.'
         },
         {
-          // src: '../../static/fotoslanding/IMG_1237.JPG',
+          src: '../../static/fotoslanding/IMG_1237.JPG',
           position: {
             top: '15%',
             right: '10%'
@@ -38,7 +38,7 @@ export default {
           // subtitle: 'Hay un aroma para cada lugar.'
         },
         {
-          // src: '../../static/fotoslanding/IMG_1279.jpg',
+          src: '../../static/fotoslanding/IMG_1279.jpg',
           position: {
             center: true
           },
@@ -47,7 +47,7 @@ export default {
           textColor: 'white'
         },
         {
-          // src: '../../static/fotoslanding/IMG_1282.JPG',
+          src: '../../static/fotoslanding/IMG_1282.JPG',
           position: {
             top: '10%',
             hcenter: true
@@ -60,7 +60,7 @@ export default {
           // subtitle: 'Esta listo para cualquier desafío.'
         },
         {
-          // src: '../../static/fotoslanding/IMG_1283.jpg',
+          src: '../../static/fotoslanding/IMG_1283.jpg',
           position: {
             top: '10%',
             hcenter: true

@@ -1,5 +1,11 @@
 @import './_variables.scss';
 
+@mixin flex($horizontal: center, $vertical: center) {
+  display: flex;
+  justify-content: $horizontal;
+  align-items: $vertical;
+}
+
 @mixin squared($size) {
   width: $size;
   height: $size;
@@ -50,7 +56,7 @@
   transform: translateY(-50%);
 }
 
-%buttonBehaviour {
+%buttonBehavior {
   transition: 0.3s;
   cursor: pointer;
 }

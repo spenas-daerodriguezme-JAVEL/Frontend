@@ -34,6 +34,7 @@
         <div class="btn" @click="login">Ingresar</div>
       </div>
     </template>
+    <!-- Account login -->
     <template v-else>
       <div class="title__menu">Tu cuenta</div>
     </template>
@@ -41,6 +42,8 @@
 </template>
 
 <script>
+import VAPI from '../../http_common';
+
 export default {
   props: {
 
@@ -66,7 +69,9 @@ export default {
     },
     async login() {
       try {
-        const res = await VAPI.post('/auth/login', this.userAccount);
+        console.log('Request');
+        const res = await VAPI.post('/auth', this.userAccount);
+        console.log(res);
         localStorage.clear();
         localStorage.jwt = res.data.token;
 
@@ -74,9 +79,7 @@ export default {
           this.$refs.modal.triggerModal();
           this.formError = false;
           this.isActive = false;
-        }
-
-        if (res.status == 401) {
+        } else if (res.status == 401) {
           this.formError = true;
         }
       } catch (error) {

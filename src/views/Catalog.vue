@@ -5,8 +5,7 @@
     </div>
     <div class="filter-container">
       <div class="filter-box">
-        Mira más específico
-
+        Línea de producto
         <CustomSelector
           placeholder="Selecciona"
           v-model="selected"
@@ -15,7 +14,7 @@
         />
       </div>
       <div class="filter-box">
-        Tu pones los límites
+        Tú pones los límites
         <b>FILTRAR</b>
         <div class="price-range">
           <RangeSlider
@@ -25,16 +24,25 @@
       </div>
       <div class="filter-box">
         ¡Déjanos ayudarte!
-        <b>BUSCAR</b>
+        <router-link
+          class="rt-link"
+          :to="{name: 'Search'}"><b>BUSCAR</b></router-link>
       </div>
     </div>
 
     <pagination
       style="padding: 30px 50px"
-      :current.sync="currentPage"
+      v-model="currentPage"
       :pages="pages"
     >
+      <LoadingAnimation v-show="isLoading"/>
       <div>
+        <div
+          v-if="productList.length == 0"
+          class="no-results">
+          No se han encontrado resultados
+        </div>
+
         <div class="catalog-box">
           <product-base
             v-for="(product, index) in productInterval(1, 3)"
@@ -110,11 +118,17 @@ import Pagination from "../components/ui/Pagination.vue";
 import CustomSelector from "../components/ui/CustomSelector.vue";
 import util from "../util/index";
 import RangeSlider from "../components/ui/RangeSlider.vue";
+import { TweenLite } from 'gsap/all';
+import Loading from '@views/Loading.vue';
 
 export default {
   data() {
     return {
-      ranges: null,
+      isLoading: false,
+      ranges: {
+        minValue: 0,
+        maxValue: 300000
+      },
       pages: 0,
       resizedWindow: false,
       currentPage: 1,
@@ -128,29 +142,58 @@ export default {
     };
   },
   async beforeMount() {
-    await this.getCatalogPage(1);
-  },
+    const { searchTerm } = this.$route.query;
+
+    if (searchTerm) {
+      this.isLoading = true;
+      const { data } = await this.$http.get(`/api/product/search/${searchTerm}`);
+      this.productList = data.products;
+      this.pages = data.pages;
+      this.isLoading = false;
+    } else {
+      this.filter();
+    }
+
+    try {
+      const { data } = await VAPI.get('/api/product/businesslinelist');
+      this.options = data['businessLines'].map(option => ({ value: option, label: option }));
+    } catch (error) {
+      console.error(error);
+    }
+},
   methods: {
-    async getCatalogPage(page) {
-      try {
-        const res = await VAPI.get(`/api/product?from=${page}`);
-        console.log(res);
-        this.productList = res.data.products;
-        this.pages = res.data.pages;
-      } catch (e) {
-        console.error("Error al leer pagina del catalogo", e);
-      }
+    async getCatalogPage() {
+      this.filter();
     },
     productInterval(start, end) {
       return this.products.slice(start - 1, end);
+    },
+    async filter() {
+      this.isLoading = true;
+      const businessLine = this.selected != '' ? `businessline/${this.selected}` : '';
+      const isPriceRangeDefault = this.ranges.minValue === 0 && this.ranges.maxValue === 300000;
+      const price = isPriceRangeDefault ? '' : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
+
+      const isMultipleSearch = price !== '' && businessLine !== '';
+      const page = this.currentPage !== 1 ? `?from=${this.currentPage}` : '';
+
+      const { data } = await VAPI.get(`/api/product/${businessLine}${isMultipleSearch ? '/' : ''}${price}${page}`);
+      this.productList = data.products;
+      this.pages = data.pages;
+      this.isLoading = false;
     }
   },
   watch: {
     currentPage(val) {
       this.getCatalogPage(val);
     },
-    async selected(val) {
-      const res = await VAPI.get(`/api/product?from=${page}`);
+    ranges: {
+      handler: _.debounce(function() { this.filter(); }, 800, {
+        maxWait: 100
+      })
+    },
+    selected() {
+      this.filter();
     }
   },
   mounted() {
@@ -158,6 +201,11 @@ export default {
     window.onresize = _.debounce(function() {
       self.resizedWindow = !self.resizedWindow;
     }, 350);
+
+    TweenLite.from('.title', 1.3, {
+      opacity: 0,
+      yPercent: -20
+    })
   },
   computed: {
     productList: {
@@ -173,10 +221,15 @@ export default {
     CustomSelector,
     Pagination,
     ProductBase: Product,
-    RangeSlider
+    RangeSlider,
+    LoadingAnimation: Loading
   }
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>
 
 <style lang="sass" scoped>
 @import '../stylesheets/global.sass'
@@ -309,6 +362,11 @@ export default {
   top: 100px
   +squared(50px)
   background: red
+
+.no-results
+  font-weight: 20px
+  text-align: center
+
 
 @media (max-width: 630px)
   .catalog-box2

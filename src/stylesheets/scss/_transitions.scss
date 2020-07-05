@@ -16,3 +16,26 @@
   opacity: 0;
   max-height: 0;
 }
+
+// Route transitions
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: 1s;
+}
+
+.slide-right-enter,
+.slide-right-leave-to {
+  transform: translateX(100%);
+  position: relative;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: 1s;
+}
+
+.slide-left-enter,
+.slide-left-leave-to {
+  transform: translateX(-100%);
+  position: relative;
+}
