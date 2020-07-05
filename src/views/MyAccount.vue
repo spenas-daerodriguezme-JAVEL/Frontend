@@ -4,7 +4,7 @@
 
     <selector-list
       :options="options">
-    
+
     <div slot="Órdenes de compra y devoluciones">
       <div class="contact__detail">
         <div class="contact__item">
@@ -72,31 +72,31 @@
 </template>
 
 <script>
-import Cart from '../components/shared/Cart.vue'
-import InputBase from '../components/InputBase.vue'
-import SelectorList from '../components/ui/SelectorList.vue'
-import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
+import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+import Cart from '../components/shared/Cart.vue';
+import InputBase from '../components/InputBase.vue';
+import SelectorList from '../components/ui/SelectorList.vue';
 
 export default {
-  data() {
-    return {
-      options: [
-        'Información de contacto',
-        'Órdenes de compra y devoluciones',
-        'Solicitud de productos',
-        'Quejas, reclamos, sugerencias y felicitaciones',
-      ]
-    }
-  },
-  mounted() {
+    data() {
+        return {
+            options: [
+                'Información de contacto',
+                'Órdenes de compra y devoluciones',
+                'Solicitud de productos',
+                'Quejas, reclamos, sugerencias y felicitaciones',
+            ],
+        };
+    },
+    mounted() {
 
-  },
-  components: {
-    InputBase,
-    Cart,
-    SelectorList
-  }
-}
+    },
+    components: {
+        InputBase,
+        Cart,
+        SelectorList,
+    },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -115,9 +115,9 @@ h1
 .row
   +flex(0, 0)
   min-height: 100vh
-  
+
   > *
-    box-sizing: border-box 
+    box-sizing: border-box
 
 .w-70
   width: 70%

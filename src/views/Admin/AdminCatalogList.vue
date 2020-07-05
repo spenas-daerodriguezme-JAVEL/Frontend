@@ -25,7 +25,7 @@
           <div class="button-group">
             <div class="button"
               @click="editItem(product.id)">Editar</div>
-            <div class="button button--black" 
+            <div class="button button--black"
               @click="activateModal(index)">Eliminar</div>
           </div>
         </div>
@@ -36,98 +36,97 @@
       <svg class="material-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
     </div>
 
-  </div>  
+  </div>
 </template>
 
 <script>
 
-import util from '../../util/index'
-import _ from 'lodash'
-import Sortable from './Sortable'
-import VAPI from '../../http_common'
-import ModalMessage from '../../components/ui/ModalMessage.vue'
-const URI = process.env.URI
+import _ from 'lodash';
+import util from '../../util/index';
+import Sortable from './Sortable';
+import VAPI from '../../http_common';
+import ModalMessage from '../../components/ui/ModalMessage.vue';
+
+const { URI } = process.env;
 export default {
-  data() {
-    return {
-      URI,
-      deletion: -1,
-      activeModal: false,
-      products: [
-        // {name: 'producto A', position: 2},
-        // {name: 'producto B', position: 1},
-        // {name: 'producto C', position: 0},
-        // {name: 'producto D', position: 3},
-        // {name: 'producto E', position: 4},
-        // {name: 'producto F', position: 5},
-      ]
-    }
-  },
-  async mounted() {
-    await this.getProducts();
-    let obj = new Sortable(document.querySelector('#sort_1'), null);
-    obj.success = results => {
-        this.products.forEach((product, index) => {
-        if(product.position != results[index]) this.changePosition(product.id, results[index]);
-        // product.position = results[index]
-        this.$set(this.products[index], 'position', results[index]);
-      })
-    }
-
-  },
-  methods: {
-    async changePosition(id, position) {
-      try {
-        const res = await VAPI.put(`change_position/${id}`, {
-          position
-        })
-      } catch (e) {
-        console.error("Error al guardar la nueva posicion")
-      }
+    data() {
+        return {
+            URI,
+            deletion: -1,
+            activeModal: false,
+            products: [
+                // {name: 'producto A', position: 2},
+                // {name: 'producto B', position: 1},
+                // {name: 'producto C', position: 0},
+                // {name: 'producto D', position: 3},
+                // {name: 'producto E', position: 4},
+                // {name: 'producto F', position: 5},
+            ],
+        };
     },
-    async deleteItem(id) {
-      try {
-        const res = await VAPI.delete(`products/${id}`);
-      } catch (e) {
-        console.error("Error al eliminar item");
-      }
+    async mounted() {
+        await this.getProducts();
+        const obj = new Sortable(document.querySelector('#sort_1'), null);
+        obj.success = (results) => {
+            this.products.forEach((product, index) => {
+                if (product.position != results[index]) this.changePosition(product.id, results[index]);
+                // product.position = results[index]
+                this.$set(this.products[index], 'position', results[index]);
+            });
+        };
     },
-    editItem(id) {
-      this.$router.push({name: 'ProductEdit', params: {id}});
+    methods: {
+        async changePosition(id, position) {
+            try {
+                const res = await VAPI.put(`change_position/${id}`, {
+                    position,
+                });
+            } catch (e) {
+                console.error('Error al guardar la nueva posicion');
+            }
+        },
+        async deleteItem(id) {
+            try {
+                const res = await VAPI.delete(`products/${id}`);
+            } catch (e) {
+                console.error('Error al eliminar item');
+            }
+        },
+        editItem(id) {
+            this.$router.push({ name: 'ProductEdit', params: { id } });
+        },
+        activateModal(id) {
+            this.deletion = id;
+            this.activeModal = true;
+        },
+        confirmDelete(response) {
+            if (response) {
+                this.$nextTick(() => {
+                    this.deleteItem(this.products[this.deletion]._id.$oid);
+                    this.products.splice(this.deletion, 1);
+                    location.reload();
+                });
+            }
+        },
+        toNewProduct() {
+            this.$router.push({ name: 'ProductNew' });
+        },
+        async getProducts() {
+            try {
+                const res = await VAPI.get('products');
+                this.products = _.sortBy(res.data, [function (o) { return o.position; }]);
+            } catch (e) {
+                console.error('Error al cargar todos los productos');
+            }
+        },
     },
-    activateModal(id) {
-      this.deletion = id;
-      this.activeModal = true;
+    filters: {
+        toMoney: util.toMoney,
     },
-    confirmDelete(response) {
-      if(response) {
-
-        this.$nextTick(() => {
-          this.deleteItem(this.products[this.deletion]._id.$oid);
-          this.products.splice(this.deletion, 1);
-          location.reload();
-        })
-      }
+    components: {
+        ModalMessage,
     },
-    toNewProduct() {
-      this.$router.push({name: 'ProductNew'});
-    },
-    async getProducts() {
-      try {
-        const res = await VAPI.get('products');
-        this.products = _.sortBy(res.data, [function(o) { return o.position }]);
-      } catch (e) {
-        console.error("Error al cargar todos los productos");
-      }
-    }
-  },
-  filters: {
-    toMoney:  util.toMoney
-  },
-  components: {
-    ModalMessage
-  }
-}
+};
 </script>
 
 <style lang="sass" scoped>
@@ -180,7 +179,7 @@ export default {
   opacity: 0.6s
   z-index: 9000
 
-  .content 
+  .content
     box-shadow: 0 1px 10px 1px rgba(black, 0.15)
 
 .special-item
@@ -213,7 +212,7 @@ export default {
 .button--black
   background: black
   color: white
-  
+
 .button-group
   +flex(1, 1)
   width: 130px
@@ -238,5 +237,5 @@ export default {
   svg
     fill: white
     +squared(40px)
-    
+
 </style>

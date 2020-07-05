@@ -9,20 +9,28 @@
         <h1 ref="title2">Crea tu cuenta</h1>
 
         <div class="frow">
-          <input-base :label="'Nombre'" class="input--medium" v-model="account.name"></input-base>
-          <input-base :label="'Apellido'" class="input--medium" v-model="account.lastname"></input-base>
+             <input-base
+                v-model="account.name"
+                :label="'Nombre'"
+                class="input--medium"
+            ></input-base>
+            <input-base
+                v-model="account.lastname"
+                :label="'Apellido'"
+                class="input--medium"
+            ></input-base>
         </div>
 
         <div class="frow">
-          <input-base 
-            :label="'Correo'" 
-            type="email" 
-            class="input--medium" 
+          <input-base
+            :label="'Correo'"
+            type="email"
+            class="input--medium"
             v-model="account.email"></input-base>
-          <input-base 
-            :label="'Cedula o NIT'" 
-            type="email" 
-            class="input--medium" 
+          <input-base
+            :label="'Cedula o NIT'"
+            type="email"
+            class="input--medium"
             v-model="account.cedula"></input-base>
         </div>
 
@@ -68,10 +76,10 @@
         </div>
 
         <div class="frow">
-          <custom-selector 
+          <custom-selector
             label="Ciudad"
             class="input-base input--medium"
-            v-model="account.city" 
+            v-model="account.city"
             :options="cityOptions"
           ></custom-selector>
         </div>
@@ -98,121 +106,119 @@
 </template>
 
 <script>
-import VAPI from "../http_common";
-import Cart from "../components/shared/Cart.vue";
-import InputBase from "../components/InputBase.vue";
-import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
-import { STATES } from "../colombia";
-import util from "../util/index";
+import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+import VAPI from '../http_common';
+import Cart from '../components/shared/Cart.vue';
+import InputBase from '../components/InputBase.vue';
+import { STATES } from '../colombia';
+import util from '../util/index';
 
 export default {
-  data() {
-    return {
-      account: {
-        name: "Daniel",
-        lastname: "Rodiruge",
-        email: "dlsxsp@gmail.com",
-        password: "Daniel96",
-        passwordConfirmation: "Daniel96",
-        state: "Amazonas",
-        city: "Leticia",
-        address: "asdasda",
-        telephone: "12353445",
-        cedula: "10435423",
-      },
-      // account: {
-      //   name: "",
-      //   lastname: "",
-      //   email: "",
-      //   password: "",
-      //   passwordConfirmation: "",
-      //   state: "",
-      //   city: "",
-      //   address: "",
-      //   telephone: ""
-      // },
-      userTaken: false,
-      formErrors: "",
-      stateOptions: []
-    };
-  },
-  computed: {
-    passwordMatch() {
-      return this.account.password == this.account.passwordConfirmation;
+    data() {
+        return {
+            account: {
+                name: 'Daniel',
+                lastname: 'Rodiruge',
+                email: 'dlsxsp@gmail.com',
+                password: 'Daniel96',
+                passwordConfirmation: 'Daniel96',
+                state: 'Amazonas',
+                city: 'Leticia',
+                address: 'asdasda',
+                telephone: '12353445',
+                cedula: '10435423',
+            },
+            // account: {
+            //   name: "",
+            //   lastname: "",
+            //   email: "",
+            //   password: "",
+            //   passwordConfirmation: "",
+            //   state: "",
+            //   city: "",
+            //   address: "",
+            //   telephone: ""
+            // },
+            userTaken: false,
+            formErrors: '',
+            stateOptions: [],
+        };
     },
-    cityOptions() {
-      if (this.account.state != "") {
-        return util.pairLabelValue(
-          STATES.find(state => {
-            return state.departamento === this.account.state;
-          }).ciudades
+    computed: {
+        passwordMatch() {
+            return this.account.password == this.account.passwordConfirmation;
+        },
+        cityOptions() {
+            if (this.account.state != '') {
+                return util.pairLabelValue(
+                    STATES.find((state) => state.departamento === this.account.state).ciudades,
+                );
+            }
+
+            return [{ value: '', label: '' }];
+        },
+    },
+    beforeMount() {
+        this.stateOptions = util.pairLabelValue(
+            STATES.map((state) => state.departamento),
         );
-      }
+    },
+    mounted() {
+        const title = this.$refs.title1;
+        const welcome = this.$refs.title2;
+        console.log(this.$refs);
 
-      return [{ value: "", label: "" }];
-    }
-  },
-  beforeMount() {
-    this.stateOptions = util.pairLabelValue(
-      STATES.map(state => state.departamento)
-    );
-  },
-  mounted() {
-    let title = this.$refs.title1;
-    let welcome = this.$refs.title2;
-    console.log(this.$refs);
+        const tl = new TimelineLite();
 
-    let tl = new TimelineLite();
-
-    tl.from(title, 1.5, {
-      x: 100,
-      opacity: 0
-    })
-      .delay(0.1)
-      .from(welcome, 0.5, {
-        y: 90,
-        opacity: 0
-      });
-
-    let column = this.$refs.column;
-    let column2 = this.$refs.column2;
-    let bounds = column.getBoundingClientRect();
-
-    Object.assign([column.style, column2.style], {
-      height: `calc(100vh - ${bounds.top}px)`
-    });
-  },
-  components: {
-    InputBase,
-    Cart
-  },
-  methods: {
-    async register() {
-      try {
-        let modal = this.$refs.modal;
-        let data = _.omit(this.account, ["passwordConfirmation"]);
-
-        const res = await VAPI.post("/api/users", data);
-        localStorage.setItem('id', res.data._id);
-        localStorage.setItem('name', res.data.name);
-        localStorage.setItem('token', res.data.token);
-
-        if (res.status == 200) {
-          modal.triggerModal();
-          this.userTaken = false;
-          this.formErrors = "";
-
-          setTimeout(() => {
-            this.$router.push({
-              name: "Landing"
+        tl.from(title, 1.5, {
+            x: 100,
+            opacity: 0,
+        })
+            .delay(0.1)
+            .from(welcome, 0.5, {
+                y: 90,
+                opacity: 0,
             });
-          }, 3000);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+
+        const { column } = this.$refs;
+        const { column2 } = this.$refs;
+        const bounds = column.getBoundingClientRect();
+
+        Object.assign([column.style, column2.style], {
+            height: `calc(100vh - ${bounds.top}px)`,
+        });
+    },
+    components: {
+        InputBase,
+        Cart,
+    },
+    methods: {
+        async register() {
+            try {
+                const { modal } = this.$refs;
+                const data = _.omit(this.account, ['passwordConfirmation']);
+
+                const res = await VAPI.post('/api/users', data);
+                localStorage.setItem('id', res.data._id);
+                localStorage.setItem('name', res.data.name);
+                localStorage.setItem('token', res.data.token);
+
+                if (res.status == 200) {
+                    modal.triggerModal();
+                    this.userTaken = false;
+                    this.formErrors = '';
+
+                    setTimeout(() => {
+                        this.$router.push({
+                            name: 'Landing',
+                        });
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        },
+    },
 };
 </script>
 
@@ -228,9 +234,9 @@ h1
 .row
   +flex(0, 0)
   min-height: 100vh
-  
+
   > *
-    box-sizing: border-box 
+    box-sizing: border-box
 
 .w-70
   width: 70%

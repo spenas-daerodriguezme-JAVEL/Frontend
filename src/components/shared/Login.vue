@@ -1,6 +1,6 @@
-<template>
+ <template>
   <div>
-    <template v-if="isLogged">
+    <template v-if="!isLogged">
       <div>
         <div class="title__menu">Ingresa a tu cuenta</div>
         <div class="form__row">
@@ -36,7 +36,9 @@
     </template>
     <!-- Account login -->
     <template v-else>
-      <div class="title__menu">Tu cuenta</div>
+        <div class="title__menu">Tu cuenta</div>
+
+        <div class="btn">Salir</div>
     </template>
   </div>
 </template>
@@ -45,48 +47,48 @@
 import VAPI from '../../http_common';
 
 export default {
-  props: {
+    props: {
 
-  },
-  data() {
-    return {
-      isLogged: false,
-      formError: false,
-      userAccount: {
-        email: '',
-        password: '',
-      }
-    }
-  },
-  computed: {
-  },
-  mounted() {
-    this.isLogged = localStorage.getItem('jwt') === null;
-  },
-  methods: {
-    closeMenu() {
-      this.$emit('close');
     },
-    async login() {
-      try {
-        console.log('Request');
-        const res = await VAPI.post('/auth', this.userAccount);
-        console.log(res);
-        localStorage.clear();
-        localStorage.jwt = res.data.token;
+    data() {
+        return {
+            isLogged: false,
+            formError: false,
+            userAccount: {
+                email: '',
+                password: '',
+            },
+        };
+    },
+    computed: {
+    },
+    mounted() {
+        this.isLogged = localStorage.getItem('jwt') === null;
+    },
+    methods: {
+        closeMenu() {
+            this.$emit('close');
+        },
+        async login() {
+            try {
+                console.log('Request');
+                const res = await VAPI.post('/auth', this.userAccount);
+                console.log(res);
+                localStorage.clear();
+                localStorage.jwt = res.data.token;
 
-        if (res.status == 200) {
-          this.$refs.modal.triggerModal();
-          this.formError = false;
-          this.isActive = false;
-        } else if (res.status == 401) {
-          this.formError = true;
-        }
-      } catch (error) {
-        this.formError = true;
-      }
-    }
-  }
+                if (res.status === 200) {
+                    this.$refs.modal.triggerModal();
+                    this.formError = false;
+                    this.isActive = false;
+                } else if (res.status === 401) {
+                    this.formError = true;
+                }
+            } catch (error) {
+                this.formError = true;
+            }
+        },
+    },
 };
 </script>
 

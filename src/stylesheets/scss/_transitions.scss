@@ -39,3 +39,13 @@
   transform: translateX(-100%);
   position: relative;
 }
+
+// Menu transition
+.trmenu-enter-active,
+.trmenu-leave-active {
+    transition: transform 300ms cubic-bezier(.64,.31,.43,1);
+}
+
+.trmenu-enter, .trmenu-leave-to {
+    transform: translateX(-100%);
+}

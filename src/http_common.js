@@ -1,30 +1,28 @@
-import axios from 'axios'
-import Vue from 'vue'
-import router from './router'
-import { store } from './store/index'
+import axios from 'axios';
 
-const URI = process.env.URI
+// TODO: Improve the reading of data from environment variables
+const { URI } = process.env;
 
 const VAPI = axios.create({
     baseURL: 'http://aguadejavel.com:3000',
-    timeout: 60000
-})
+    timeout: 60000,
+});
 
 // VAPI.interceptors.request.use(function (config) {
-//   if(Vue.localStorage.get('token', null) !== null){
-//     config.headers['Authorization'] = 'Bearer ' + Vue.localStorage.get('token', null)
-//     config.headers['Content-Type'] = "application/json"
-//   }
-//   return config
+//         if(Vue.localStorage.get('token', null) !== null){
+//                 config.headers['Authorization'] = 'Bearer ' + Vue.localStorage.get('token', null)
+//                 config.headers['Content-Type'] = "application/json"
+//         }
+//         return config
 // })
 
 // VAPI.interceptors.response.use(function (response) {
-//   if(response.status === 401){
-//     Vue.localStorage.remove('token')
-//     store.dispatch('logout')
-//     router.push('/login')
-//   }
-//   return response
+//         if(response.status === 401){
+//                 Vue.localStorage.remove('token')
+//                 store.dispatch('logout')
+//                 router.push('/login')
+//         }
+//         return response
 // })
 
-export default VAPI
+export default VAPI;
