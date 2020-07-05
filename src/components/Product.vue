@@ -33,7 +33,7 @@
           </div>
           <div class="product__price">{{ data.price | toMoney }}</div>
         </div>
-        {{ data.description | trimText(100) }}
+        {{ data.description.description | trimText(150) }}
       </div>
     </div>
   </div>
