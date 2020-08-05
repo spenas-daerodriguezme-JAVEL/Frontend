@@ -16,7 +16,7 @@
         v-for="val in paginationOptions"
         :key="val"
         @click="setPage(val)"
-        :class="{'control__item--active': val == currentPage}"
+        :class="{'control__item--active': val == current}"
       >
         <b>{{ val }}</b>
       </div>
