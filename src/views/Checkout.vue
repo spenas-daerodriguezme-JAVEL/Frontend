@@ -29,7 +29,6 @@
             class="input--medium"
             v-model="address"></input-base>
         </div>
-        
 
         <div class="frow">
           <input-base
@@ -58,36 +57,36 @@
 </template>
 
 <script>
-import Cart from '../components/shared/Cart.vue'
-import InputBase from '../components/InputBase.vue'
-import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
+import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+import Cart from '../components/shared/Cart.vue';
+import InputBase from '../components/InputBase.vue';
 
 export default {
-  data() {
-    return {
-      name: '',
-      lastName: '',
-      email: '',
-      address: '',
-      city: '',
-      state: '',
-      country: '',
-    }
-  },
-  mounted() {
-    let title = this.$refs.title;
-    console.log(this.$refs);
+    data() {
+        return {
+            name: '',
+            lastName: '',
+            email: '',
+            address: '',
+            city: '',
+            state: '',
+            country: '',
+        };
+    },
+    mounted() {
+        const { title } = this.$refs;
+        console.log(this.$refs);
 
-    TweenMax.from(title, 1.5, {
-      x: 100,
-      opacity: 0
-    });
-  },
-  components: {
-    InputBase,
-    Cart
-  }
-}
+        TweenMax.from(title, 1.5, {
+            x: 100,
+            opacity: 0,
+        });
+    },
+    components: {
+        InputBase,
+        Cart,
+    },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -111,10 +110,9 @@ h1
 
 .fix__products
   width: 30vw
-  height: 100vh
-  position: fixed
+  position: sticky
   right: 0
-  background: #0d0d0d
+  background: $color-black-soft
   color: white
 
 .pad

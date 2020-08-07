@@ -104,7 +104,8 @@ export default {
 
 .section
   +flex(1, 1)
-  background: #B0B2A1
+  background: black
+  color: white
   height: 30vw
   font-size: 60px
   @extend %title

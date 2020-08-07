@@ -3,7 +3,7 @@
     <div class="section">Contacto</div>
     <selector-list
       :options="options">
-    
+
     <div slot="Cuenta">
       <h2>Cuenta</h2><br>
 
@@ -19,7 +19,6 @@
 <li><b>¿Puedo cambiar mi pedido después de haberlo hecho?</b></li>
 <p>Si, pero, si el pedido ya fue enviado es necesario primero devolverlo para reenviarlo de nuevo.</p>
 </ol>
-
 
     </div>
     <div slot="Contacto">
@@ -55,7 +54,6 @@ Síguenos en Facebook, Instagram, Twitter.
   <p> Nuestra política de precios consiste en tener los precios más bajos de la industria química.</p>
         <li><b>¿Cuál es el estado de mi pedido?</b></li>
   <p>Inicie cesión en su cuenta y verifique el estado de su pedido o contáctenos a través del chat, correo electrónico o llámenos.</p>
-       
 
       </ol>
 
@@ -98,7 +96,7 @@ Síguenos en Facebook, Instagram, Twitter.
         <li><b>¿Se puede enviar a otra dirección que no sea la dirección de facturación?</b></li>
         <p>Si. Durante el proceso de facturación indíquenos la dirección.</p>
       </ol>
-      
+
     </div>
     <div slot="Devoluciones">
 <h2>Devoluciones</h2><br>
@@ -121,34 +119,34 @@ Síguenos en Facebook, Instagram, Twitter.
 </template>
 
 <script>
-import Cart from '../components/shared/Cart.vue'
-import InputBase from '../components/InputBase.vue'
-import SelectorList from '../components/ui/SelectorList.vue'
-import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
+import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+import Cart from '../components/shared/Cart.vue';
+import InputBase from '../components/InputBase.vue';
+import SelectorList from '../components/ui/SelectorList.vue';
 
 export default {
-  data() {
-    return {
-      options: [
-        'Cuenta',
-        'Contacto',
-        'FAQ',
-        'Mi Pedido',
-        'Envío',
-        'Devoluciones',
-   
-      ]
-    }
-  },
-  mounted() {
+    data() {
+        return {
+            options: [
+                'Cuenta',
+                'Contacto',
+                'FAQ',
+                'Mi Pedido',
+                'Envío',
+                'Devoluciones',
 
-  },
-  components: {
-    InputBase,
-    Cart,
-    SelectorList
-  }
-}
+            ],
+        };
+    },
+    mounted() {
+
+    },
+    components: {
+        InputBase,
+        Cart,
+        SelectorList,
+    },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -156,7 +154,8 @@ export default {
 
 .section
   +flex(1, 1)
-  background:#CA9E9F
+  background: black
+  color: white
   height: 30vw
   font-size: 60px
   @extend %title
@@ -167,9 +166,9 @@ h1
 .row
   +flex(0, 0)
   min-height: 100vh
-  
+
   > *
-    box-sizing: border-box 
+    box-sizing: border-box
 
 .w-70
   width: 70%

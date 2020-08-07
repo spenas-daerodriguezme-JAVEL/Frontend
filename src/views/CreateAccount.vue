@@ -246,7 +246,6 @@ h1
 
 .fix__products
   width: 30vw
-  height: 100vh
   background: black
   color: white
 
