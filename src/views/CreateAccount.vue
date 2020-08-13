@@ -9,29 +9,24 @@
         <h1 ref="title2">Crea tu cuenta</h1>
 
         <div class="frow">
-             <input-base
-                v-model="account.name"
-                :label="'Nombre'"
-                class="input--medium"
-            ></input-base>
-            <input-base
-                v-model="account.lastname"
-                :label="'Apellido'"
-                class="input--medium"
-            ></input-base>
+          <input-base v-model="account.name" :label="'Nombre'" class="input--medium"></input-base>
+          <input-base v-model="account.lastname" :label="'Apellido'" class="input--medium"></input-base>
         </div>
 
         <div class="frow">
+          <input-base :label="'Correo'" type="email" class="input--medium" v-model="account.email"></input-base>
+          <custom-selector
+            label="Tipo de Documento"
+            class="input-base input--small"
+            v-model="account.idType"
+            :options="idTypeOptions"
+          ></custom-selector>
           <input-base
-            :label="'Correo'"
+            label="Número de documento"
             type="email"
             class="input--medium"
-            v-model="account.email"></input-base>
-          <input-base
-            :label="'Cedula o NIT'"
-            type="email"
-            class="input--medium"
-            v-model="account.cedula"></input-base>
+            v-model="account.cedula"
+          ></input-base>
         </div>
 
         <div class="frow">
@@ -59,11 +54,7 @@
             type="text"
             v-model="account.telephone"
           ></input-base>
-          <input-base
-            :label="'Dirección'"
-            class="input--medium"
-            v-model="account.address"
-          ></input-base>
+          <input-base :label="'Dirección'" class="input--medium" v-model="account.address"></input-base>
         </div>
 
         <div class="frow">
@@ -112,113 +103,119 @@ import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
 import { STATES } from '../colombia';
 import util from '../util/index';
+import { ID_TYPES } from '../idTypes';
 
 export default {
-    data() {
-        return {
-            account: {
-                name: 'Daniel',
-                lastname: 'Rodiruge',
-                email: 'dlsxsp@gmail.com',
-                password: 'Daniel96',
-                passwordConfirmation: 'Daniel96',
-                state: 'Amazonas',
-                city: 'Leticia',
-                address: 'asdasda',
-                telephone: '12353445',
-                cedula: '10435423',
-            },
-            // account: {
-            //   name: "",
-            //   lastname: "",
-            //   email: "",
-            //   password: "",
-            //   passwordConfirmation: "",
-            //   state: "",
-            //   city: "",
-            //   address: "",
-            //   telephone: ""
-            // },
-            userTaken: false,
-            formErrors: '',
-            stateOptions: [],
-        };
+  data() {
+    return {
+      account: {
+        name: 'Daniel',
+        lastname: 'Rodiruge',
+        email: 'dlsxsp@gmail.com',
+        password: 'Daniel96',
+        passwordConfirmation: 'Daniel96',
+        state: 'Amazonas',
+        city: 'Leticia',
+        address: 'asdasda',
+        telephone: '12353445',
+        cedula: '10435423',
+        idType: 'CC',
+      },
+      // account: {
+      //   name: "",
+      //   lastname: "",
+      //   email: "",
+      //   password: "",
+      //   passwordConfirmation: "",
+      //   state: "",
+      //   city: "",
+      //   address: "",
+      //   telephone: ""
+      // },
+      userTaken: false,
+      formErrors: '',
+      stateOptions: [],
+      idTypeOptions: [],
+    };
+  },
+  computed: {
+    passwordMatch() {
+      return this.account.password == this.account.passwordConfirmation;
     },
-    computed: {
-        passwordMatch() {
-            return this.account.password == this.account.passwordConfirmation;
-        },
-        cityOptions() {
-            if (this.account.state != '') {
-                return util.pairLabelValue(
-                    STATES.find((state) => state.departamento === this.account.state).ciudades,
-                );
-            }
-
-            return [{ value: '', label: '' }];
-        },
-    },
-    beforeMount() {
-        this.stateOptions = util.pairLabelValue(
-            STATES.map((state) => state.departamento),
+    cityOptions() {
+      if (this.account.state != '') {
+        return util.pairLabelValue(
+          STATES.find((state) => state.departamento === this.account.state).ciudades,
         );
+      }
+
+      return [{ value: '', label: '' }];
     },
-    mounted() {
-        const title = this.$refs.title1;
-        const welcome = this.$refs.title2;
-        console.log(this.$refs);
+  },
+  beforeMount() {
+    this.stateOptions = util.pairLabelValue(
+      STATES.map((state) => state.departamento)
+    );
+    this.idTypeOptions = util.pairLabelValue(
+      ID_TYPES.map((idType) => idType.type)
+    );
+  },
+  mounted() {
+    const title = this.$refs.title1;
+    const welcome = this.$refs.title2;
+    console.log(this.$refs);
 
-        const tl = new TimelineLite();
+    const tl = new TimelineLite();
 
-        tl.from(title, 1.5, {
-            x: 100,
-            opacity: 0,
-        })
-            .delay(0.1)
-            .from(welcome, 0.5, {
-                y: 90,
-                opacity: 0,
+    tl.from(title, 1.5, {
+      x: 100,
+      opacity: 0,
+    })
+      .delay(0.1)
+      .from(welcome, 0.5, {
+        y: 90,
+        opacity: 0,
+      });
+
+    const { column } = this.$refs;
+    const { column2 } = this.$refs;
+    const bounds = column.getBoundingClientRect();
+
+    Object.assign([column.style, column2.style], {
+      height: `calc(100vh - ${bounds.top}px)`,
+    });
+  },
+  components: {
+    InputBase,
+    Cart,
+  },
+  methods: {
+    async register() {
+      try {
+        const { modal } = this.$refs;
+        const data = _.omit(this.account, ['passwordConfirmation']);
+
+        const res = await VAPI.post('/api/users', data);
+        localStorage.setItem('id', res.data._id);
+        localStorage.setItem('name', res.data.name);
+        localStorage.setItem('token', res.data.token);
+
+        if (res.status == 200) {
+          modal.triggerModal();
+          this.userTaken = false;
+          this.formErrors = '';
+
+          setTimeout(() => {
+            this.$router.push({
+              name: 'Landing',
             });
-
-        const { column } = this.$refs;
-        const { column2 } = this.$refs;
-        const bounds = column.getBoundingClientRect();
-
-        Object.assign([column.style, column2.style], {
-            height: `calc(100vh - ${bounds.top}px)`,
-        });
+          }, 3000);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
-    components: {
-        InputBase,
-        Cart,
-    },
-    methods: {
-        async register() {
-            try {
-                const { modal } = this.$refs;
-                const data = _.omit(this.account, ['passwordConfirmation']);
-
-                const res = await VAPI.post('/api/users', data);
-                localStorage.setItem('id', res.data._id);
-                localStorage.setItem('name', res.data.name);
-                localStorage.setItem('token', res.data.token);
-
-                if (res.status == 200) {
-                    modal.triggerModal();
-                    this.userTaken = false;
-                    this.formErrors = '';
-
-                    setTimeout(() => {
-                        this.$router.push({
-                            name: 'Landing',
-                        });
-                    }, 3000);
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        },
-    },
+  },
 };
 </script>
 
