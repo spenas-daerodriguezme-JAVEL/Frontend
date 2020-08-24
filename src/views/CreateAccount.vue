@@ -9,23 +9,36 @@
         <h1 ref="title2">Crea tu cuenta</h1>
 
         <div class="frow">
-          <input-base v-model="account.name" :label="'Nombre'" class="input--medium"></input-base>
-          <input-base v-model="account.lastname" :label="'Apellido'" class="input--medium"></input-base>
+          <input-base
+            v-model="account.name"
+            label="Nombre" 
+            class="input--medium"
+          ></input-base>
+          <input-base
+            v-model="account.lastName"
+            label="Apellido"
+            class="input--medium"
+          ></input-base>
         </div>
 
         <div class="frow">
-          <input-base :label="'Correo'" type="email" class="input--medium" v-model="account.email"></input-base>
+          <input-base
+            label="Correo"
+            type="email"
+            class="input--medium"
+            v-model="account.email"
+          ></input-base>
           <custom-selector
             label="Tipo de Documento"
             class="input-base input--small"
-            v-model="account.idType"
+            v-model="account.identificationType"
             :options="idTypeOptions"
           ></custom-selector>
           <input-base
             label="Número de documento"
             type="email"
             class="input--medium"
-            v-model="account.cedula"
+            v-model="account.identificationNumber"
           ></input-base>
         </div>
 
@@ -54,7 +67,11 @@
             type="text"
             v-model="account.telephone"
           ></input-base>
-          <input-base :label="'Dirección'" class="input--medium" v-model="account.address"></input-base>
+          <input-base
+            label="Dirección"
+            class="input--medium"
+            v-model="account.address"
+          ></input-base>
         </div>
 
         <div class="frow">
@@ -108,9 +125,9 @@ import { ID_TYPES } from '../idTypes';
 export default {
   data() {
     return {
-      account: {
+      /* account: {
         name: 'Daniel',
-        lastname: 'Rodiruge',
+        lastName: 'Rodiruge',
         email: 'dlsxsp@gmail.com',
         password: 'Daniel96',
         passwordConfirmation: 'Daniel96',
@@ -118,20 +135,22 @@ export default {
         city: 'Leticia',
         address: 'asdasda',
         telephone: '12353445',
-        cedula: '10435423',
-        idType: 'CC',
+        identificationNumber: '10435423',
+        identificationType: 'CC',
+      }, */
+      account: {
+        name: '',
+        lastName: '',
+        email: '',
+        telephone: '',
+        city: '',
+        state: '',
+        address: '',
+        identificationType: '',
+        identificationNumber: '',
+        password: '',
+        passwordConfirmation: '',
       },
-      // account: {
-      //   name: "",
-      //   lastname: "",
-      //   email: "",
-      //   password: "",
-      //   passwordConfirmation: "",
-      //   state: "",
-      //   city: "",
-      //   address: "",
-      //   telephone: ""
-      // },
       userTaken: false,
       formErrors: '',
       stateOptions: [],
@@ -140,10 +159,10 @@ export default {
   },
   computed: {
     passwordMatch() {
-      return this.account.password == this.account.passwordConfirmation;
+      return this.account.password === this.account.passwordConfirmation;
     },
     cityOptions() {
-      if (this.account.state != '') {
+      if (this.account.state !== '') {
         return util.pairLabelValue(
           STATES.find((state) => state.departamento === this.account.state).ciudades,
         );
@@ -196,11 +215,16 @@ export default {
         const data = _.omit(this.account, ['passwordConfirmation']);
 
         const res = await VAPI.post('/api/users', data);
+        console.log('=====********======= Data ======******=======');
+        console.log(res.data);
         localStorage.setItem('id', res.data._id);
         localStorage.setItem('name', res.data.name);
+        localStorage.setItem('id', res.data.email);
         localStorage.setItem('token', res.data.token);
 
-        if (res.status == 200) {
+        if (res.status === 200) {
+          console.log('=====********======******=======');
+          console.log('Entered into if');
           modal.triggerModal();
           this.userTaken = false;
           this.formErrors = '';

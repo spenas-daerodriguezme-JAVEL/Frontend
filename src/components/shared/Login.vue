@@ -1,6 +1,12 @@
  <template>
   <div>
-    <template v-if="!isLogged">
+    <template v-if="isLogged">
+      <div class="title__menu">Tu cuenta</div>
+
+      <div class="btn" @click="logout">Salir</div>
+    </template>
+    <!-- Account login -->
+    <template v-else>
       <div>
         <div class="title__menu">Ingresa a tu cuenta</div>
         <div class="form__row">
@@ -31,12 +37,11 @@
         <div class="btn" @click="login">Ingresar</div>
       </div>
     </template>
-    <!-- Account login -->
-    <template v-else>
-      <div class="title__menu">Tu cuenta</div>
-
-      <div class="btn">Salir</div>
-    </template>
+    <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">Sesión iniciada</div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
@@ -57,7 +62,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.isLogged = localStorage.getItem('jwt') === null;
+    this.isLogged = localStorage.getItem('jwt') !== null;
   },
   methods: {
     closeMenu() {
@@ -65,22 +70,32 @@ export default {
     },
     async login() {
       try {
-        console.log('Request');
         const res = await VAPI.post('/auth', this.userAccount);
-        console.log(res);
         localStorage.clear();
-        localStorage.jwt = res.data.token;
+        localStorage.jwt = res.data;
 
         if (res.status === 200) {
           this.$refs.modal.triggerModal();
           this.formError = false;
-          this.isActive = false;
+          this.isLogged = true;
+          setTimeout(() => {
+            this.closeMenu();
+            this.$router.push({
+              name: 'Catalog',
+            });
+          }, 1000);
         } else if (res.status === 401) {
           this.formError = true;
         }
       } catch (error) {
         this.formError = true;
       }
+    },
+    logout() {
+      localStorage.clear();
+      this.isLogged = false;
+      this.closeMenu();
+      this.$router.push({ name: 'Landing' });
     },
   },
 };

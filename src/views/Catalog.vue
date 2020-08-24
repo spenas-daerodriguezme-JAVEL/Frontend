@@ -115,127 +115,127 @@ import util from '../util/index';
 import RangeSlider from '../components/ui/RangeSlider.vue';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            ranges: {
-                minValue: 0,
-                maxValue: 300000,
-            },
-            pages: 0,
-            resizedWindow: false,
-            currentPage: 1,
-            selected: '',
-            products: [],
-            options: [
-                { value: 'all', label: 'Todo' },
-                { value: 'price', label: 'Precio' },
-                { value: 'businessLine', label: 'Línea de producto' },
-            ],
-        };
-    },
-    async beforeMount() {
-        const { searchTerm } = this.$route.query;
+  data() {
+    return {
+      isLoading: false,
+      ranges: {
+        minValue: 0,
+        maxValue: 300000,
+      },
+      pages: 0,
+      resizedWindow: false,
+      currentPage: 1,
+      selected: '',
+      products: [],
+      options: [
+        { value: 'all', label: 'Todo' },
+        { value: 'price', label: 'Precio' },
+        { value: 'businessLine', label: 'Línea de producto' },
+      ],
+    };
+  },
+  async beforeMount() {
+    const { searchTerm } = this.$route.query;
 
-        if (searchTerm) {
-            this.isLoading = true;
-            const { data } = await this.$http.get(
-                `/api/product/search/${searchTerm}`,
-            );
-            this.productList = data.products;
-            this.pages = data.pages;
-            this.isLoading = false;
-        } else {
-            this.filter();
-        }
+    if (searchTerm) {
+      this.isLoading = true;
+      const { data } = await this.$http.get(
+        `/api/product/search/${searchTerm}`,
+      );
+      this.productList = data.products;
+      this.pages = data.pages;
+      this.isLoading = false;
+    } else {
+      this.filter();
+    }
 
-        try {
-            const { data } = await this.$http.get(
-                '/api/product/businesslinelist',
-            );
-            this.options = data.businessLines.map((option) => ({
-                value: option,
-                label: option,
-            }));
-        } catch (error) {
-            console.error(error);
-        }
+    try {
+      const { data } = await this.$http.get(
+        '/api/product/businesslinelist',
+      );
+      this.options = data.businessLines.map((option) => ({
+        value: option,
+        label: option,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  methods: {
+    async getCatalogPage() {
+      this.filter();
     },
-    methods: {
-        async getCatalogPage() {
-            this.filter();
-        },
-        productInterval(start, end) {
-            return this.products.slice(start - 1, end);
-        },
-        async filter() {
-            this.isLoading = true;
-            const businessLine = this.selected !== '' ? `businessline/${this.selected}` : '';
-            const isPriceRangeDefault = this.ranges.minValue === 0 && this.ranges.maxValue === 300000;
-            const price = isPriceRangeDefault
-                ? ''
-                : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
+    productInterval(start, end) {
+      return this.products.slice(start - 1, end);
+    },
+    async filter() {
+      this.isLoading = true;
+      const businessLine = this.selected !== '' ? `businessline/${this.selected}` : '';
+      const isPriceRangeDefault = this.ranges.minValue === 0 && this.ranges.maxValue === 300000;
+      const price = isPriceRangeDefault
+        ? ''
+        : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
 
-            const isMultipleSearch = price !== '' && businessLine !== '';
-            const page = this.currentPage !== 1 ? `?from=${this.currentPage}` : '';
+      const isMultipleSearch = price !== '' && businessLine !== '';
+      const page = this.currentPage !== 1 ? `?from=${this.currentPage}` : '';
 
-            const { data } = await this.$http.get(
-                `/api/product/${businessLine}${
-                    isMultipleSearch ? '/' : ''
-                }${price}${page}`,
-            );
-            this.productList = data.products;
-            this.pages = data.pages;
-            this.isLoading = false;
-        },
+      const { data } = await this.$http.get(
+        `/api/product/${businessLine}${
+          isMultipleSearch ? '/' : ''
+        }${price}${page}`,
+      );
+      this.productList = data.products;
+      this.pages = data.pages;
+      this.isLoading = false;
     },
-    watch: {
-        currentPage(val) {
-            this.getCatalogPage(val);
-        },
-        ranges: {
-            handler: _.debounce(
-                function () {
-                    this.filter();
-                },
-                800,
-                {
-                    maxWait: 100,
-                },
-            ),
-        },
-        selected() {
-            this.filter();
-        },
+  },
+  watch: {
+    currentPage(val) {
+      this.getCatalogPage(val);
     },
-    mounted() {
-        const self = this;
-        window.onresize = _.debounce(() => {
-            self.resizedWindow = !self.resizedWindow;
-        }, 350);
+    ranges: {
+      handler: _.debounce(
+        function () {
+          this.filter();
+        },
+        800,
+        {
+          maxWait: 100,
+        },
+      ),
+    },
+    selected() {
+      this.filter();
+    },
+  },
+  mounted() {
+    const self = this;
+    window.onresize = _.debounce(() => {
+      self.resizedWindow = !self.resizedWindow;
+    }, 350);
 
-        TweenLite.from('.title', 1.3, {
-            opacity: 0,
-            yPercent: -20,
-        });
+    TweenLite.from('.title', 1.3, {
+      opacity: 0,
+      yPercent: -20,
+    });
+  },
+  computed: {
+    productList: {
+      set(val) {
+        this.products = val;
+      },
+      get() {
+        return this.products;
+      },
     },
-    computed: {
-        productList: {
-            set(val) {
-                this.products = val;
-            },
-            get() {
-                return this.products;
-            },
-        },
-    },
-    components: {
-        CustomSelector,
-        Pagination,
-        ProductBase: Product,
-        RangeSlider,
-        LoadingAnimation: Loading,
-    },
+  },
+  components: {
+    CustomSelector,
+    Pagination,
+    ProductBase: Product,
+    RangeSlider,
+    LoadingAnimation: Loading,
+  },
 };
 </script>
 

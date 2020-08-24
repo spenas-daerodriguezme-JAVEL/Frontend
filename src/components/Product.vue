@@ -46,49 +46,49 @@ import CustomSelector from './ui/CustomSelector.vue';
 const { URI } = process.env;
 
 export default {
-    props: {
-        data: {
-            type: Object,
-            required: false,
-            default: () => {},
-        },
-        isDouble: {
-            type: Boolean,
-            default: false,
-            required: false,
-        },
-        resize: {
-            type: Boolean,
-            default: false,
-            required: false,
-        },
+  props: {
+    data: {
+      type: Object,
+      required: false,
+      default: () => {},
     },
-    data() {
-        return {
-            URI,
-            presentationOptions: [],
-            selectedPresentation: '',
-            selectedVersion: 0,
-            activeImage: 0,
-            images: [],
-            product: {
-                title: 'QUITA MANCHAS GRANULADO',
-                price: 6000,
-                size: '200 gr',
-                images: [
-                    '../../static/test_images/ld1.jpg',
-                    '../../static/test_images/ld2.jpg',
-                    '../../static/test_images/ld3.jpg',
-                ],
-            },
-        };
+    isDouble: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
-    async mounted() {
-        if (!this.isDouble) {
-            this.setImages();
-        }
+    resize: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
-    beforeMount() {
+  },
+  data() {
+    return {
+      URI,
+      presentationOptions: [],
+      selectedPresentation: '',
+      selectedVersion: 0,
+      activeImage: 0,
+      images: [],
+      product: {
+        title: 'QUITA MANCHAS GRANULADO',
+        price: 6000,
+        size: '200 gr',
+        images: [
+          '../../static/test_images/ld1.jpg',
+          '../../static/test_images/ld2.jpg',
+          '../../static/test_images/ld3.jpg',
+        ],
+      },
+    };
+  },
+  async mounted() {
+    if (!this.isDouble) {
+      this.setImages();
+    }
+  },
+  beforeMount() {
     // this.presentationOptions = this.data.price.map(
     //   function(o, index) {
     //     return {
@@ -97,83 +97,82 @@ export default {
     //     }
     //   }
     // );
+  },
+  methods: {
+    ...mapMutations([
+      'addToCart',
+    ]),
+    sendToCart() {
+      const copy = util.deepCopy(this.data);
+      copy.preview = this.images[0];
+      this.addToCart(copy);
     },
-    methods: {
-        ...mapMutations([
-            'addToCart',
-        ]),
-        sendToCart() {
-            const copy = util.deepCopy(this.data);
-            copy.preview = this.images[0];
-
-            this.addToCart(copy);
-        },
-        getBlock(limits, mouse) {
-            for (let i = 0; i < limits.length; i++) {
-                if (limits[i].top < mouse.clientY + window.scrollY
+    getBlock(limits, mouse) {
+      for (let i = 0; i < limits.length; i++) {
+        if (limits[i].top < mouse.clientY + window.scrollY
                     && limits[i].bottom > mouse.clientY + window.scrollY
                     && limits[i].left < mouse.clientX
                     && limits[i].right > mouse.clientX) {
-                    return i + 1;
-                }
-            }
+          return i + 1;
+        }
+      }
 
-            return -1;
-        },
-        async getImages(id) {
-            for (let i = 1; i <= 3; i++) {
-                const ans = await this.$http.get(`products/${id}/preview?image_id=${i}`, { responseType: 'arraybuffer' });
-                if (ans.status == 200) {
-                    const image = Buffer.from(ans.data, 'binary').toString('base64');
-                    const src = `data:image/png;base64,${image}`;
-                    this.images.push(src);
-                }
-            }
-
-            if (!this.isDouble) {
-                this.setImages();
-            }
-        },
-        setImages() {
-            const { display } = this.$refs;
-            const rect = display.getBoundingClientRect();
-
-            const limits = [];
-            const imgSize = this.data.properties.images.length;
-            const blockSize = rect.width / (imgSize - 1);
-
-            for (let i = 0; i < imgSize - 1; i++) {
-                limits.push({
-                    top: rect.top + window.scrollY,
-                    bottom: rect.bottom + window.scrollY,
-                    left: rect.left + blockSize * i,
-                    right: rect.left + blockSize * (i + 1),
-                });
-            }
-
-            const self = this;
-            display.onmousemove = function (e) {
-                const image = self.getBlock(limits, e);
-                self.activeImage = image;
-            };
-
-            display.onmouseleave = function () {
-                self.activeImage = -1;
-            };
-        },
+      return -1;
     },
-    watch: {
-        resize() {
-            this.setImages();
-        },
+    async getImages(id) {
+      for (let i = 1; i <= 3; i++) {
+        const ans = await this.$http.get(`products/${id}/preview?image_id=${i}`, { responseType: 'arraybuffer' });
+        if (ans.status == 200) {
+          const image = Buffer.from(ans.data, 'binary').toString('base64');
+          const src = `data:image/png;base64,${image}`;
+          this.images.push(src);
+        }
+      }
+
+      if (!this.isDouble) {
+        this.setImages();
+      }
     },
-    filters: {
-        toMoney: util.toMoney,
-        trimText: util.trimText,
+    setImages() {
+      const { display } = this.$refs;
+      const rect = display.getBoundingClientRect();
+
+      const limits = [];
+      const imgSize = this.data.properties.images.length;
+      const blockSize = rect.width / (imgSize - 1);
+
+      for (let i = 0; i < imgSize - 1; i++) {
+        limits.push({
+          top: rect.top + window.scrollY,
+          bottom: rect.bottom + window.scrollY,
+          left: rect.left + blockSize * i,
+          right: rect.left + blockSize * (i + 1),
+        });
+      }
+
+      const self = this;
+      display.onmousemove = function (e) {
+        const image = self.getBlock(limits, e);
+        self.activeImage = image;
+      };
+
+      display.onmouseleave = function () {
+        self.activeImage = -1;
+      };
     },
-    components: {
-        CustomSelector,
+  },
+  watch: {
+    resize() {
+      this.setImages();
     },
+  },
+  filters: {
+    toMoney: util.toMoney,
+    trimText: util.trimText,
+  },
+  components: {
+    CustomSelector,
+  },
 };
 </script>
 
@@ -213,8 +212,8 @@ export default {
         @extend %image-cover
         animation: 400ms fadeIn ease-out forwards
 
-        &:hover > .buy__item
-            transform: translate(-50%, 0%)
+    &:hover > .buy__item
+        transform: translate(-50%, 0%) !important
 
 .product__heading
     +flex(0, 0)
@@ -269,7 +268,7 @@ export default {
     &:hover
         &:after
             width: 100%
-            color: black
+        color: black
 
 .selector--product
     font-size: 16px
