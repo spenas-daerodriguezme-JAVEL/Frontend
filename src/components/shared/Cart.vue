@@ -13,7 +13,7 @@
             </div>
             <span>{{ product.name}}</span>
           </div>
-          <div class="product__price text--price">{{ product.price[0].price | toMoney }}</div>
+          <div class="product__price text--price">{{ product.price | toMoney }}</div>
         </div>
       </div>
 
@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import util from '../../util/index'
+import { mapGetters, mapMutations } from 'vuex';
+import util from '../../util/index';
 
 export default {
   props: {
@@ -50,13 +50,13 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'cartProducts'
+      'cartProducts',
     ]),
     totalCost() {
       let cost = 0;
 
       for(const product of this.cartProducts) {
-        cost += parseFloat(product.price[0].price)
+        cost += parseFloat(product.price)
       }
 
       return cost;
@@ -89,7 +89,7 @@ export default {
   overflow-y: auto
 
 .box-general
-  height: calc(100vh - 350px)
+  height: calc(100vh - 250px)
 
 .hr
   width: 100%
