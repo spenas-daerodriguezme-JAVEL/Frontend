@@ -3,14 +3,13 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import SecureLS from 'secure-ls';
 
-var ls = new SecureLS({ isCompression: false });
+const ls = new SecureLS({ isCompression: false });
 
 Vue.use(Vuex);
 
 // eslint-disable-next-line import/prefer-default-export
 export const store = new Vuex.Store({
   state: {
-    test: 'xxx',
     isLoading: true,
     cartProducts: [],
   },
@@ -34,7 +33,11 @@ export const store = new Vuex.Store({
       state.isLoading = payload;
     },
     addToCart: (state, product) => {
-      state.cartProducts.push(product);
+      let isProductInCart = state.cartProducts.some(element => element.SKU === product.SKU);
+      if (!isProductInCart) {
+        product.quantity = 1;
+        state.cartProducts.push(product);
+      }
     },
     removeFromCart: (state, index) => {
       this.product.splice(index, 1);
@@ -42,6 +45,16 @@ export const store = new Vuex.Store({
     clearCart: (state) => {
       state.cartProducts = [];
     },
+    addProductUnit: (state, product) => {
+      let index = state.cartProducts.findIndex((element) => element.SKU === product.SKU);
+      state.cartProducts[index].quantity += 1;
+    },
+    subProductUnit: (state, product) => {
+      let index = state.cartProducts.findIndex((element) => element.SKU === product.SKU);
+      if (state.cartProducts[index].quantity > 1) {
+        state.cartProducts[index].quantity -= 1;
+      }
+    }
   },
   actions: {
 

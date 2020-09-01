@@ -9,11 +9,19 @@
         <div class="row">
           <div class="product__general">
             <div class="product__image" style="background: coral">
-              <img :src="product.preview" alt="">
+              <!-- <img :src="product.preview ? product.preview : defaultImage" alt=""> -->
+              <img src="../../assets/productos/JABON PARA MANOS 900 ML.jpg" alt="">
             </div>
-            <span>{{ product.name}}</span>
+            <div>
+              <span>{{ product.name }}</span>
+              <div>
+                <button @click="subUnit(product)">menos</button>
+                <span>{{ product.quantity }}</span>
+                <button @click="addUnit(product)">mas</button>
+              </div>
+            </div>
           </div>
-          <div class="product__price text--price">{{ product.price | toMoney }}</div>
+          <div class="product__price text--price">{{ totalCostPerProduct(product) | toMoney }}</div>
         </div>
       </div>
 
@@ -40,7 +48,7 @@ export default {
   props: {
     details: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   data() {
@@ -55,26 +63,39 @@ export default {
     totalCost() {
       let cost = 0;
 
-      for(const product of this.cartProducts) {
-        cost += parseFloat(product.price)
+      for (const product of this.cartProducts) {
+        cost += parseFloat(product.price * product.quantity)
       }
 
       return cost;
-    }
+    },
   },
   methods: {
+    ...mapMutations([
+      'addProductUnit',
+      'subProductUnit',
+    ]),
     toCheckout() {
-      if(!this.details) {
+      if (!this.details) {
         this.$router.push({
-          name: 'Checkout'
-        })
+          name: 'Checkout',
+        });
       }
-    }
+    },
+    addUnit(product) {
+      this.addProductUnit(product);
+    },
+    subUnit(product) {
+      this.subProductUnit(product);
+    },
+    totalCostPerProduct(product) {
+      return product.price * product.quantity;
+    },
   },
   filters: {
-    toMoney: util.toMoney
-  }
-}
+    toMoney: util.toMoney,
+  },
+};
 </script>
 
 <style lang="sass" scoped>
