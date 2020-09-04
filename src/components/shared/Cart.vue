@@ -14,14 +14,43 @@
             </div>
             <div>
               <span>{{ product.name }}</span>
-              <div>
-                <button @click="subUnit(product)">menos</button>
+              <div class="buttons-row">
+                <button @click="subUnit(product)" class="cartButton">
+                  <svg class="svg-icon" height="1rem" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <circle data-name="layer2"
+                    cx="16" cy="16" r="15" fill="none" stroke="#FFFFFF" stroke-miterlimit="10"
+                    stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
+                    <path data-name="layer1" fill="none" stroke="#FFFFFF" stroke-miterlimit="10"
+                    stroke-width="2" d="M8 16 H24" stroke-linejoin="round" stroke-linecap="round"></path>
+                  </svg>
+                </button>
                 <span>{{ product.quantity }}</span>
-                <button @click="addUnit(product)">mas</button>
+                <button @click="addUnit(product)" class="cartButton">
+                  <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <circle data-name="layer2"
+                    cx="16" cy="16" r="15" fill="none" stroke="#FFFFFF" stroke-miterlimit="10"
+                    stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></circle>
+                    <path data-name="layer1" fill="none" stroke="#FFFFFF" stroke-miterlimit="10"
+                    stroke-width="2" d="M16 8v16m8-8H8" stroke-linejoin="round" stroke-linecap="round"></path>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
-          <div class="product__price text--price">{{ totalCostPerProduct(product) | toMoney }}</div>
+          <div class="priceRow">
+            <div class="product__price text--price">{{ totalCostPerProduct(product) | toMoney }}</div>
+            <button @click="removeProductFromCart(product)" class="cartButton">
+              <svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <circle data-name="layer2"
+                cx="32.001" cy="32" r="30" transform="rotate(-45 32.001 32)" fill="none"
+                stroke="#FFFFFF" stroke-miterlimit="10" stroke-width="3" stroke-linejoin="round"
+                stroke-linecap="round"></circle>
+                <path data-name="layer1" fill="none" stroke="#FFFFFF" stroke-miterlimit="10"
+                stroke-width="3" d="M42.999 21.001l-22 22m22 0L21 21" stroke-linejoin="round"
+                stroke-linecap="round"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -41,7 +70,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import util from '../../util/index';
 
 export default {
@@ -74,6 +103,9 @@ export default {
     ...mapMutations([
       'addProductUnit',
       'subProductUnit',
+    ]),
+    ...mapActions([
+      'removeProductFromCart',
     ]),
     toCheckout() {
       if (!this.details) {
@@ -154,5 +186,24 @@ export default {
   margin-top: auto
   margin-left: auto
 
+.buttons-row
+  display: flex
+  align-items: center
+  margin-top: 0.5rem
 
+.cartButton
+  background-color: Transparent
+  border: none
+  outline: none
+
+  &:hover
+    opacity: 0.5
+
+.svg-icon
+  width: 1.3rem
+  height: 1.3rem
+
+.priceRow
+  text-align: end
+  margin-top: 1rem
 </style>

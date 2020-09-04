@@ -39,8 +39,11 @@ export const store = new Vuex.Store({
         state.cartProducts.push(product);
       }
     },
-    removeFromCart: (state, index) => {
-      this.product.splice(index, 1);
+    removeFromCart: (state, productToRemove) => {
+      const index = state.cartProducts.findIndex(product => product._id === productToRemove._id);
+      if (index >= 0) {
+        state.cartProducts.splice(index, 1);
+      }
     },
     clearCart: (state) => {
       state.cartProducts = [];
@@ -57,7 +60,9 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-
+    removeProductFromCart({ commit }, product) {
+      commit('removeFromCart', product);
+    },
   },
   modules: {
 
