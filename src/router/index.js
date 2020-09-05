@@ -16,6 +16,7 @@ import ProductDetail from '../views/ProductDetail.vue';
 import AdminCatalogList from '../views/Admin/AdminCatalogList.vue';
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue';
 import PurchaseResume from '../views/PurchaseResume.vue';
+import AdminPanel from '../views/AdminPanel.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -63,11 +64,12 @@ const router = new Router({
           name: 'GiftCard',
           component: GiftCard,
         },
-        {
-          path: '/admin',
-          name: 'AdminCatalogList',
-          component: AdminCatalogList,
-        },
+        // {
+        //   path: '/admin',
+        //   name: 'AdminCatalogList',
+        //   component: AdminCatalogList,
+        // },
+
         {
           path: '/admin/edit/:id',
           name: 'ProductEdit',
@@ -123,6 +125,11 @@ const router = new Router({
           path: '/transaction-state',
           name: 'PurchaseResume',
           component: PurchaseResume,
+        },
+        {
+          path: '/admin',
+          name: 'AdminPanel',
+          component: AdminPanel,
         },
         {
           path: '*',

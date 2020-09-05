@@ -1,12 +1,16 @@
 <template>
   <div class="checkout">
-    <div class="section">Hola Daniel</div>
+    <div class="section">Hola Santiago</div>
 
     <selector-list
       :options="options">
 
-    <div slot="Órdenes de compra y devoluciones">
-      <div class="contact__detail">
+      <div slot="Información de contacto">
+        <UserInfo/>
+      </div>
+
+    <div slot="Órdenes de compra">
+      <!-- <div class="contact__detail">
         <div class="contact__item">
           <div class="contact__title">Contacto</div>
           Daniel Rodríguez
@@ -17,56 +21,101 @@
           <div class="contact__title">Dirección</div>
           Carrera 57b #66 - 35
         </div>
-      </div>
+      </div> -->
 
       <table cellspacing="0">
         <tbody>
           <tr>
             <th>Orden</th>
             <th>Fecha</th>
-            <th>Información</th>
             <th>Total</th>
             <th>Estado</th>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#1</a></td>
+            <td>20-09-2020</td>
+            <td>$50000</td>
+            <td>En tramite</td>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#2</a></td>
+            <td>20-09-2020</td>
+            <td>$20000</td>
+            <td>Pendiente</td>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#4534</a></td>
+            <td>20-09-2020</td>
+            <td>$70000</td>
+            <td>Rechazado</td>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#134</a></td>
+            <td>20-09-2020</td>
+            <td>$50000</td>
+            <td>Completado</td>
           </tr>
+
         </tbody>
       </table>
 
     </div>
-    <div slot="Contacto">
-      <b>Contacto</b>
+    <div slot="Solicitud de productos">
+      <!-- <b>Contacto</b> -->
 
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis porro eos delectus.
+      En caso de que algún producto no se encuentre en existencia. Llene el formulario con los productos que necesite y nos pondremos en contacto con usted
+<table cellspacing="0">
+        <tbody>
+          <tr>
+            <th>Nombre</th>
+            <th>Presentación</th>
+            <th>Cantidad</th>
+          </tr>
+          <tr>
+            <td><input> </input></td>
+            <td><input> </input></td>
+            <td><input> </input></td>
 
+          </tr>
+          <tr>
+            <td><input> </input></td>
+            <td><input> </input></td>
+            <td><input> </input></td>
+
+          </tr>
+          <tr>
+            <td><input> </input></td>
+            <td><input> </input></td>
+            <td><input> </input></td>
+
+          </tr>
+          <tr>
+            <td><input> </input></td>
+            <td><input> </input></td>
+            <td><input> </input></td>
+
+          </tr>
+
+        </tbody>
+      </table>
+
+       <div class="frow">
+          <div class="btn" @click="register" style="max-width: 200px; ">Enviar</div>
+        </div>
     </div>
 
+   <div slot="Quejas, reclamos, sugerencias y felicitaciones">
+     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
+     <textarea style="width:1000px;height:300px"> </textarea>
+     <div style="display: inline-block;">
+       <p style="margin: 12px 0;">Documentos anexos</p>
+       <input type="file" name="" id="">
+
+     </div>
+      <div class="frow">
+          <div class="btn" @click="register" style="max-width: 200px; ">Enviar</div>
+        </div>
+   </div>
     </selector-list>
   </div>
 </template>
@@ -76,26 +125,28 @@ import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
 import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
 import SelectorList from '../components/ui/SelectorList.vue';
+import UserInfo from '../components/shared/UserInfo.vue';
 
 export default {
-    data() {
-        return {
-            options: [
-                'Información de contacto',
-                'Órdenes de compra y devoluciones',
-                'Solicitud de productos',
-                'Quejas, reclamos, sugerencias y felicitaciones',
-            ],
-        };
-    },
-    mounted() {
+  data() {
+    return {
+      options: [
+        'Información de contacto',
+        'Órdenes de compra',
+        'Solicitud de productos',
+        'Quejas, reclamos, sugerencias y felicitaciones',
+      ],
+    };
+  },
+  mounted() {
 
-    },
-    components: {
-        InputBase,
-        Cart,
-        SelectorList,
-    },
+  },
+  components: {
+    InputBase,
+    UserInfo,
+    Cart,
+    SelectorList,
+  },
 };
 </script>
 
