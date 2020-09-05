@@ -16,7 +16,7 @@
         v-for="val in paginationOptions"
         :key="val"
         @click="setPage(val)"
-        :class="{'control__item--active': val == current}"
+        :class="{'control__item--active': val === currentPage}"
       >
         <b>{{ val }}</b>
       </div>
@@ -32,45 +32,50 @@
 
 <script>
 export default {
-    model: {
-        prop: 'current',
-        event: 'update',
+  model: {
+    prop: 'currentPage',
+    event: 'update',
+  },
+  props: {
+    pages: {
+      type: Number,
+      required: true,
     },
-    props: {
-        pages: {
-            type: Number,
-            required: true,
-        },
-        current: {
-            type: Number,
-            required: false,
-        },
+    currentPage: {
+      type: Number,
+      required: false,
     },
-    data() {
-        return {
-        };
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {
+    nextPage() {
+      if (this.currentPage < this.pages) this.currentPage++;
+      this.$emit('update', this.currentPage);
     },
-    methods: {
-        nextPage() {
-            if (this.currentPage < this.pages) this.currentPage++;
-            this.$emit('update', this.currentPage);
-        },
-        prevPage() {
-            if (this.currentPage > 1) this.currentPage--;
-            this.$emit('update', this.currentPage);
-        },
-        setPage(page) {
-            this.currentPage = page;
-            this.$emit('update', this.currentPage);
-        },
+    prevPage() {
+      if (this.currentPage > 1) this.currentPage--;
+      this.$emit('update', this.currentPage);
     },
-    computed: {
-        paginationOptions() {
-            const uniques = new Set([1, this.currentPage, this.pages]);
-
-            return [...uniques];
-        },
+    setPage(page) {
+      this.currentPage = page;
+      this.$emit('update', this.currentPage);
     },
+  },
+  computed: {
+    paginationOptions() {
+      let uniques;
+      if (this.currentPage === 1 || this.currentPage === this.pages) {
+        uniques = new Set([1, this.pages]);
+      }
+      else {
+        uniques = new Set([1, this.currentPage, this.currentPage + 1, this.pages]);
+      }
+      return [...uniques];
+    },
+  },
 };
 </script>
 
