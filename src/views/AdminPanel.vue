@@ -4,67 +4,50 @@
 
     <selector-list
       :options="options">
-
-    <div slot="Órdenes de compra">
-      <div class="contact__detail">
-        <div class="contact__item">
-          <div class="contact__title">Contacto</div>
-          Daniel Rodríguez
-          dlsusp@gmail.com
-        </div>
-
-        <div class="contact__item">
-          <div class="contact__title">Dirección</div>
-          Carrera 57b #66 - 35
-        </div>
+      <div slot="Información de contacto">
+        <UserInfo/>
       </div>
-
-      <table cellspacing="0">
+    <div slot="Órdenes de compra">
+     <table cellspacing="0">
         <tbody>
           <tr>
             <th>Orden</th>
             <th>Fecha</th>
-            <th>Información</th>
             <th>Total</th>
             <th>Estado</th>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#1</a></td>
+            <td>20-09-2020</td>
+            <td>$50000</td>
+            <td>En tramite</td>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#2</a></td>
+            <td>20-09-2020</td>
+            <td>$20000</td>
+            <td>Pendiente</td>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#4534</a></td>
+            <td>20-09-2020</td>
+            <td>$70000</td>
+            <td>Rechazado</td>
           </tr>
           <tr>
-            <td>Orden</td>
-            <td>Fecha</td>
-            <td>Información</td>
-            <td>Total</td>
-            <td>Estado</td>
+            <td><a href="">#134</a></td>
+            <td>20-09-2020</td>
+            <td>$50000</td>
+            <td>Completado</td>
           </tr>
+
         </tbody>
       </table>
 
     </div>
-    <div slot="Contacto">
-      <b>Contacto</b>
 
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis porro eos delectus.
-
+    <div slot="Productos">
+        <ProductsAdmin/>
     </div>
 
     </selector-list>
@@ -75,7 +58,9 @@
 import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
 import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
+import UserInfo from '../components/shared/UserInfo.vue';
 import SelectorList from '../components/ui/SelectorList.vue';
+import ProductsAdmin from '../components/ui/ProductsAdmin.vue';
 
 export default {
   data() {
@@ -96,6 +81,8 @@ export default {
     InputBase,
     Cart,
     SelectorList,
+    UserInfo,
+    ProductsAdmin,
   },
 };
 </script>
