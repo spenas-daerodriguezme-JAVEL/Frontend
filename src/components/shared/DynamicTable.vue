@@ -1,27 +1,23 @@
 <template>
-<div>
- <table>
-    <thead>
-      <tr>
-        <th>Department</th>
-        <th>Employees</th>
-      </tr>
-    </thead>
-   <tbody>
-      <tr v-for="(row, index) in paginatedRows" :key="`employee-${index}`">
-        <td v-html="highlightMatches(row.department)"></td>
-        <td v-html="highlightMatches([...row.employees].sort().join(', '))"></td>
-      </tr>
-    </tbody>
-  </table>
-  <input type="text"
-         placeholder="Filter by department or employee"
-         v-model="filter" />
-         <p>
-<button @click="prevPage">Previous</button>
-<button @click="nextPage">Next</button>
-</p>
-</div>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th v-for="(header, idx) in headers" :key="idx">{{header.charAt(0).toUpperCase() + header.slice(1)}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, index) in paginatedRows" :key="`employee-${index}`">
+          <td v-for="(header, idx) in headers" :key="idx" v-html="highlightMatches(row[header])"></td>
+        </tr>
+      </tbody>
+    </table>
+    <input type="text" placeholder="Filter by department or employee" v-model="filter" />
+    <p>
+      <button @click="prevPage">Previous</button>
+      <button @click="nextPage">Next</button>
+    </p>
+  </div>
 </template>
 
 <script>
@@ -29,49 +25,27 @@ export default {
   data() {
     return {
       filter: '',
-      rows: [
-        { department: 'Accounting', employees: ['Bradley', 'Jones', 'Alvarado'] },
-        { department: 'Human Resources', employees: ['Juarez', 'Banks', 'Smith'] },
-        { department: 'Production', employees: ['Sweeney', 'Bartlett', 'Singh'] },
-        { department: 'Research and Development', employees: ['Lambert', 'Williamson', 'Smith'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-        { department: 'Sales and Marketing', employees: ['Prince', 'Townsend', 'Jones'] },
-      ],
-      pageSize: 10,
+      pageSize: 8,
       currentPage: 1,
     };
+  },
+  props: {
+    headers: Array,
+    data: Array,
   },
 
   computed: {
     filteredRows() {
-      return this.rows.filter((row) => {
-        const employees = row.employees.toString().toLowerCase();
-        const department = row.department.toLowerCase();
+      return this.data.filter((row) => {
         const searchTerm = this.filter.toLowerCase();
+        let booleanExpression = false;
 
-        return department.includes(searchTerm)
-        || employees.includes(searchTerm);
+        this.headers.forEach((header) => {
+          const data = row[header].toString().toLowerCase();
+          booleanExpression = booleanExpression || data.includes(searchTerm);
+        });
+
+        return booleanExpression;
       });
     },
     paginatedRows() {
@@ -85,14 +59,19 @@ export default {
   },
   methods: {
     highlightMatches(text) {
-      const matchExists = text.toLowerCase().includes(this.filter.toLowerCase());
+      const matchExists = text
+        .toLowerCase()
+        .includes(this.filter.toLowerCase());
       if (!matchExists) return text;
 
       const re = new RegExp(this.filter, 'ig');
-      return text.replace(re, (matchedText) => `<strong>${matchedText}</strong>`);
+      return text.replace(
+        re,
+        (matchedText) => `<strong>${matchedText}</strong>`,
+      );
     },
     nextPage() {
-      if ((this.currentPage * this.pageSize) < this.rows.length) this.currentPage++;
+      if (this.currentPage * this.pageSize < this.rows.length) this.currentPage++;
     },
     prevPage() {
       if (this.currentPage > 1) this.currentPage--;
@@ -102,5 +81,4 @@ export default {
 </script>
 
 <style>
-
 </style>

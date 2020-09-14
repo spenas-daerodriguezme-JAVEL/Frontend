@@ -17,6 +17,8 @@ import AdminCatalogList from '../views/Admin/AdminCatalogList.vue';
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue';
 import PurchaseResume from '../views/PurchaseResume.vue';
 import AdminPanel from '../views/AdminPanel.vue';
+import ProductDetailAdmin from '../views/ProductDetailAdmin.vue';
+import DescriptionDetailAdmin from '../views/DescriptionDetailAdmin.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -74,6 +76,23 @@ const router = new Router({
           path: '/admin/edit/:id',
           name: 'ProductEdit',
           component: AdminCatalogProduct,
+          meta: {
+            // actionType: 'Editar',
+          },
+        },
+
+        {
+          path: '/admin/product/:id',
+          name: 'ProductEdit',
+          component: ProductDetailAdmin,
+          meta: {
+            actionType: 'Editar',
+          },
+        },
+        {
+          path: '/admin/description/:id',
+          name: 'ProductEdit',
+          component: DescriptionDetailAdmin,
           meta: {
             actionType: 'Editar',
           },

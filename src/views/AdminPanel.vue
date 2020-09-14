@@ -2,54 +2,67 @@
   <div class="checkout">
     <div class="section">Hola Christian</div>
 
-    <selector-list
-      :options="options">
+    <selector-list :options="options">
       <div slot="Información de contacto">
-        <UserInfo/>
+        <UserInfo />
       </div>
-    <div slot="Órdenes de compra">
-     <table cellspacing="0">
-        <tbody>
-          <tr>
-            <th>Orden</th>
-            <th>Fecha</th>
-            <th>Total</th>
-            <th>Estado</th>
-          </tr>
-          <tr>
-            <td><a href="">#1</a></td>
-            <td>20-09-2020</td>
-            <td>$50000</td>
-            <td>En tramite</td>
-          </tr>
-          <tr>
-            <td><a href="">#2</a></td>
-            <td>20-09-2020</td>
-            <td>$20000</td>
-            <td>Pendiente</td>
-          </tr>
-          <tr>
-            <td><a href="">#4534</a></td>
-            <td>20-09-2020</td>
-            <td>$70000</td>
-            <td>Rechazado</td>
-          </tr>
-          <tr>
-            <td><a href="">#134</a></td>
-            <td>20-09-2020</td>
-            <td>$50000</td>
-            <td>Completado</td>
-          </tr>
+      <div slot="Órdenes de compra">
+        <!-- <table cellspacing="0">
+          <tbody>
+            <tr>
+              <th>Orden</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+            <tr>
+              <td>
+                <a href>#1</a>
+              </td>
+              <td>20-09-2020</td>
+              <td>$50000</td>
+              <td>En tramite</td>
+            </tr>
+            <tr>
+              <td>
+                <a href>#2</a>
+              </td>
+              <td>20-09-2020</td>
+              <td>$20000</td>
+              <td>Pendiente</td>
+            </tr>
+            <tr>
+              <td>
+                <a href>#4534</a>
+              </td>
+              <td>20-09-2020</td>
+              <td>$70000</td>
+              <td>Rechazado</td>
+            </tr>
+            <tr>
+              <td>
+                <a href>#134</a>
+              </td>
+              <td>20-09-2020</td>
+              <td>$50000</td>
+              <td>Completado</td>
+            </tr>
+          </tbody>
+        </table> -->
+      <OrderDescriptions/>
+      </div>
 
-        </tbody>
-      </table>
+      <div slot="Productos">
+        <ProductsAdmin />
+      </div>
 
-    </div>
+      <div slot="Descripciones">
+        <DescriptionsAdmin/>
+      </div>
 
-    <div slot="Productos">
-        <ProductsAdmin/>
-    </div>
-
+      <div slot="Usuarios">
+        <UsersAdmin/>
+      </div>
     </selector-list>
   </div>
 </template>
@@ -61,6 +74,9 @@ import InputBase from '../components/InputBase.vue';
 import UserInfo from '../components/shared/UserInfo.vue';
 import SelectorList from '../components/ui/SelectorList.vue';
 import ProductsAdmin from '../components/ui/ProductsAdmin.vue';
+import DescriptionsAdmin from '../components/ui/DescriptionsAdmin.vue';
+import UsersAdmin from '../components/ui/UsersAdmin.vue';
+import OrderDescriptions from '../components/ui/OrdersDescriptions.vue';
 
 export default {
   data() {
@@ -74,15 +90,16 @@ export default {
       ],
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
   components: {
     InputBase,
     Cart,
     SelectorList,
     UserInfo,
     ProductsAdmin,
+    DescriptionsAdmin,
+    UsersAdmin,
+    OrderDescriptions,
   },
 };
 </script>
