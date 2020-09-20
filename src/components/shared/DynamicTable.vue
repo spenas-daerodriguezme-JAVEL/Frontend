@@ -67,7 +67,7 @@ export default {
       });
     },
     totalPages() {
-      return Math.round(this.data.length / this.pageSize) + 1;
+      return Math.round(this.data.length / this.pageSize);
     },
   },
   methods: {

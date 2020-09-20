@@ -38,12 +38,12 @@ export default {
       ];
     } else {
       // eslint-disable-next-line no-underscore-dangle
-      retrieveUrl = `/api/order/byId/${jsonJWT._id}`;
+      retrieveUrl = `/api/order/byUserId/${jsonJWT._id}`;
       this.headers = ['Orden', 'Fecha', 'Estado de orden', 'Total'];
     }
     const res = await VAPI.get(retrieveUrl);
     if (res.status === 200) {
-      this.data = res.data.ordersToReturn;
+      this.data = res.data;
     }
   },
   computed: {

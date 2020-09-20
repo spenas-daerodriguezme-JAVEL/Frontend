@@ -2,9 +2,9 @@
   <div>
 
     <div class="product edit-product">
-			<div class="row">
-				<a href="localhost:8080/admin">volver</a>
-			</div>
+	<div class="row">
+		<a href="localhost:8080/admin">volver</a>
+	</div>
       <div class="row">
         <div class="field">
           <div class="tag">Nombre del producto</div>
@@ -56,6 +56,10 @@ export default {
         descriptionId: '',
       },
     };
+  },
+
+  async beforeMount() {
+	  
   },
 };
 </script>

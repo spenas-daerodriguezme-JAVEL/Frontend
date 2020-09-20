@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 <template>
 <div>
         <div class="frow">
@@ -12,7 +13,7 @@
             v-model="idType"
             :options="idTypeOptions"
           ></custom-selector>
-          <input-base label="Número de documento" class="input--medium" v-model="idNumber"></input-base>
+          <input-base :label="'Número de documento'" class="input--medium" v-model="idNumber"></input-base>
         </div>
 
         <div class="frow">
@@ -23,12 +24,11 @@
         <div class="frow">
           <input-base :label="'Ciudad'" class="input--small" v-model="city"></input-base>
           <input-base :label="'Estado'" class="input--small" v-model="state"></input-base>
-          <input-base :label="'País'" class="input--small" v-model="country"></input-base>
         </div>
 
         <div class="frow">
-          <div class="btn" @click="register" style="max-width: 100px; margin-left: 20px">Guardar</div>
-          <div class="btn" @click="register" style="max-width: 200px; margin-left: 20px">Cambiar Contraseña</div>
+          <div class="btn" @click="" style="max-width: 100px; margin-left: 20px">Guardar</div>
+          <div class="btn" @click="" style="max-width: 200px; margin-left: 20px">Cambiar Contraseña</div>
         </div>
       </div>
 </div>
@@ -38,20 +38,20 @@
 <script>
 import { ID_TYPES } from '../../idTypes';
 import util from '../../util/index';
+import VAPI from '../../http_common';
 
 export default {
 
   data() {
     return {
-      name: 'Santiago',
-      lastName: 'Pena Sanabria',
-      email: 'spenas@unal.edu.co',
-      idNumber: 101540234,
-      address: 'Cll 60 # 20 - 45',
-      city: 'Bogota',
-      state: 'Bogota',
-      country: 'Colombia',
-      idType: 'CC',
+      name: '',
+      lastName: '',
+      email: '',
+      idNumber: '',
+      address: '',
+      city: '',
+      state: '',
+      idType: '',
       idTypeOptions: ['CC', 'NIT'],
     };
   },
@@ -59,6 +59,37 @@ export default {
     this.idTypeOptions = util.pairLabelValue(
       ID_TYPES.map((idType) => idType.type),
     );
+  },
+  async created() {
+    const jwt = localStorage.getItem('jwt');
+    const jsonJWT = this.parseJwt(jwt);
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = jsonJWT._id;
+    let userInfo = await VAPI.get(`/api/users/${userId}`);
+    userInfo = userInfo.data;
+    this.name = userInfo.name;
+    this.lastName = userInfo.lastName;
+    this.email = userInfo.email;
+    this.idNumber = userInfo.identificationNumber.toString();
+    this.address = userInfo.address;
+    this.city = userInfo.city;
+    this.state = userInfo.state;
+    this.idType = userInfo.identificationType;
+  },
+
+  methods: {
+    parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+          .join(''),
+      );
+
+      return JSON.parse(jsonPayload);
+    },
   },
 };
 </script>

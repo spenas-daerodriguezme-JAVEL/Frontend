@@ -7,48 +7,6 @@
         <UserInfo />
       </div>
       <div slot="Órdenes de compra">
-        <!-- <table cellspacing="0">
-          <tbody>
-            <tr>
-              <th>Orden</th>
-              <th>Fecha</th>
-              <th>Total</th>
-              <th>Estado</th>
-            </tr>
-            <tr>
-              <td>
-                <a href>#1</a>
-              </td>
-              <td>20-09-2020</td>
-              <td>$50000</td>
-              <td>En tramite</td>
-            </tr>
-            <tr>
-              <td>
-                <a href>#2</a>
-              </td>
-              <td>20-09-2020</td>
-              <td>$20000</td>
-              <td>Pendiente</td>
-            </tr>
-            <tr>
-              <td>
-                <a href>#4534</a>
-              </td>
-              <td>20-09-2020</td>
-              <td>$70000</td>
-              <td>Rechazado</td>
-            </tr>
-            <tr>
-              <td>
-                <a href>#134</a>
-              </td>
-              <td>20-09-2020</td>
-              <td>$50000</td>
-              <td>Completado</td>
-            </tr>
-          </tbody>
-        </table> -->
       <OrderDescriptions/>
       </div>
 
