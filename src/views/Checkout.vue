@@ -16,11 +16,12 @@
             v-model="idType"
             :options="idTypeOptions"
           ></custom-selector>
-          <input-base label="Número de documento" class="input--medium" v-model="email"></input-base>
+          <input-base label="Número de documento" class="input--medium" v-model="idNumber"></input-base>
         </div>
 
         <div class="frow">
           <input-base :label="'Correo electrónico'" class="input--medium" v-model="email"></input-base>
+          <input-base :label="'Teléfono'" class="input--medium" v-model="phone"></input-base>
           <input-base :label="'Dirección'" class="input--medium" v-model="address"></input-base>
         </div>
 
@@ -33,8 +34,12 @@
 
       <div class="w-30 fix__products">
         <h2 style="padding-left: 30px">Orden de compra</h2>
-        <cart :details="true"></cart>
+        <cart
+          :details="true"
+          :createOrder="createOrder"
+        ></cart>
       </div>
+      <!-- <button @click="getUserIdFromJWT">Decodificar</button> -->
     </div>
   </div>
 </template>
@@ -57,13 +62,24 @@ export default {
       state: '',
       country: '',
       idType: '',
+      idNumber: '',
       idTypeOptions: [],
+      phone: '',
     };
   },
   beforeMount() {
     this.idTypeOptions = util.pairLabelValue(
       ID_TYPES.map((idType) => idType.type)
     );
+    const userId = this.getUserIdFromJWT();
+    if (!userId) {
+      return null;
+    }
+    try {
+      this.getUserData(userId);
+    } catch (error) {
+      console.error(error);
+    }
   },
   mounted() {
     const { title } = this.$refs;
@@ -77,6 +93,62 @@ export default {
   components: {
     InputBase,
     Cart,
+  },
+  methods: {
+    getUserIdFromJWT() {
+      const JWT = localStorage.getItem('jwt');
+      if (!JWT) {
+        return null;
+      }
+      const tokens = JWT.split('.');
+      const JwtPayload = JSON.parse(atob(tokens[1]));
+      return JwtPayload._id;
+    },
+    async getUserData(userId) {
+      try {
+        const { data } = await this.$http.get('/api/users/me', {
+          params: {
+            _id: userId
+          }
+        });
+        return data;
+      } catch (error) {
+        console.error(error);
+        throw "Error in getUserData"
+      }
+    },
+    async createOrder() {
+      const order = {
+        name: this.name,
+        lastName: this.lastName,
+        email: this.email,
+        identificationType: this.idType,
+        identificationNumber: this.idNumber,
+        telephone: this.phone,
+        address: this.address,
+        city: this.city,
+        state: this.state,
+        products: this.getProductsAndQuantities(),
+        totalPrice: this.$store.getters.totalCartPrice,
+      };
+      console.log('--------- order --------');
+      console.log(order);
+      try {
+        const res = await this.$http.post('/api/order/createOrder', order);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    getProductsAndQuantities() {
+      const products = [];
+      this.$store.getters.cartProducts.forEach((product) => {
+        products.push({
+          productId: product._id,
+          qty: product.quantity,
+        });
+      });
+      return products;
+    }
   },
 };
 </script>

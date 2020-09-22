@@ -65,7 +65,7 @@
 
     <div class="btn btn--right btn--white"
       style="margin-top: 10px"
-      @click="toCheckout">{{ details ? 'Pagar' : 'Crear orden'}}</div>
+      @click="createOrder">{{ details ? 'Pagar' : 'Crear orden'}}</div>
   </div>
 </template>
 
@@ -79,6 +79,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    createOrder: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
@@ -90,13 +94,7 @@ export default {
       'cartProducts',
     ]),
     totalCost() {
-      let cost = 0;
-
-      for (const product of this.cartProducts) {
-        cost += parseFloat(product.price * product.quantity)
-      }
-
-      return cost;
+      return this.$store.getters.totalCartPrice;
     },
   },
   methods: {
