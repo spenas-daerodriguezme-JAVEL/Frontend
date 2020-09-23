@@ -141,6 +141,17 @@ const router = new Router({
 
 });
 
+router.beforeEach((to, from, next) => {
+  const JWT = localStorage.getItem('jwt');
+  if (JWT) {
+    const tokens = JWT.split('.');
+    const JwtPayload = JSON.parse(atob(tokens[1]));
+    if (Date.now() > JwtPayload.exp * 1000) {
+      localStorage.removeItem('jwt');
+    }
+  }
+  next();
+});
 // router.beforeResolve((from, to, next) => {
 //   store.state.isLoading = true;
 //   next();
