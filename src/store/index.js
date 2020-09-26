@@ -27,6 +27,13 @@ export const store = new Vuex.Store({
     isLoading: (state) => state.isLoading,
     cartProducts: (state) => state.cartProducts,
     countProducts: (state) => state.cartProducts.length,
+    totalCartPrice: (state) => {
+      let cost = 0;
+      state.cartProducts.forEach((product) => {
+        cost += parseFloat(product.price * product.quantity);
+      });
+      return cost;
+    },
   },
   mutations: {
     isLoading: (state, payload) => {
@@ -57,7 +64,8 @@ export const store = new Vuex.Store({
       if (state.cartProducts[index].quantity > 1) {
         state.cartProducts[index].quantity -= 1;
       }
-    }
+    },
+    resetCart: (state) => { state.cartProducts = []; },
   },
   actions: {
     removeProductFromCart({ commit }, product) {
