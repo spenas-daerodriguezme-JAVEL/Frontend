@@ -1,6 +1,6 @@
 <template>
 <div>
-  <DynamicTable :headers="headers" :data="getDescriptionData"/>
+  <DynamicTable :headers="headers" :data="getDescriptionData" href="/admin/description"/>
 </div>
 </template>
 
@@ -22,7 +22,6 @@ export default {
   async created() {
     const res = await VAPI.get('/api/description/allDescriptions');
     this.data = res.data;
-    console.log(res.data);
   },
   computed: {
     getDescriptionData() {

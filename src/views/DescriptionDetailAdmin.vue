@@ -71,37 +71,37 @@
     <div class="row">
       <div class="field">
         <div class="tag">Descripción catálogo</div>
-        <textarea v-model="product.catalog_description" type="textarea" />
+        <textarea v-model="description.description" type="textarea" />
       </div>
     </div>
 
     <div class="row">
       <div class="field field--small">
         <div class="tag">Aspecto físico</div>
-        <input v-model="product.physical_appereance" type="text" />
+        <input v-model="description.physicalAspect" type="text" />
       </div>
       <div class="field field--small">
         <div class="tag">Olor</div>
-        <input v-model="product.smell" type="text" />
+        <input v-model="description.smell" type="text" />
       </div>
       <div class="field field--small">
         <div class="tag">Color</div>
-        <input v-model="product.color" type="text" />
+        <input v-model="description.color" type="text" />
       </div>
     </div>
 
     <div class="row">
       <div class="field field--small">
         <div class="tag">Gravedad específica</div>
-        <input v-model="product.specific_gravity" type="text" />
+        <input v-model="description.gravity" type="text" />
       </div>
       <div class="field field--small">
         <div class="tag">Viscosidad</div>
-        <input v-model="product.viscosity" type="text" />
+        <input v-model="description.viscosity" type="text" />
       </div>
       <div class="field field--small">
         <div class="tag">Solubilidad en agua</div>
-        <input v-model="product.water_solubility" type="text" />
+        <input v-model="description.solubility" type="text" />
       </div>
     </div>
 
@@ -109,34 +109,34 @@
       <div class="field field--small">
         <div class="tag">Inflamable</div>
         <selector
-          :value.sync="product.flamable"
+          :value.sync="description.flammable"
           :options="[{label: 'Si', value: 'Si'}, {label: 'No', value: 'No'}]"
           :default-option="' - '"
         ></selector>
       </div>
       <div class="field field--small">
         <div class="tag">Densidad</div>
-        <input v-model="product.density" type="text" />
+        <input v-model="description.density" type="text" />
       </div>
       <div class="field field--small">
         <div class="tag">Principio activo</div>
-        <input v-model="product.active_principle" type="text" />
+        <input v-model="description.activeComponent" type="text" />
       </div>
     </div>
 
     <div class="row">
       <div class="field field--small">
         <div class="tag">Peso específico</div>
-        <input v-model.number="product.weight" type="number" />
+        <input v-model.number="description.weight" type="number" />
       </div>
       <div class="field field--small">
         <div class="tag">Índice de refracción</div>
-        <input v-model="product.refractive_index" type="text" />
+        <input v-model="description.refractionIndex" type="text" />
       </div>
       <div class="field field--small">
         <div class="tag">Toxico</div>
         <selector
-          :value.sync="product.toxic"
+          :value.sync="description.isToxic"
           :options="[{label: 'Si', value: 'Si'}, {label: 'No', value: 'No'}]"
           :default-option="' - '"
         ></selector>
@@ -146,49 +146,49 @@
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 1</div>
-        <textarea v-model="product.paragraph_1" type="textarea" />
+        <textarea v-model="description.paragraph1" type="textarea" />
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 2</div>
-        <textarea v-model="product.paragraph_2" type="textarea" />
+        <textarea v-model="description.paragraph2" type="textarea" />
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 3</div>
-        <textarea v-model="product.paragraph_3" type="textarea" />
+        <textarea v-model="description.paragraph3" type="textarea" />
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 4</div>
-        <textarea v-model="product.paragraph_4" type="textarea" />
+        <textarea v-model="description.paragraph4" type="textarea" />
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Título de pasos</div>
-        <input v-model="product.step_title" type="text" />
+        <input v-model="description.stepTitle" type="text" />
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Pasos</div>
-        <div class="field--controls" v-for="(step, index) in product.steps" :key="index">
-          <input @keydown.enter="addStep(index)" v-model="product.steps[index]" type="text" />
+        <div class="field--controls" v-for="(step, index) in description.steps" :key="index">
+          <input @keydown.enter="addStep(index)" v-model="description.steps[index]" type="text" />
           <div class="field__control" @click="addStep(index)">
             <svg class="material-icon" viewBox="0 0 24 24">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
           </div>
-          <div class="field__control" v-show="product.steps.length > 1" @click="removeStep(index)">
+          <div class="field__control" v-show="description.steps.length > 1" @click="removeStep(index)">
             <svg class="material-icon" viewBox="0 0 24 24">
               <path d="M19 13H5v-2h14v2z" />
             </svg>
@@ -200,29 +200,63 @@
     <div class="row">
       <div class="field">
         <div class="tag">Título de promoción</div>
-        <input v-model="product.promotion_title" type="text" />
+        <input v-model="description.promoTitle" type="text" />
       </div>
     </div>
 
-    <div
+    <!-- <div
       class="btn btn--save"
       @click="saveForm"
-    >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
+    >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div> -->
   </div>
 </template>
 
 <script>
+import VAPI from '../http_common';
+
 export default {
   data() {
     return {
-      product: {
-        name: '',
-        business_line: '',
-        dimention: '',
-        price: '',
-        descriptionId: '',
+      currentAction: '',
+      description: {
+        description: '',
+        physicalAspect: '',
+        smell: '',
+        color: '',
+        gravity: '',
+        viscosity: '',
+        solubility: '',
+        flammable: '',
+        density: '',
+        activeComponent: '',
+        weight: '',
+        refractionIndex: '',
+        isToxic: '',
+        paragraph1: '',
+        paragraph2: '',
+        paragraph3: '',
+        paragraph4: '',
+        stepTitle: '',
+        steps: [],
+        promoTitle: '',
       },
     };
+  },
+
+  async beforeMount() {
+    this.currentAction = this.$route.meta.actionType;
+    if (this.currentAction === 'Editar') {
+      await this.editDescription();
+    }
+  },
+  methods: {
+    async editDescription() {
+      const parameter = this.$route.params.id;
+      const description = await VAPI.get(`/api/description/${parameter}`);
+      const descriptionData = description.data;
+      console.log(descriptionData);
+      this.description = descriptionData;
+    },
   },
 };
 </script>

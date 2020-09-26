@@ -26,6 +26,7 @@ module.exports = {
     'no-plusplus': 'off',
     'import/no-unresolved': 'off',
     'linebreak-style': 'off',
+    'no-tabs': 'off',
   },
   overrides: [
     {

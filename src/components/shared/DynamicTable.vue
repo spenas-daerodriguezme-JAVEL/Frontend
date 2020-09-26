@@ -79,12 +79,13 @@ export default {
         return `<a href="${this.href}/${link}">${text}</a>`;
       }
       if (!matchExists) return text;
-      const re = new RegExp(this.filter, "ig");
+      const re = new RegExp(this.filter, 'ig');
       const finalText = text.replace(
         re,
-        (matchedText) => `<strong>${matchedText}</strong>`
+        (matchedText) => `<strong>${matchedText}</strong>`,
       );
       if (idx === 0) {
+        // return `<a @click="redirect(${link})">${finalText}</a>`;
         return `<a href="${this.href}/${link}">${finalText}</a>`;
       }
       return finalText;
@@ -94,6 +95,9 @@ export default {
     },
     prevPage() {
       if (this.currentPage > 1) this.currentPage--;
+    },
+    redirect() {
+      console.log('holi');
     },
   },
 };

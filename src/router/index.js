@@ -91,7 +91,7 @@ const router = new Router({
         },
         {
           path: '/admin/description/:id',
-          name: 'ProductEdit',
+          name: 'DescriptionEdit',
           component: DescriptionDetailAdmin,
           meta: {
             actionType: 'Editar',

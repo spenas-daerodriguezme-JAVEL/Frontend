@@ -2,9 +2,9 @@
   <div>
 
     <div class="product edit-product">
-	<div class="row">
-		<a href="localhost:8080/admin">volver</a>
-	</div>
+     <div class="row">
+		  <router-link :to="'AdminPanel'" exact>Volver</router-link>
+	     </div>
       <div class="row">
         <div class="field">
           <div class="tag">Nombre del producto</div>
@@ -15,12 +15,12 @@
       <div class="row">
         <div class="field field--small">
           <div class="tag">Línea de negocio</div>
-          <input v-model="product.business_line" type="text" />
+          <input v-model="product.businessLine" type="text" />
         </div>
         <div class="flex">
           <div class="tag">Presentación disponible</div>
           <div class="field--controls">
-            <input v-model="product.dimention" type="text" />
+            <input v-model="product.capacity" type="text" />
           </div>
         </div>
         <div class="field field--small">
@@ -32,7 +32,11 @@
       <div class="row">
         <div class="field">
           <div class="tag">Id Descripcion</div>
-          <input v-model="product.descriptionId" type="text" />
+          <input v-model="product.properties" type="text" />
+        </div>
+        <div class="field">
+          <div class="tag">SKU</div>
+          <input v-model="product.SKU" type="text" />
         </div>
       </div>
 
@@ -45,21 +49,38 @@
 </template>
 
 <script>
+import VAPI from '../http_common';
+
 export default {
   data() {
     return {
+	    currentAction: '',
       product: {
         name: '',
-        business_line: '',
-        dimention: '',
+        businessLine: '',
+        capacity: '',
         price: '',
-        descriptionId: '',
+        properties: '',
+        SKU: '',
       },
     };
   },
 
   async beforeMount() {
-	  
+    this.currentAction = this.$route.meta.actionType;
+    if (this.currentAction === 'Editar') {
+      await this.editProduct();
+    }
+  },
+  methods: {
+    async editProduct() {
+      const parameter = this.$route.params.id;
+      const product = await VAPI.get(`/api/product/${parameter}`);
+      const productData = product.data;
+      this.product = productData;
+
+
+    },
   },
 };
 </script>

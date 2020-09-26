@@ -4,8 +4,8 @@ import axios from 'axios';
 const { URI } = process.env;
 
 const VAPI = axios.create({
-    // baseURL: 'http://aguadejavel.com:3000',
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://aguadejavel.com:3000',
+    // baseURL: 'http://localhost:3000',
     timeout: 60000,
 });
 

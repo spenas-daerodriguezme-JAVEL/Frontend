@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DynamicTable :headers="headers" :data="getProductsData"/>
+    <DynamicTable :headers="headers" :data="getProductsData" href="/admin/product"/>
   </div>
 </template>
 
