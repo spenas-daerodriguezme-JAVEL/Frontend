@@ -1,29 +1,14 @@
 <template>
   <div class="checkout">
-    <div class="section">Hola Santiago</div>
+    <div class="section">Hola Christian</div>
 
     <selector-list
       :options="options">
-
       <div slot="Información de contacto">
         <UserInfo/>
       </div>
-
     <div slot="Órdenes de compra">
-      <!-- <div class="contact__detail">
-        <div class="contact__item">
-          <div class="contact__title">Contacto</div>
-          Daniel Rodríguez
-          dlsusp@gmail.com
-        </div>
-
-        <div class="contact__item">
-          <div class="contact__title">Dirección</div>
-          Carrera 57b #66 - 35
-        </div>
-      </div> -->
-
-      <table cellspacing="0">
+     <table cellspacing="0">
         <tbody>
           <tr>
             <th>Orden</th>
@@ -60,62 +45,11 @@
       </table>
 
     </div>
-    <div slot="Solicitud de productos">
-      <!-- <b>Contacto</b> -->
 
-      En caso de que algún producto no se encuentre en existencia. Llene el formulario con los productos que necesite y nos pondremos en contacto con usted
-<table cellspacing="0">
-        <tbody>
-          <tr>
-            <th>Nombre</th>
-            <th>Presentación</th>
-            <th>Cantidad</th>
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-
-        </tbody>
-      </table>
-
-       <div class="frow">
-          <div class="btn" @click="register" style="max-width: 200px; ">Enviar</div>
-        </div>
+    <div slot="Productos">
+        <ProductsAdmin/>
     </div>
 
-   <div slot="Quejas, reclamos, sugerencias y felicitaciones">
-     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
-     <textarea style="width:1000px;height:300px"> </textarea>
-     <div style="display: inline-block;">
-       <p style="margin: 12px 0;">Documentos anexos</p>
-       <input type="file" name="" id="">
-
-     </div>
-      <div class="frow">
-          <div class="btn" @click="register" style="max-width: 200px; ">Enviar</div>
-        </div>
-   </div>
     </selector-list>
   </div>
 </template>
@@ -124,8 +58,9 @@
 import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
 import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
-import SelectorList from '../components/ui/SelectorList.vue';
 import UserInfo from '../components/shared/UserInfo.vue';
+import SelectorList from '../components/ui/SelectorList.vue';
+import ProductsAdmin from '../components/ui/ProductsAdmin.vue';
 
 export default {
   data() {
@@ -133,8 +68,9 @@ export default {
       options: [
         'Información de contacto',
         'Órdenes de compra',
-        'Solicitud de productos',
-        'Quejas, reclamos, sugerencias y felicitaciones',
+        'Productos',
+        'Descripciones',
+        'Usuarios',
       ],
     };
   },
@@ -143,9 +79,10 @@ export default {
   },
   components: {
     InputBase,
-    UserInfo,
     Cart,
     SelectorList,
+    UserInfo,
+    ProductsAdmin,
   },
 };
 </script>

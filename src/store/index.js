@@ -64,7 +64,8 @@ export const store = new Vuex.Store({
       if (state.cartProducts[index].quantity > 1) {
         state.cartProducts[index].quantity -= 1;
       }
-    }
+    },
+    resetCart: (state) => { state.cartProducts = []; },
   },
   actions: {
     removeProductFromCart({ commit }, product) {

@@ -3,7 +3,22 @@
     <div class="row">
       <div class="w-70 pad">
         <h1 ref="title">Facturación electrónica</h1>
-
+        <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu">
+          <input name="merchantId"    type="hidden"  value="508029"   >
+          <input name="accountId"     type="hidden"  value="512321" >
+          <input name="description"   type="hidden"  value="Test PAYU"  >
+          <input name="referenceCode" type="hidden"  value="api12343412" >
+          <input name="amount"        type="hidden"  value="20000"   >
+          <input name="tax"           type="hidden"  value="3193"  >
+          <input name="taxReturnBase" type="hidden"  value="16806" >
+          <input name="currency"      type="hidden"  value="COP" >
+          <input name="signature"     type="hidden"  value="ed549198f7ceecf96ff7139d27110857"  >
+          <input name="test"          type="hidden"  value="1" >
+          <input name="buyerEmail"    type="hidden"  value="test@test.com" >
+          <input name="responseUrl"    type="hidden"  value="http://aguadejavel.com/transaction-state" >
+          <input name="confirmationUrl"  type="hidden"  value="http://aguadejavel.com:3000/api/order/aja" >
+          <input name="Submit"        type="submit"  value="Enviar" >
+        </form>
         <div class="frow">
           <input-base :label="'Nombre'" class="input--medium" v-model="name"></input-base>
           <input-base :label="'Apellido'" class="input--medium" v-model="lastName"></input-base>
@@ -16,7 +31,7 @@
             v-model="idType"
             :options="idTypeOptions"
           ></custom-selector>
-          <input-base label="Número de documento" class="input--medium" v-model="idNumber"></input-base>
+          <input-base :label="'Número de documento'" class="input--medium" v-model="idNumber"></input-base>
         </div>
 
         <div class="frow">
@@ -41,6 +56,11 @@
       </div>
       <!-- <button @click="getUserIdFromJWT">Decodificar</button> -->
     </div>
+    <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">{{this.modalText}}</div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
@@ -65,20 +85,27 @@ export default {
       idNumber: '',
       idTypeOptions: [],
       phone: '',
+      modalText: '',
     };
   },
   beforeMount() {
     this.idTypeOptions = util.pairLabelValue(
-      ID_TYPES.map((idType) => idType.type)
+      ID_TYPES.map((idType) => idType.type),
     );
     const userId = this.getUserIdFromJWT();
-    if (!userId) {
-      return null;
-    }
-    try {
-      this.getUserData(userId);
-    } catch (error) {
-      console.error(error);
+    if (userId) {
+      this.getUserData(userId)
+        .then((data) => {
+          this.name = data.name;
+          this.lastName = data.lastName;
+          this.email = data.email;
+          this.idType = data.identificationType;
+          this.idNumber = data.identificationNumber;
+          this.phone = data.telephone;
+        }).catch((error)=> {
+          console.error("---------- Something wrong while get user data -----------");
+          console.error(error);
+        });
     }
   },
   mounted() {
@@ -107,9 +134,10 @@ export default {
     async getUserData(userId) {
       try {
         const { data } = await this.$http.get('/api/users/me', {
-          params: {
-            _id: userId
-          }
+          headers: {
+            'id': userId,
+            'x-auth': localStorage.getItem('jwt'),
+          },
         });
         return data;
       } catch (error) {
@@ -131,12 +159,20 @@ export default {
         products: this.getProductsAndQuantities(),
         totalPrice: this.$store.getters.totalCartPrice,
       };
-      console.log('--------- order --------');
-      console.log(order);
       try {
         const res = await this.$http.post('/api/order/createOrder', order);
+        this.modalText = 'Orden creada exitosamente';
+        this.$refs.modal.triggerModal();
+        setTimeout(() => {
+          this.$store.commit('resetCart');
+          this.$router.push({
+            name: 'Catalog',
+          });
+        }, 1000);
       } catch (error) {
-        console.error(error);
+        this.modalText = 'Algo salió mal. Intenta nuevamente';
+        this.$refs.modal.triggerModal();
+        console.log(error);
       }
     },
     getProductsAndQuantities() {
