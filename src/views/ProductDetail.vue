@@ -1,131 +1,186 @@
 <template>
-  <div class="product_detail">
-    <div class="product__main">
-      <div class="image__container">
-        <img src="../assets/productos/QUITAOXIDO.jpg" alt="" class="image__holder">
+  <div>
+    <div v-if="isLoading">
+      Cargando ...
+    </div>
+    <div class="product_detail" v-else>
+      <div class="product__main">
+        <div class="image__container">
+          <img
+            src="../assets/productos/QUITAOXIDO.jpg"
+            alt=""
+            class="image__holder"
+          />
 
-        <div class="btn-buy">
-          <div class="btn-buy__item btn-buy--left">123</div>
-          <div class="btn-buy__item btn-buy--right">Comprar</div>
+          <div class="btn-buy">
+            <div class="btn-buy__item btn-buy--left">
+              {{ this.product.price | toMoney }}
+            </div>
+            <div class="btn-buy__item btn-buy--right">Comprar</div>
+          </div>
+        </div>
+
+        <div class="text__container">
+          <div class="product__title">{{ this.product.name }}</div>
+          <div class="product__description">
+            {{ this.product.properties.description }}
+          </div>
         </div>
       </div>
 
-      <div class="text__container">
-        <div class="product__title">Quita manchas</div>
-        <div class="product__description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id earum, corporis, a quod dolores architecto autem maiores ducimus fugiat nam in veritatis recusandae ut temporibus repudiandae suscipit aspernatur, cupiditate minima eum. Aspernatur, accusantium laborum. Accusamus, tempore perferendis minus recusandae sapiente ex optio beatae dolorem, dolor vel fugit omnis eligendi quibusdam.
+      <div class="product__details">
+        <div class="product__feature">
+          <b>Aspecto físico</b>
+          {{ this.product.properties.physicalAspect }}
+        </div>
+        <div class="product__feature">
+          <b>Olor</b>
+          {{ this.product.properties.smell }}
+        </div>
+        <div class="product__feature">
+          <b>Color</b>
+          {{ this.product.properties.color }}
+        </div>
+        <div class="product__feature">
+          <b>Fragancias</b>
+          {{ this.product.properties.fragance }}
+        </div>
+        <div class="product__feature">
+          <b>Gravedad específica</b>
+          {{ this.product.properties.gravity }}
+        </div>
+        <div class="product__feature">
+          <b>Viscosidad</b>
+          {{ this.product.properties.viscosity }}
+        </div>
+        <div class="product__feature">
+          <b>Solubilidad en agua</b>
+          {{ this.product.properties.solubility }}
+        </div>
+        <div class="product__feature">
+          <b>Infablamable</b>
+          {{ this.product.properties.flammable }}
+        </div>
+        <div class="product__feature">
+          <b>Densidad</b>
+          {{ this.product.properties.density }}
+        </div>
+        <div class="product__feature">
+          <b>PH</b>
+          {{ this.product.properties.ph }}
+        </div>
+        <div class="product__feature">
+          <b>Componente activo</b>
+          {{ this.product.properties.activeComponent }}
+        </div>
+        <div class="product__feature">
+          <b>Peso</b>
+          {{ this.product.properties.weight }}
+        </div>
+        <div class="product__feature">
+          <b>Índice de refracción</b>
+          {{ this.product.properties.refractionIndex }}
+        </div>
+        <div class="product__feature">
+          <b>Dilución</b>
+          {{ this.product.properties.dilution }}
+        </div>
+        <div class="product__feature">
+          <b>Es tóxico</b>
+          {{ this.product.properties.isToxic }}
         </div>
       </div>
-    </div>
 
-    <div class="product__details">
-      <div class="product__feature">
-        <b>Aspecto físico</b>
-        627
+      <div class="gallery">
+        <div class="gallery__item hlp__image-cover">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
+        <div class="gallery__item hlp__image-cover">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
       </div>
-      <div class="product__feature">
-        <b>Olor</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Color</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Fragancias</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Gravedad específica</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Viscosidad</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Solubilidad en agua</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Infablamable</b>
-        627
-      </div>
-    </div>
 
-    <div class="gallery">
-      <div class="gallery__item hlp__image-cover">
-        <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
+      <div class="product__phrase">
+        {{ this.product.properties.paragraph1 }}
       </div>
-      <div class="gallery__item hlp__image-cover">
-        <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
-      </div>
-    </div>
 
-    <div class="product__phrase">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
-    </div>
+      <div class="title--center">Modo de empleo</div>
+      <div class="steps__container">
+        <div
+          class="steps__item"
+          v-for="(step, index) in product.properties.steps"
+          :key="index"
+        >
+          <div class="step__count">{{ index + 1 }}</div>
+          <div class="step__description">
+            {{ step }}
+          </div>
+        </div>
+      </div>
 
-    <div class="title--center">Modo de empleo</div>
-    <div class="steps__container">
-      <div class="steps__item">
-        <div class="step__count">1</div>
-        <div class="step__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, modi?</div>
+      <div class="gallery">
+        <div class="gallery__item hlp__image-cover gallery__item--centered">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
+        <div class="gallery__item hlp__image-cover gallery__item--centered">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
       </div>
-      <div class="steps__item">
-        <div class="step__count">2</div>
-        <div class="step__description">Earum architecto perspiciatis possimus aspernatur repellendus itaque cupiditate magnam quibusdam.</div>
-      </div>
-      <div class="steps__item">
-        <div class="step__count">3</div>
-        <div class="step__description">Quaerat voluptatum minus consectetur assumenda quidem officia! Quis, nobis nihil.</div>
-      </div>
-      <div class="steps__item">
-        <div class="step__count">4</div>
-        <div class="step__description">Nulla iure vero inventore, accusantium voluptas sed officiis voluptatem consequatur.</div>
-      </div>
-    </div>
 
-  <div class="gallery">
-    <div class="gallery__item hlp__image-cover gallery__item--centered">
-      <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
-    </div>
-    <div class="gallery__item hlp__image-cover gallery__item--centered">
-      <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
+      <div class="product__phrase product__phrase--detail">
+        {{ this.product.properties.paragraph2 }}
+      </div>
+
+      <div class="product__phrase product__phrase--detail">
+        {{ this.product.properties.paragraph3 }}
+      </div>
+
+      <div class="title--center title--third" style="margin-bottom: 100px;">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </div>
+      <modal-info useSlot autoSize ref="modal">
+        <div class="modal__message">
+          <div class="title__menu">{{ this.modalText }}</div>
+        </div>
+      </modal-info>
     </div>
   </div>
-
-  <div class="product__phrase product__phrase--detail">
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
-  </div>
-
-  <div class="product__phrase product__phrase--detail">
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
-  </div>
-
-  <div class="title--center title--third"
-    style="margin-bottom: 100px">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-  </div>
-  </div>  
 </template>
 
 <script>
-import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
+import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
+import util from "../util/index";
 
 export default {
   data() {
     return {
-      product_id: null
-    }
+      product_id: null,
+      product: {},
+      modalText: "",
+      isLoading: true,
+    };
   },
-  mounted() {
-    
-    },
-  beforeMount() {
+  created() {
     this.product_id = this.$route.params.id;
-  }
-}
+
+    this.$http
+      .get(`/api/product/${this.product_id}`)
+      .then((response) => {
+        this.product = response.data;
+      })
+      .catch((error) => {
+        this.modalText =
+          "Algo salió mal. Por favor intentalo de nuevo más tarde.";
+        this.$refs.modal.triggerModal();
+        console.log(error);
+      }).finally(() => {
+        this.isLoading = false;
+      });
+  },
+  filters: {
+    toMoney: util.toMoney,
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -157,7 +212,7 @@ export default {
   flex-flow: column
 
 img.image__holder
-    @extend %image-cover
+  @extend %image-cover
 
 .product__details
   +flex(0, 0)

@@ -133,42 +133,42 @@ export default {
     return {
       products: [
         {
-          _id: '5f302ada1b91f680cda672b6',
+          _id: '5f73ea99d6c7d382abdd08f4',
           title: 'QUITA MANCHAS GRANULADO',
           capacity: '400 gr',
           price: 6000,
           img: '/productos/QUITA MANCHAS.jpg',
         },
         {
-          _id: '5f302ada1b91f64d0ea672bb',
+          _id: '5f73ea99d6c7d382abdd08f4',
           title: 'QUITA MANCHAS LÍQUIDO',
           capacity: '250 ml',
           price: 6700,
           img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
         },
         {
-          _id: '5f302ada1b91f68ebda672bd',
+          _id: '5f73ea99d6c7d382abdd08f4',
           title: 'QUITA TINTA',
           capacity: '10 ml',
           price: 5700,
           img: '/productos/QUITA TINTA.jpg',
         },
         {
-          _id: '5f302ada1b91f63db3a672b5',
+          _id: '5f73ea99d6c7d382abdd08f4',
           title: 'QUITA MANCHAS GRANULADO',
           capacity: '400 gr',
           price: 6000,
           img: '/productos/QUITA MANCHAS.jpg',
         },
         {
-          _id: '5f302ada1b91f63cc4a672bf',
+          _id: '5f73ea99d6c7d382abdd08f4',
           title: 'QUITA MANCHAS LÍQUIDO',
           capacity: '250 ml',
           price: 6700,
           img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
         },
         {
-          _id: '5f302ada1b91f6f17aa672d4',
+          _id: '5f73ea99d6c7d382abdd08f4',
           title: 'QUITA TINTA',
           capacity: '10 ml',
           price: 5700,
