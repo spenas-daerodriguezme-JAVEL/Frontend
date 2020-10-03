@@ -26,7 +26,7 @@
           <input-base :label="'Estado'" class="input--small" v-model="state"></input-base>
         </div>
 
-        <div class="frow">
+        <div class="frow" v-if="!isAdmin">
           <div class="btn" @click="" style="max-width: 100px; margin-left: 20px">Guardar</div>
           <div class="btn" @click="" style="max-width: 200px; margin-left: 20px">Cambiar Contraseña</div>
         </div>
@@ -42,6 +42,10 @@ import VAPI from '../../http_common';
 
 export default {
 
+  props: {
+    userId: String,
+  },
+
   data() {
     return {
       name: '',
@@ -53,19 +57,26 @@ export default {
       state: '',
       idType: '',
       idTypeOptions: ['CC', 'NIT'],
+      isAdmin: false,
     };
   },
-  beforeMount() {
+  async beforeMount() {
     this.idTypeOptions = util.pairLabelValue(
       ID_TYPES.map((idType) => idType.type),
     );
-  },
-  async created() {
-    const jwt = localStorage.getItem('jwt');
-    const jsonJWT = this.parseJwt(jwt);
-    // eslint-disable-next-line no-underscore-dangle
-    const userId = jsonJWT._id;
-    let userInfo = await VAPI.get(`/api/users/${userId}`);
+    let userInfo;
+    if (this.$route.meta.actionType === 'Visualizar') {
+      const parameter = this.$route.params.id;
+      userInfo = await VAPI.get(`/api/users/${parameter}`);
+      this.isAdmin = true;
+    } else {
+      const jwt = localStorage.getItem('jwt');
+      const jsonJWT = this.parseJwt(jwt);
+      // eslint-disable-next-line no-underscore-dangle
+      const userId = jsonJWT._id;
+      userInfo = await VAPI.get(`/api/users/${userId}`);
+    }
+
     userInfo = userInfo.data;
     this.name = userInfo.name;
     this.lastName = userInfo.lastName;

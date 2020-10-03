@@ -3,7 +3,7 @@
     <div class="row">
       <div class="w-70 pad">
         <h1 ref="title">Facturación electrónica</h1>
-        <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu">
+        <!-- <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu">
           <input name="merchantId"    type="hidden"  value="508029"   >
           <input name="accountId"     type="hidden"  value="512321" >
           <input name="description"   type="hidden"  value="Test PAYU"  >
@@ -18,7 +18,18 @@
           <input name="responseUrl"    type="hidden"  value="http://aguadejavel.com/transaction-state" >
           <input name="confirmationUrl"  type="hidden"  value="http://aguadejavel.com:3000/api/order/aja" >
           <input name="Submit"        type="submit"  value="Enviar" >
-        </form>
+        </form> -->
+
+        <form action="https://checkout.wompi.co/p/" method="GET">
+  <!-- OBLIGATORIOS -->
+  <input type="hidden" name="public-key" value="LLAVE_PUBLICA_DEL_COMERCIO" />
+  <input type="hidden" name="currency" value="MONEDA" />
+  <input type="hidden" name="amount-in-cents" value="MONTO_EN_CENTAVOS" />
+  <input type="hidden" name="reference" value="REFERENCIA_DE_PAGO" />
+  <!-- OPCIONALES -->
+  <input type="hidden" name="redirect-url" value="URL_REDIRECCION" />
+  <button type="submit">Pagar con Wompi</button>
+</form>
         <div class="frow">
           <input-base :label="'Nombre'" class="input--medium" v-model="name"></input-base>
           <input-base :label="'Apellido'" class="input--medium" v-model="lastName"></input-base>
@@ -102,8 +113,8 @@ export default {
           this.idType = data.identificationType;
           this.idNumber = data.identificationNumber;
           this.phone = data.telephone;
-        }).catch((error)=> {
-          console.error("---------- Something wrong while get user data -----------");
+        }).catch((error) => {
+          console.error('---------- Something wrong while get user data -----------');
           console.error(error);
         });
     }
@@ -135,14 +146,14 @@ export default {
       try {
         const { data } = await this.$http.get('/api/users/me', {
           headers: {
-            'id': userId,
+            id: userId,
             'x-auth': localStorage.getItem('jwt'),
           },
         });
         return data;
       } catch (error) {
         console.error(error);
-        throw "Error in getUserData"
+        throw 'Error in getUserData';
       }
     },
     async createOrder() {
@@ -184,7 +195,7 @@ export default {
         });
       });
       return products;
-    }
+    },
   },
 };
 </script>

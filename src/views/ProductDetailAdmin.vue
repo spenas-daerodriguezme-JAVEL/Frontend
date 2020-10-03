@@ -40,6 +40,23 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="field">
+          <div class="tag">¿Mostrar en catálogo?</div>
+          <select
+            v-model="product.isActive"
+            class='input-base input--medium'
+          >
+          <option value='true'>Si</option>
+          <option value='false'>No</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="tag">Posición de catálogo</div>
+          <input v-model="product.position" type="text" />
+        </div>
+      </div>
+
       <div
         class="btn btn--save"
         @click="saveForm"
@@ -62,6 +79,8 @@ export default {
         price: '',
         properties: '',
         SKU: '',
+        isActive: true,
+        position: 1,
       },
     };
   },
@@ -78,8 +97,6 @@ export default {
       const product = await VAPI.get(`/api/product/${parameter}`);
       const productData = product.data;
       this.product = productData;
-
-
     },
   },
 };

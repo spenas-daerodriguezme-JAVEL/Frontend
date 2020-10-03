@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 <template>
   <div>
     <DynamicTable :headers="headers" :data="getProductsData" href="/admin/product"/>
@@ -11,7 +12,7 @@ import VAPI from '../../http_common';
 export default {
   data() {
     return {
-      headers: ['SKU', 'Nombre', 'Presentación'],
+      headers: ['SKU', 'Nombre', 'Presentación', 'Posición'],
       data: [],
     };
   },
@@ -27,6 +28,8 @@ export default {
         Nombre: product.name,
         // eslint-disable-next-line quote-props
         'Presentación': product.capacity,
+        // eslint-disable-next-line quote-props
+        'Posición': product.position.toString(),
       }));
     },
   },
