@@ -13,6 +13,7 @@ import MyAccount from '../views/MyAccount.vue';
 import CreateAccount from '../views/CreateAccount.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
 import ProductDetail from '../views/ProductDetail.vue';
+import UserInfo from '../components/shared/UserInfo.vue';
 import AdminCatalogList from '../views/Admin/AdminCatalogList.vue';
 import AdminCatalogProduct from '../views/Admin/AdminCatalogProduct.vue';
 import PurchaseResume from '../views/PurchaseResume.vue';
@@ -108,6 +109,14 @@ const router = new Router({
           component: AdminCatalogProduct,
           meta: {
             actionType: 'Crear',
+          },
+        },
+        {
+          path: '/admin/user/:id',
+          name: 'UserDetail',
+          component: UserInfo,
+          meta: {
+            actionType: 'Visualizar',
           },
         },
         {
