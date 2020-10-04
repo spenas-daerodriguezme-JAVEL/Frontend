@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div v-if="isLoading">
-      Cargando ...
+    <div class="loader-container" v-if="isLoading">
+      <div class="loader"></div>
+      <b>Cargando ...</b>
     </div>
     <div class="product_detail" v-else>
       <div class="product__main">
@@ -356,8 +357,27 @@ img.image__holder
   padding-top: 1rem;
   position: -webkit-sticky
   position: sticky
-  top: 6rem 
+  top: 6rem
   cursor: pointer
+
+// Loader
+
+.loader-container
+  padding-top: 2rem
+  text-align: center
+
+.loader
+  margin: auto
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid black
+  border-radius: 50%
+  width: 80px
+  height: 80px
+  animation: spin 2s linear infinite
+
+@keyframes spin
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 
 @media (max-width: 816px)
   .btn-buy
