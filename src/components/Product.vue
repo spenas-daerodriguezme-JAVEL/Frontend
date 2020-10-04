@@ -1,5 +1,7 @@
 <template>
-  <div class="product" :class="{'product--large': isDouble}">
+  <div class="product" :class="{'product--large': isDouble}"
+    @click="showDetail(data._id)"
+  >
     <div v-if="isDouble" class="img-aux">
       <!-- <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt=""> -->
       <img src="../assets/productos/QUITAOXIDO.jpg" />
@@ -16,7 +18,7 @@
           :src="image.url ? URI + image.url : ''"
         />
         <div class="buy__item">
-          <div class="buy__item--inner" @click="sendToCart">Comprar</div>
+          <div class="buy__item--inner" @click.stop="sendToCart">Comprar</div>
         </div>
       </div>
       <div class="product__description">
@@ -160,6 +162,9 @@ export default {
         self.activeImage = -1;
       };
     },
+    showDetail(productId) {
+      this.$router.push({ name: 'ProductDetail', params: { id: productId } });
+    },
   },
   watch: {
     resize() {
@@ -186,6 +191,7 @@ export default {
     +flex(1, 1)
     width: 300px
     flex-direction: column
+    cursor: pointer
 
 .product--large
     width: 100%
