@@ -14,81 +14,37 @@
 
           <div class="btn-buy">
             <div class="btn-buy__item btn-buy--left">
-              {{ this.product.price | toMoney }}
+              {{ product.price | toMoney }}
             </div>
-            <div class="btn-buy__item btn-buy--right">Comprar</div>
+            <div @click="sendToCart"
+              class="btn-buy__item btn-buy--right"
+            > Comprar
+            </div>
           </div>
         </div>
 
         <div class="text__container">
-          <div class="product__title">{{ this.product.name }}</div>
+          <div class="product__title">{{ product.name }}</div>
+            <div class="d-flex">
+              <b>Capacidad</b>
+              {{ product.capacity }}
+              {{ product.measurementUnit }}
+            </div>
           <div class="product__description">
-            {{ this.product.properties.description }}
+            {{ product.properties.description }}
           </div>
         </div>
       </div>
 
       <div class="product__details">
-        <div class="product__feature">
-          <b>Aspecto físico</b>
-          {{ this.product.properties.physicalAspect }}
+        <div class="product__feature" v-for="(value, name) in productFeaturesLabels" :key="name">
+          <b>{{ value }}</b>
+          {{ product.properties[name] }}
         </div>
-        <div class="product__feature">
-          <b>Olor</b>
-          {{ this.product.properties.smell }}
-        </div>
-        <div class="product__feature">
-          <b>Color</b>
-          {{ this.product.properties.color }}
-        </div>
-        <div class="product__feature">
-          <b>Fragancias</b>
-          {{ this.product.properties.fragance }}
-        </div>
-        <div class="product__feature">
-          <b>Gravedad específica</b>
-          {{ this.product.properties.gravity }}
-        </div>
-        <div class="product__feature">
-          <b>Viscosidad</b>
-          {{ this.product.properties.viscosity }}
-        </div>
-        <div class="product__feature">
-          <b>Solubilidad en agua</b>
-          {{ this.product.properties.solubility }}
-        </div>
-        <div class="product__feature">
-          <b>Infablamable</b>
-          {{ this.product.properties.flammable }}
-        </div>
-        <div class="product__feature">
-          <b>Densidad</b>
-          {{ this.product.properties.density }}
-        </div>
-        <div class="product__feature">
-          <b>PH</b>
-          {{ this.product.properties.ph }}
-        </div>
-        <div class="product__feature">
-          <b>Componente activo</b>
-          {{ this.product.properties.activeComponent }}
-        </div>
-        <div class="product__feature">
-          <b>Peso</b>
-          {{ this.product.properties.weight }}
-        </div>
-        <div class="product__feature">
-          <b>Índice de refracción</b>
-          {{ this.product.properties.refractionIndex }}
-        </div>
-        <div class="product__feature">
-          <b>Dilución</b>
-          {{ this.product.properties.dilution }}
-        </div>
-        <div class="product__feature">
-          <b>Es tóxico</b>
-          {{ this.product.properties.isToxic }}
-        </div>
+      </div>
+
+      <div class="btn-sticky" @click="sendToCart">
+        Comprar
       </div>
 
       <div class="gallery">
@@ -101,10 +57,15 @@
       </div>
 
       <div class="product__phrase">
-        {{ this.product.properties.paragraph1 }}
+        {{ product.properties.paragraph1 }}
+      </div>
+      <div class="product__phrase--second">
+        {{ product.properties.paragraph2 }}
       </div>
 
-      <div class="title--center">Modo de empleo</div>
+      <div class="title--center">
+        {{ product.properties.stepTitle }}
+      </div>
       <div class="steps__container">
         <div
           class="steps__item"
@@ -128,19 +89,19 @@
       </div>
 
       <div class="product__phrase product__phrase--detail">
-        {{ this.product.properties.paragraph2 }}
+        {{ product.properties.paragraph3 }}
       </div>
 
       <div class="product__phrase product__phrase--detail">
-        {{ this.product.properties.paragraph3 }}
+        {{ product.properties.paragraph4 }}
       </div>
 
       <div class="title--center title--third" style="margin-bottom: 100px;">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        {{ product.properties.promoTitle }}
       </div>
       <modal-info useSlot autoSize ref="modal">
         <div class="modal__message">
-          <div class="title__menu">{{ this.modalText }}</div>
+          <div class="title__menu">{{ modalText }}</div>
         </div>
       </modal-info>
     </div>
@@ -156,11 +117,28 @@ export default {
     return {
       product_id: null,
       product: {},
-      modalText: "",
+      modalText: '',
       isLoading: true,
+      productFeaturesLabels: {
+        physicalAspect: 'Aspecto físico',
+        smell: 'Olor',
+        color: 'Color',
+        fragance: 'Fragancias',
+        gravity: 'Gravedad específica',
+        viscosity: 'Viscosidad',
+        solubility: 'Solubilidad en agua',
+        flammable: 'Infablamable',
+        density: 'Densidad',
+        ph: 'PH',
+        activeComponent: 'Componente activo',
+        weight: 'Peso',
+        refractionIndex: 'Índice de refracción',
+        dilution: 'Dilución',
+        isToxic: 'Es tóxico',
+      },
     };
   },
-  created() {
+  beforeCreate() {
     this.product_id = this.$route.params.id;
 
     this.$http
@@ -176,6 +154,13 @@ export default {
       }).finally(() => {
         this.isLoading = false;
       });
+  },
+  methods: {
+    sendToCart() {
+      const copy = util.deepCopy(this.product);
+      copy.preview = '../../static/test_images/ld1.jpg';
+      this.$store.commit('addToCart', copy);
+    },
   },
   filters: {
     toMoney: util.toMoney,
@@ -218,10 +203,10 @@ img.image__holder
   +flex(0, 0)
   margin: 0 auto
   flex-flow: row wrap
-  padding: 50px
+  padding: 40px
 
 .product__feature
-  width: 180px
+  width: 200px
   padding: 15px
   line-height: 30px
   white-space: pre-line
@@ -256,6 +241,11 @@ img.image__holder
 .product__phrase
   font-size: 19px
   padding: 8vw 4vw
+  text-align: center
+
+.product__phrase--second
+  font-size: 19px
+  padding: 1vw 4vw
   text-align: center
 
 .product__phrase--detail
@@ -355,6 +345,19 @@ img.image__holder
   &:after
     right: 100%
     background: white
+
+.btn-sticky
+  width: 120px
+  height: 40px
+  background: black
+  color: white
+  text-align: center
+  margin-left: 1rem;
+  padding-top: 1rem;
+  position: -webkit-sticky
+  position: sticky
+  top: 6rem 
+  cursor: pointer
 
 @media (max-width: 816px)
   .btn-buy

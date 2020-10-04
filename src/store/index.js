@@ -40,7 +40,7 @@ export const store = new Vuex.Store({
       state.isLoading = payload;
     },
     addToCart: (state, product) => {
-      let isProductInCart = state.cartProducts.some(element => element.SKU === product.SKU);
+      let isProductInCart = state.cartProducts.some(element => element._id === product._id);
       if (!isProductInCart) {
         product.quantity = 1;
         state.cartProducts.push(product);
