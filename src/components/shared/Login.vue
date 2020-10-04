@@ -94,6 +94,7 @@ export default {
     logout() {
       localStorage.clear();
       this.isLogged = false;
+      this.$store.commit('resetCart');
       this.closeMenu();
       this.$router.push({ name: 'Landing' });
     },
