@@ -22,12 +22,12 @@
 
         <form action="https://checkout.wompi.co/p/" method="GET">
   <!-- OBLIGATORIOS -->
-  <input type="hidden" name="public-key" value="LLAVE_PUBLICA_DEL_COMERCIO" />
-  <input type="hidden" name="currency" value="MONEDA" />
-  <input type="hidden" name="amount-in-cents" value="MONTO_EN_CENTAVOS" />
-  <input type="hidden" name="reference" value="REFERENCIA_DE_PAGO" />
+  <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
+  <input type="hidden" name="currency" value="COP" />
+  <input type="hidden" name="amount-in-cents" value="495000" />
+  <input type="hidden" name="reference" value="6" />
   <!-- OPCIONALES -->
-  <input type="hidden" name="redirect-url" value="URL_REDIRECCION" />
+  <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
   <button type="submit">Pagar con Wompi</button>
 </form>
         <div class="frow">

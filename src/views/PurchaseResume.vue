@@ -1,3 +1,4 @@
+/* eslint-disable import/no-dynamic-require */
 <template>
   <div class="checkout">
     <div class="row">
@@ -7,37 +8,13 @@
       </div>
 
       <div class="w-70 pad" ref="column2">
-        <h1 ref="title2">{{title}}</h1>
-        <p ref="subtitle">{{subtitle}}<p>
-
-        <div ref="resume" style="display: flex;">
-          <div class="center">
-
-            <div >
-        <h3 class="inline">Tipo de pago:</h3>
-        <p class="inline">{{paymentType}}</p>
-            </div>
-            <div >
-        <h3 class="inline">Metodo de pago:</h3>
-        <p class="inline">{{paymentMethod}}</p>
-            </div>
-            <div >
-        <h3 class="inline">Cantidad:</h3>
-        <p class="inline">{{amount}} pesos colombianos.</p>
-            </div>
-            <div >
-        <h3 class="inline">Tasa de impuestos:</h3>
-        <p class="inline">{{taxes}}</p>
-            </div>
-            <div >
-        <h3 class="inline">Estado de la transaccion:</h3>
-        <p class="inline">{{transactionState}}</p>
-            </div>
-            <div >
-        <h3 class="inline">Fecha de la transaccion:</h3>
-        <p class="inline">{{date}}</p>
-            </div>
-          </div>
+        <div class="container">
+         <img :src="require(`../assets/${imageSource}`)" alt="" srcset="" class="state-image">
+         <!-- <img src="../assets/pending.png" alt="" srcset="" class="state-image"> -->
+         <!-- <img src="../assets/error.png" alt="" srcset="" class="state-image"> -->
+         <!-- <img src="../assets/approve.jpg" alt="" srcset="" class="state-image"> -->
+       <h1>{{title}}</h1>
+       <h2>{{subtitle}}</h2>
         </div>
 
       </div>
@@ -46,16 +23,14 @@
 </template>
 
 <script>
-import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
-import Cart from '../components/shared/Cart.vue';
-import InputBase from '../components/InputBase.vue';
+import VAPI from '../http_common';
 
 export default {
   data() {
     return {
       title: '',
       subtitle: '',
-      paymentState: '',
+      imageSource: '',
       paymentType: '',
       paymentMethod: '',
       amount: '',
@@ -63,73 +38,40 @@ export default {
       date: '',
     };
   },
-  mounted() {
-    const title = this.$refs.title1;
-    const welcome = this.$refs.title2;
-    const sub = this.$refs.subtitle;
-    const resum = this.$refs.resume;
+  async mounted() {
+    const wompiId = this.$route.query.id;
+    try {
+      const requestData = await VAPI.get(`https://sandbox.wompi.co/v1/transactions/${wompiId}`);
+      const transactionStatus = requestData.data.data.status;
 
-    TweenMax;
+      switch (transactionStatus) {
+      case 'APPROVED':
+        this.title = '¡Gracias por tu compra!';
+        this.subtitle = 'Tu pedido será entregado en el transcurso de la semana.';
+        this.imageSource = 'approve.jpg';
+        break;
 
-    const tl = new TimelineLite();
+      case 'PENDING':
+        this.title = 'La transacción está en proceso de verificación.';
+        this.subtitle = 'Este proceso suele tardar algunos minutos, tan pronto recibamos noticias nos comunicaremos contigo';
+        this.imageSource = 'pending.png';
+        break;
 
-    tl
-      .from(title, 1.5, {
-        x: 100,
-        opacity: 0,
-      })
-      .delay(0.05)
-      .from(welcome, 0.5, {
-        y: 90,
-        opacity: 0,
-      })
-      .delay(0.05)
-      .from(sub, 0.5, {
-        y: 90,
-        opacity: 0,
-      })
-      .delay(0.05)
-      .from(resum, 0.5, {
-        y: 90,
-        opacity: 0,
-      });
-
-    const { column } = this.$refs;
-    const { column2 } = this.$refs;
-    const bounds = column.getBoundingClientRect();
-
-    Object.assign([column.style, column2.style], {
-      height: `calc(100vh - ${bounds.top}px)`,
-    });
-    this.receiveInformation();
+      default:
+        this.title = 'Ha ocurrido un problema con tu transaccion';
+        this.subtitle = 'Intenta realizar el pago de nuevo, si el problema persiste comunicate con tu entidad bancaria.';
+        this.imageSource = 'error.png';
+        break;
+      }
+      console.log(requestData);
+    } catch (error) {
+      console.log(error);
+      // this.$router.push('notfound');
+    }
   },
   methods: {
-    receiveInformation() {
-      const orderId = this.$route.query.referenceCode;
-      this.paymentType = this.$route.query.lapPaymentMethodType;
-      this.paymentMethod = this.$route.query.lapPaymentMethod;
-      this.transactionState = this.$route.query.lapTransactionState;
-      this.amount = this.$route.query.TX_VALUE;
-      this.taxes = this.$route.query.TX_TAX;
-      this.date = this.$route.query.processingDate;
-      const transState = this.$route.query.lapTransactionState;
-
-      if (transState === 'DECLINED') {
-        this.title = 'Ha ocurrido un problema con tu transaccion';
-        this.subtitle = 'Intenta realizar el pago de nuevo, si el problema persiste comunicate con tu entidad bancaria. Esto es todo lo que sabemos por ahora:';
-        this.transactionState = 'Reprobada';
-      } else if (transState === 'APPROVED') {
-        this.title = 'Gracias por tu compra!';
-        this.subtitle = 'A continuación un resumen de la transacción:';
-        this.transactionState = 'Aprobada';
-      }
-
-      // ?merchantId=508029&merchant_name=Test+PayU+Test+comercio&merchant_address=Av+123+Calle+12&telephone=7512354&merchant_url=http%3A%2F%2Fpruebaslapv.xtrweb.com&transactionState=6&lapTransactionState=DECLINED&message=DECLINED&referenceCode=api123434&reference_pol=853811209&transactionId=9953ddeb-4ab8-4a47-b1a8-dab7c758116e&description=Test+PAYU&trazabilityCode=&cus=&orderLanguage=es&extra1=&extra2=&extra3=&polTransactionState=6&signature=b44143a874bdc93a64aa46ea1f6fd6ed&polResponseCode=5&lapResponseCode=DECLINED_TEST_MODE_NOT_ALLOWED&risk=&polPaymentMethod=450&lapPaymentMethod=VISA&polPaymentMethodType=2&lapPaymentMethodType=CREDIT_CARD&installmentsNumber=1&TX_VALUE=20000.00&TX_TAX=3193.00&currency=COP&lng=es&pseCycle=&buyerEmail=test%40test.com&pseBank=&pseReference1=&pseReference2=&pseReference3=&authorizationCode=&processingDate=2020-09-02
-    },
   },
   components: {
-    InputBase,
-    Cart,
   },
 };
 </script>
@@ -170,9 +112,18 @@ h1
   width: 100%
   flex-wrap: wrap
 
+.state-image
+  width: 25%
+  height: 20%
+
 .center
   justify-content: center
   margin: 30px auto;
+
+.container
+  border-color: black
+  margin: auto;
+  text-align: center;
 
 .title
   font-size: 24px

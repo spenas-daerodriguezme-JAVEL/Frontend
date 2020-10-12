@@ -20,6 +20,7 @@ import PurchaseResume from '../views/PurchaseResume.vue';
 import AdminPanel from '../views/AdminPanel.vue';
 import ProductDetailAdmin from '../views/ProductDetailAdmin.vue';
 import DescriptionDetailAdmin from '../views/DescriptionDetailAdmin.vue';
+import OrderDetail from '../components/shared/OrderDetail.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -66,6 +67,11 @@ const router = new Router({
           path: '/tarjeta-regalo',
           name: 'GiftCard',
           component: GiftCard,
+        },
+        {
+          path: '/order/:id',
+          name: 'OrderDescription',
+          component: OrderDetail,
         },
         // {
         //   path: '/admin',
@@ -161,6 +167,7 @@ const router = new Router({
         },
         {
           path: '*',
+          name: 'notfound',
           component: NotFound,
         },
       ],

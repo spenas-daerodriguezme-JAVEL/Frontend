@@ -1,6 +1,6 @@
 <template>
   <div class="checkout">
-    <div class="section">Hola Christian</div>
+    <div class="section">Hola Cristhian</div>
 
     <selector-list :options="options">
       <div slot="Información de contacto">

@@ -17,10 +17,12 @@
         </div>
 
         <div class="frow">
-          <input-base :label="'Correo electrónico'" class="input--medium" v-model="email"></input-base>
           <input-base :label="'Dirección'" class="input--medium" v-model="address"></input-base>
+          <input-base :label="'Telefono'" class="input--medium" v-model="telephone"></input-base>
         </div>
-
+        <div class="frow">
+          <input-base :label="'Correo electrónico'" class="input--medium" v-model="email"></input-base>
+        </div>
         <div class="frow">
           <input-base :label="'Ciudad'" class="input--small" v-model="city"></input-base>
           <input-base :label="'Estado'" class="input--small" v-model="state"></input-base>
@@ -56,6 +58,7 @@ export default {
       city: '',
       state: '',
       idType: '',
+      telephone: '',
       idTypeOptions: ['CC', 'NIT'],
       isAdmin: false,
     };

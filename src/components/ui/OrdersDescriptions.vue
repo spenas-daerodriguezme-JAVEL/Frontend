@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DynamicTable :headers="headers" :data="getOrdersData" href="localhost:8080/description/" />
+    <DynamicTable :headers="headers" :data="getOrdersData" href="/order" />
   </div>
 </template>
 
