@@ -1,131 +1,172 @@
 <template>
-  <div class="product_detail">
-    <div class="product__main">
-      <div class="image__container">
-        <img src="../assets/productos/QUITAOXIDO.jpg" alt="" class="image__holder">
+  <div>
+    <div class="loader-container" v-if="isLoading">
+      <div class="loader"></div>
+      <b>Cargando ...</b>
+    </div>
+    <div class="product_detail" v-else>
+      <div class="product__main">
+        <div class="image__container">
+          <img
+            src="../assets/productos/QUITAOXIDO.jpg"
+            alt=""
+            class="image__holder"
+          />
 
-        <div class="btn-buy">
-          <div class="btn-buy__item btn-buy--left">123</div>
-          <div class="btn-buy__item btn-buy--right">Comprar</div>
+          <div class="btn-buy">
+            <div class="btn-buy__item btn-buy--left">
+              {{ product.price | toMoney }}
+            </div>
+            <div @click="sendToCart"
+              class="btn-buy__item btn-buy--right"
+            > Comprar
+            </div>
+          </div>
+        </div>
+
+        <div class="text__container">
+          <div class="product__title">{{ product.name }}</div>
+            <div class="d-flex">
+              <b>Capacidad</b>
+              {{ product.capacity }}
+              {{ product.measurementUnit }}
+            </div>
+          <div class="product__description">
+            {{ product.properties.description }}
+          </div>
         </div>
       </div>
 
-      <div class="text__container">
-        <div class="product__title">Quita manchas</div>
-        <div class="product__description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id earum, corporis, a quod dolores architecto autem maiores ducimus fugiat nam in veritatis recusandae ut temporibus repudiandae suscipit aspernatur, cupiditate minima eum. Aspernatur, accusantium laborum. Accusamus, tempore perferendis minus recusandae sapiente ex optio beatae dolorem, dolor vel fugit omnis eligendi quibusdam.
+      <div class="product__details">
+        <div class="product__feature" v-for="(value, name) in productFeaturesLabels" :key="name">
+          <b>{{ value }}</b>
+          {{ product.properties[name] }}
         </div>
       </div>
-    </div>
 
-    <div class="product__details">
-      <div class="product__feature">
-        <b>Aspecto físico</b>
-        627
+      <div class="btn-sticky" @click="sendToCart">
+        Comprar
       </div>
-      <div class="product__feature">
-        <b>Olor</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Color</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Fragancias</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Gravedad específica</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Viscosidad</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Solubilidad en agua</b>
-        627
-      </div>
-      <div class="product__feature">
-        <b>Infablamable</b>
-        627
-      </div>
-    </div>
 
-    <div class="gallery">
-      <div class="gallery__item hlp__image-cover">
-        <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
+      <div class="gallery">
+        <div class="gallery__item hlp__image-cover">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
+        <div class="gallery__item hlp__image-cover">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
       </div>
-      <div class="gallery__item hlp__image-cover">
-        <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
-      </div>
-    </div>
 
-    <div class="product__phrase">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
-    </div>
+      <div class="product__phrase">
+        {{ product.properties.paragraph1 }}
+      </div>
+      <div class="product__phrase--second">
+        {{ product.properties.paragraph2 }}
+      </div>
 
-    <div class="title--center">Modo de empleo</div>
-    <div class="steps__container">
-      <div class="steps__item">
-        <div class="step__count">1</div>
-        <div class="step__description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, modi?</div>
+      <div class="title--center">
+        {{ product.properties.stepTitle }}
       </div>
-      <div class="steps__item">
-        <div class="step__count">2</div>
-        <div class="step__description">Earum architecto perspiciatis possimus aspernatur repellendus itaque cupiditate magnam quibusdam.</div>
+      <div class="steps__container">
+        <div
+          class="steps__item"
+          v-for="(step, index) in product.properties.steps"
+          :key="index"
+        >
+          <div class="step__count">{{ index + 1 }}</div>
+          <div class="step__description">
+            {{ step }}
+          </div>
+        </div>
       </div>
-      <div class="steps__item">
-        <div class="step__count">3</div>
-        <div class="step__description">Quaerat voluptatum minus consectetur assumenda quidem officia! Quis, nobis nihil.</div>
-      </div>
-      <div class="steps__item">
-        <div class="step__count">4</div>
-        <div class="step__description">Nulla iure vero inventore, accusantium voluptas sed officiis voluptatem consequatur.</div>
-      </div>
-    </div>
 
-  <div class="gallery">
-    <div class="gallery__item hlp__image-cover gallery__item--centered">
-      <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
-    </div>
-    <div class="gallery__item hlp__image-cover gallery__item--centered">
-      <img src="../assets/productos/CLORO 900 ML.jpg" alt="">
+      <div class="gallery">
+        <div class="gallery__item hlp__image-cover gallery__item--centered">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
+        <div class="gallery__item hlp__image-cover gallery__item--centered">
+          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+        </div>
+      </div>
+
+      <div class="product__phrase product__phrase--detail">
+        {{ product.properties.paragraph3 }}
+      </div>
+
+      <div class="product__phrase product__phrase--detail">
+        {{ product.properties.paragraph4 }}
+      </div>
+
+      <div class="title--center title--third" style="margin-bottom: 100px;">
+        {{ product.properties.promoTitle }}
+      </div>
+      <modal-info useSlot autoSize ref="modal">
+        <div class="modal__message">
+          <div class="title__menu">{{ modalText }}</div>
+        </div>
+      </modal-info>
     </div>
   </div>
-
-  <div class="product__phrase product__phrase--detail">
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
-  </div>
-
-  <div class="product__phrase product__phrase--detail">
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis ut, magni dolor laborum quis cum aperiam natus accusamus, quam excepturi obcaecati nihil distinctio corporis? Natus necessitatibus corporis earum vel fugiat!
-  </div>
-
-  <div class="title--center title--third"
-    style="margin-bottom: 100px">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-  </div>
-  </div>  
 </template>
 
 <script>
-import {TweenMax, Power2, TimelineLite} from "gsap/TweenMax";
+import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
+import util from "../util/index";
 
 export default {
   data() {
     return {
-      product_id: null
-    }
+      product_id: null,
+      product: {},
+      modalText: '',
+      isLoading: true,
+      productFeaturesLabels: {
+        physicalAspect: 'Aspecto físico',
+        smell: 'Olor',
+        color: 'Color',
+        fragance: 'Fragancias',
+        gravity: 'Gravedad específica',
+        viscosity: 'Viscosidad',
+        solubility: 'Solubilidad en agua',
+        flammable: 'Infablamable',
+        density: 'Densidad',
+        ph: 'PH',
+        activeComponent: 'Componente activo',
+        weight: 'Peso',
+        refractionIndex: 'Índice de refracción',
+        dilution: 'Dilución',
+        isToxic: 'Es tóxico',
+      },
+    };
   },
-  mounted() {
-    
-    },
-  beforeMount() {
+  beforeCreate() {
     this.product_id = this.$route.params.id;
-  }
-}
+
+    this.$http
+      .get(`/api/product/${this.product_id}`)
+      .then((response) => {
+        this.product = response.data;
+      })
+      .catch((error) => {
+        this.modalText =
+          "Algo salió mal. Por favor intentalo de nuevo más tarde.";
+        this.$refs.modal.triggerModal();
+        console.log(error);
+      }).finally(() => {
+        this.isLoading = false;
+      });
+  },
+  methods: {
+    sendToCart() {
+      const copy = util.deepCopy(this.product);
+      copy.preview = '../../static/test_images/ld1.jpg';
+      this.$store.commit('addToCart', copy);
+    },
+  },
+  filters: {
+    toMoney: util.toMoney,
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -157,16 +198,16 @@ export default {
   flex-flow: column
 
 img.image__holder
-    @extend %image-cover
+  @extend %image-cover
 
 .product__details
   +flex(0, 0)
   margin: 0 auto
   flex-flow: row wrap
-  padding: 50px
+  padding: 40px
 
 .product__feature
-  width: 180px
+  width: 200px
   padding: 15px
   line-height: 30px
   white-space: pre-line
@@ -201,6 +242,11 @@ img.image__holder
 .product__phrase
   font-size: 19px
   padding: 8vw 4vw
+  text-align: center
+
+.product__phrase--second
+  font-size: 19px
+  padding: 1vw 4vw
   text-align: center
 
 .product__phrase--detail
@@ -300,6 +346,38 @@ img.image__holder
   &:after
     right: 100%
     background: white
+
+.btn-sticky
+  width: 120px
+  height: 40px
+  background: black
+  color: white
+  text-align: center
+  margin-left: 1rem;
+  padding-top: 1rem;
+  position: -webkit-sticky
+  position: sticky
+  top: 6rem
+  cursor: pointer
+
+// Loader
+
+.loader-container
+  padding-top: 2rem
+  text-align: center
+
+.loader
+  margin: auto
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid black
+  border-radius: 50%
+  width: 80px
+  height: 80px
+  animation: spin 2s linear infinite
+
+@keyframes spin
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 
 @media (max-width: 816px)
   .btn-buy

@@ -105,99 +105,20 @@
 
     <div class="slideshow">
       <div class="images-box">
-
-        <div class="image-box__item">
+        <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
           <div class="image-box__item__img">
-            <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
+            <img :src="getImage(product.img)" alt="">
           </div>
           <div class="image-box__item__desc">
             <div class="imb-title">
-              QUITA MANCHAS
-              GRANULADO.
-              400 gr.
+              {{ product.title }}.
+              {{ product.capacity }}.
             </div>
             <div class="imb-price">
-              $6.000
+              {{ product.price | toMoney }}
             </div>
           </div>
         </div>
-
-        <div class="image-box__item">
-          <div class="image-box__item__img">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              QUITA MANCHAS LÍQUIDO
-              250 ml.
-            </div>
-            <div class="imb-price">
-              $6.700
-            </div>
-          </div>
-        </div>
-
-        <div class="image-box__item">
-          <div class="image-box__item__img">
-            <img src="../assets/productos/QUITA TINTA.jpg" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              QUITA TINTA.
-              10 ml.
-            </div>
-            <div class="imb-price">
-              $5.700
-            </div>
-          </div>
-        </div>
-
-        <div class="image-box__item">
-          <div class="image-box__item__img">
-            <img src="../assets/productos/QUITA MANCHAS.jpg" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              QUITA MANCHAS
-              GRANULADO.
-              400 gr.
-            </div>
-            <div class="imb-price">
-              $6.000
-            </div>
-          </div>
-        </div>
-
-        <div class="image-box__item">
-          <div class="image-box__item__img">
-            <img src="../assets/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              QUITA MANCHAS LÍQUIDO
-              250 ml.
-            </div>
-            <div class="imb-price">
-              $6.700
-            </div>
-          </div>
-        </div>
-
-        <div class="image-box__item">
-          <div class="image-box__item__img">
-            <img src="../assets/productos/QUITA TINTA.jpg" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              QUITA TINTA.
-              10 ml.
-            </div>
-            <div class="imb-price">
-              $5.700
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -205,9 +126,69 @@
 </template>
 
 <script>
-export default {
+import util from '../util/index';
 
-}
+export default {
+  data() {
+    return {
+      products: [
+        {
+          _id: '5f73ea99d6c7d382abdd08f4',
+          title: 'QUITA MANCHAS GRANULADO',
+          capacity: '400 gr',
+          price: 6000,
+          img: '/productos/QUITA MANCHAS.jpg',
+        },
+        {
+          _id: '5f73ea99d6c7d382abdd08f4',
+          title: 'QUITA MANCHAS LÍQUIDO',
+          capacity: '250 ml',
+          price: 6700,
+          img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
+        },
+        {
+          _id: '5f73ea99d6c7d382abdd08f4',
+          title: 'QUITA TINTA',
+          capacity: '10 ml',
+          price: 5700,
+          img: '/productos/QUITA TINTA.jpg',
+        },
+        {
+          _id: '5f73ea99d6c7d382abdd08f4',
+          title: 'QUITA MANCHAS GRANULADO',
+          capacity: '400 gr',
+          price: 6000,
+          img: '/productos/QUITA MANCHAS.jpg',
+        },
+        {
+          _id: '5f73ea99d6c7d382abdd08f4',
+          title: 'QUITA MANCHAS LÍQUIDO',
+          capacity: '250 ml',
+          price: 6700,
+          img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
+        },
+        {
+          _id: '5f73ea99d6c7d382abdd08f4',
+          title: 'QUITA TINTA',
+          capacity: '10 ml',
+          price: 5700,
+          img: '/productos/QUITA TINTA.jpg',
+        },
+      ],
+    };
+  },
+  methods: {
+    getImage(url) {
+      return require('../assets' + url);
+    },
+    showDetail(productId) {
+      this.$router.push({ name: 'ProductDetail', params: { id: productId } });
+    }
+  },
+  filters: {
+    toMoney: util.toMoney,
+  },
+};
 </script>
 
 <style lang="sass" scoped>

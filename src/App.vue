@@ -42,7 +42,6 @@ html, body
         margin: 0
         padding: 0
         font-family: $body-font
-        overflow-x: hidden
 
 .hlp__image-cover
         img
