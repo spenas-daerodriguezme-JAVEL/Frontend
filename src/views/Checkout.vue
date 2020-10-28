@@ -21,40 +21,72 @@
         </form> -->
 
         <form action="https://checkout.wompi.co/p/" method="GET">
-  <!-- OBLIGATORIOS -->
-  <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
-  <input type="hidden" name="currency" value="COP" />
-  <input type="hidden" name="amount-in-cents" value="495000" />
-  <input type="hidden" name="reference" value="6" />
-  <!-- OPCIONALES -->
-  <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
-  <button type="submit">Pagar con Wompi</button>
-</form>
+          <!-- OBLIGATORIOS -->
+          <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
+          <input type="hidden" name="currency" value="COP" />
+          <input type="hidden" name="amount-in-cents" value="495000" />
+          <input type="hidden" name="reference" value="6" />
+          <!-- OPCIONALES -->
+          <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
+          <button type="submit">Pagar con Wompi</button>
+        </form>
+
         <div class="frow">
-          <input-base :label="'Nombre'" class="input--medium" v-model="name"></input-base>
-          <input-base :label="'Apellido'" class="input--medium" v-model="lastName"></input-base>
+          <input-base :label="'Nombre'"
+            class="input--medium" :class="{ 'error': $v.name.$error }"
+            v-model.trim="$v.name.$model"
+          ></input-base>
+          <input-base :label="'Apellido'"
+            class="input--medium" :class="{ 'error': $v.lastName.$error }"
+            v-model="$v.lastName.$model"
+          ></input-base>
         </div>
 
         <div class="frow">
           <custom-selector
             label="Tipo de Documento"
             class="input-base input--small"
-            v-model="idType"
+            :class="{ 'error': $v.idType.$error }"
+            v-model="$v.idType.$model"
             :options="idTypeOptions"
           ></custom-selector>
-          <input-base :label="'Número de documento'" class="input--medium" v-model="idNumber"></input-base>
+          <input-base :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
+            class="input--medium" :class="{ 'error': $v.idNumber.$error }"
+            v-model="$v.idNumber.$model"
+          ></input-base>
         </div>
 
         <div class="frow">
-          <input-base :label="'Correo electrónico'" class="input--medium" v-model="email"></input-base>
-          <input-base :label="'Teléfono'" class="input--medium" v-model="phone"></input-base>
-          <input-base :label="'Dirección'" class="input--medium" v-model="address"></input-base>
+          <input-base :label="'Correo electrónico'"
+            class="input--medium" :class="{ 'error': $v.email.$error }"
+            v-model="$v.email.$model"
+          ></input-base>
+          <input-base :label="'Teléfono'"
+            class="input--medium" :class="{ 'error': $v.phone.$error }"
+            v-model="$v.phone.$model"
+          ></input-base>
+          <input-base :label="'Dirección'"
+            class="input--medium" :class="{ 'error': $v.address.$error }"
+            v-model="$v.address.$model"
+          ></input-base>
         </div>
 
         <div class="frow">
-          <input-base :label="'Ciudad'" class="input--small" v-model="city"></input-base>
-          <input-base :label="'Estado'" class="input--small" v-model="state"></input-base>
-          <input-base :label="'País'" class="input--small" v-model="country"></input-base>
+          <custom-selector
+            label="Estado"
+            class="input-base input--medium"
+            :class="{ 'error': $v.state.$error }"
+            v-model="$v.state.$model"
+            :options="stateOptions"
+          ></custom-selector>
+
+          <custom-selector
+            label="Ciudad"
+            class="input-base input--medium"
+            :class="{ 'error': $v.city.$error }"
+            v-model="$v.city.$model"
+            :options="cityOptions"
+          ></custom-selector>
         </div>
       </div>
 
@@ -76,11 +108,16 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { required, minLength } from 'vuelidate/lib/validators';
 import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+
 import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
 import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
+import { STATES } from '../colombia';
+
 
 export default {
   data() {
@@ -91,18 +128,33 @@ export default {
       address: '',
       city: '',
       state: '',
-      country: '',
       idType: '',
       idNumber: '',
       idTypeOptions: [],
       phone: '',
       modalText: '',
+      stateOptions: [],
     };
+  },
+  computed: {
+    cityOptions() {
+      if (this.state !== '') {
+        return util.pairLabelValue(
+          STATES.find((state) => state.departamento === this.state).ciudades,
+        );
+      }
+
+      return [{ value: '', label: '' }];
+    },
   },
   beforeMount() {
     this.idTypeOptions = util.pairLabelValue(
       ID_TYPES.map((idType) => idType.type),
     );
+    this.stateOptions = util.pairLabelValue(
+      STATES.map((state) => state.departamento)
+    );
+
     const userId = this.getUserIdFromJWT();
     if (userId) {
       this.getUserData(userId)
@@ -170,6 +222,12 @@ export default {
         products: this.getProductsAndQuantities(),
         totalPrice: this.$store.getters.totalCartPrice,
       };
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.modalText = 'Uno o más campos en la factura no son válidos';
+        this.$refs.modal.triggerModal();
+        return false;
+      }
       try {
         const res = await this.$http.post('/api/order/createOrder', order);
         this.modalText = 'Orden creada exitosamente';
@@ -183,7 +241,6 @@ export default {
       } catch (error) {
         this.modalText = 'Algo salió mal. Intenta nuevamente';
         this.$refs.modal.triggerModal();
-        console.log(error);
       }
     },
     getProductsAndQuantities() {
@@ -196,6 +253,22 @@ export default {
       });
       return products;
     },
+  },
+  mixins: [validationMixin],
+  validations: {
+    name: { required },
+    lastName: { required },
+    email: { required },
+    address: { required },
+    city: { required },
+    state: { required },
+    country: { required },
+    idType: { required },
+    idNumber: {
+      required,
+      minLenght: minLength(8),
+    },
+    phone: { required },
   },
 };
 </script>
@@ -241,9 +314,15 @@ h1
 .input--medium
   margin: 2%
   flex: 1 0 220px
+  &.error
+    border: 1px solid red
+    box-shadow: 0px 0px 2px red;
 
 .input--small
   margin: 2%
   flex: 1 0 160px
+  &.error
+    border: 1px solid red
+    box-shadow: 0px 0px 2px red;
 
 </style>

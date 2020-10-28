@@ -30,7 +30,7 @@
           ></input-base>
           <custom-selector
             label="Tipo de Documento"
-            class="input-base input--small"
+            class="input-base input--medium"
             v-model="account.identificationType"
             :options="idTypeOptions"
           ></custom-selector>

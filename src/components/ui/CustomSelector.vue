@@ -153,6 +153,10 @@ export default {
     font-style: oblique;
     font-size: 16px;
   }
+  .error {
+    border: 1px solid red;
+    box-shadow: 0px 0px 2px red;
+  }
 }
 
 .label {
