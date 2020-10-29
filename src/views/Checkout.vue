@@ -209,21 +209,9 @@ export default {
       }
     },
     async createOrder() {
-      const order = {
-        name: this.name,
-        lastName: this.lastName,
-        email: this.email,
-        identificationType: this.idType,
-        identificationNumber: this.idNumber,
-        telephone: this.phone,
-        address: this.address,
-        city: this.city,
-        state: this.state,
-        products: this.getProductsAndQuantities(),
-        totalPrice: this.$store.getters.totalCartPrice,
-      };
+      const order = this.getOrderObject();
       this.$v.$touch();
-      if (this.$v.$invalid) {
+      if (this.$v.$anyError) {
         this.modalText = 'Uno o más campos en la factura no son válidos';
         this.$refs.modal.triggerModal();
         return false;
@@ -253,6 +241,23 @@ export default {
       });
       return products;
     },
+    getOrderObject() {
+      const order = {
+        name: this.name,
+        lastName: this.lastName,
+        email: this.email,
+        identificationType: this.idType,
+        identificationNumber: this.idNumber,
+        telephone: this.phone,
+        address: this.address,
+        city: this.city,
+        state: this.state,
+        products: this.getProductsAndQuantities(),
+        totalPrice: this.$store.getters.totalCartPrice,
+      };
+
+      return order;
+    }
   },
   mixins: [validationMixin],
   validations: {
@@ -262,7 +267,6 @@ export default {
     address: { required },
     city: { required },
     state: { required },
-    country: { required },
     idType: { required },
     idNumber: {
       required,
