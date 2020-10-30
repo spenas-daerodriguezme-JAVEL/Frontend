@@ -3,32 +3,16 @@
     <div class="row">
       <div class="w-70 pad">
         <h1 ref="title">Facturación electrónica</h1>
-        <!-- <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu">
-          <input name="merchantId"    type="hidden"  value="508029"   >
-          <input name="accountId"     type="hidden"  value="512321" >
-          <input name="description"   type="hidden"  value="Test PAYU"  >
-          <input name="referenceCode" type="hidden"  value="api12343412" >
-          <input name="amount"        type="hidden"  value="20000"   >
-          <input name="tax"           type="hidden"  value="3193"  >
-          <input name="taxReturnBase" type="hidden"  value="16806" >
-          <input name="currency"      type="hidden"  value="COP" >
-          <input name="signature"     type="hidden"  value="ed549198f7ceecf96ff7139d27110857"  >
-          <input name="test"          type="hidden"  value="1" >
-          <input name="buyerEmail"    type="hidden"  value="test@test.com" >
-          <input name="responseUrl"    type="hidden"  value="http://aguadejavel.com/transaction-state" >
-          <input name="confirmationUrl"  type="hidden"  value="http://aguadejavel.com:3000/api/order/aja" >
-          <input name="Submit"        type="submit"  value="Enviar" >
-        </form> -->
 
-        <form action="https://checkout.wompi.co/p/" method="GET">
+        <!-- <form ref="form" action="https://checkout.wompi.co/p/" method="GET"> -->
+        <form ref="form" action="https://checkout.wompi.co/p/" method="GET">
           <!-- OBLIGATORIOS -->
           <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
           <input type="hidden" name="currency" value="COP" />
-          <input type="hidden" name="amount-in-cents" value="495000" />
-          <input type="hidden" name="reference" value="6" />
+          <input type="hidden" name="amount-in-cents" :value="totalPriceInCents" />
+          <input type="hidden" name="reference" :value="signature" />
           <!-- OPCIONALES -->
           <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
-          <button type="submit">Pagar con Wompi</button>
         </form>
 
         <div class="frow">
@@ -118,7 +102,6 @@ import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
 import { STATES } from '../colombia';
 
-
 export default {
   data() {
     return {
@@ -134,6 +117,8 @@ export default {
       phone: '',
       modalText: '',
       stateOptions: [],
+      signature: '',
+      totalPriceInCents: 0,
     };
   },
   computed: {
@@ -204,10 +189,10 @@ export default {
         });
         return data;
       } catch (error) {
-        console.error(error);
         throw 'Error in getUserData';
       }
     },
+    // This method creates the order, waits the signature and save it in state
     async createOrder() {
       const order = this.getOrderObject();
       this.$v.$touch();
@@ -217,10 +202,15 @@ export default {
         return false;
       }
       try {
-        const res = await this.$http.post('/api/order/createOrder', order);
-        this.modalText = 'Orden creada exitosamente';
+        const { data } = await this.$http.post('/api/order/createOrder', order);
+        this.totalPriceInCents = order.totalPrice * 100;
+        this.signature = data.signature;
+
+        this.modalText = 'Redirigiendo a la plataforma de pago';
         this.$refs.modal.triggerModal();
+
         setTimeout(() => {
+          this.$refs.form.submit();
           this.$store.commit('resetCart');
           this.$router.push({
             name: 'Catalog',
@@ -230,6 +220,8 @@ export default {
         this.modalText = 'Algo salió mal. Intenta nuevamente';
         this.$refs.modal.triggerModal();
       }
+
+      return undefined;
     },
     getProductsAndQuantities() {
       const products = [];
@@ -257,7 +249,7 @@ export default {
       };
 
       return order;
-    }
+    },
   },
   mixins: [validationMixin],
   validations: {
