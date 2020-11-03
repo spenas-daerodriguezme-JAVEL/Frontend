@@ -20,7 +20,7 @@ export default {
         {
           src: '../../static/fotoslanding/IMG_1214.jpg',
           position: {
-            top: '15%',
+            top: '8%',
             left: '10%',
           },
           title: 'Jabones y detergentes',
@@ -29,7 +29,7 @@ export default {
         {
           src: '../../static/fotoslanding/IMG_1237.JPG',
           position: {
-            top: '15%',
+            top: '20%',
             right: '10%',
           },
           title: 'Fragancias',

@@ -326,7 +326,7 @@ img.image__holder
 .btn-buy--left
   color: black
   border-color: black
-  border-right-width: 0 
+  border-right-width: 0
 
   &:before
     background: white
@@ -340,9 +340,9 @@ img.image__holder
   border-color: white
   border-left-width: 0
 
-  &:before 
+  &:before
     background: black
-  
+
   &:after
     right: 100%
     background: white
@@ -359,6 +359,15 @@ img.image__holder
   position: sticky
   top: 6rem
   cursor: pointer
+  font-weight: 600
+  background: linear-gradient(to left, black 50%, white 50%) right
+  background-size: 200%
+  transition: .2s ease-in
+
+  &:hover
+    color: black
+    border: 1px solid black
+    background-position: left
 
 // Loader
 
