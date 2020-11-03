@@ -24,10 +24,10 @@
   <!-- OBLIGATORIOS -->
   <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
   <input type="hidden" name="currency" value="COP" />
-  <input type="hidden" name="amount-in-cents" value="495000" />
-  <input type="hidden" name="reference" value="6" />
+  <input type="hidden" name="amount-in-cents" value="10320000" />
+  <input type="hidden" name="reference" value="5f633ebf232a5a531086de0d" />
   <!-- OPCIONALES -->
-  <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
+  <input type="hidden" name="redirect-url" value="http://localhost:8080/transaction-state" />
   <button type="submit">Pagar con Wompi</button>
 </form>
         <div class="frow">

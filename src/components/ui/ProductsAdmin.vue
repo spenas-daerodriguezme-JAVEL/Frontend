@@ -1,6 +1,7 @@
 /* eslint-disable quote-props */
 <template>
   <div>
+  <router-link class="btn" :to="'/aja'" style="max-width: 140px">Crear producto</router-link>
     <DynamicTable :headers="headers" :data="getProductsData" href="/admin/product"/>
   </div>
 </template>

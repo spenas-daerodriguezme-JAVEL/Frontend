@@ -54,7 +54,7 @@ export default {
         'Numero de identificacion': order.userIdentification.toString(),
         Fecha: order.date.toString(),
         'Estado de orden': this.statusEquivalences[order.status],
-        Total: `$${order.price.toString()}`,
+        Total: `$ ${this.formatPrice(order.price.toString())}`,
       }));
     },
   },
@@ -70,6 +70,14 @@ export default {
       );
 
       return JSON.parse(jsonPayload);
+    },
+
+    formatPrice(price) {
+      const needFormat = price / 1000 >= 1;
+      if (needFormat) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      }
+      return price;
     },
   },
 };
