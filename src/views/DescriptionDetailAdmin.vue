@@ -1,8 +1,8 @@
 <template>
   <div class="product edit-product">
-    <div class="row">
-      <a href="localhost:8080/admin">volver</a>
-    </div>
+ <div class="row">
+		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
+	     </div>
     <div class="row">
       <div class="field field--small">
         <div class="tag">Imagen 1</div>
@@ -204,10 +204,10 @@
       </div>
     </div>
 
-    <!-- <div
+    <div
       class="btn btn--save"
-      @click="saveForm"
-    >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div> -->
+      @click="updateDescription"
+    >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
   </div>
 </template>
 
@@ -240,6 +240,7 @@ export default {
         steps: [],
         promoTitle: '',
       },
+      url: '/admin',
     };
   },
 
@@ -256,6 +257,12 @@ export default {
       const descriptionData = description.data;
       console.log(descriptionData);
       this.description = descriptionData;
+    },
+
+    async updateDescription() {
+      const parameter = this.$route.params.id;
+      const description = await VAPI.put(`/api/description/${parameter}`, this.description);
+      console.log(description);
     },
   },
 };
