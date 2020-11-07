@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <div class="row">
-      <div class="w-70 pad">
+      <div class="checkout__personal__data pad">
         <h1 ref="title">Facturación electrónica</h1>
 
         <!-- <form ref="form" action="https://checkout.wompi.co/p/" method="GET"> -->
@@ -10,7 +10,7 @@
           <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
           <input type="hidden" name="currency" value="COP" />
           <input type="hidden" name="amount-in-cents" :value="totalPriceInCents" />
-          <input type="hidden" name="reference" :value="signature" />
+          <input type="hidden" name="reference" :value="reference" />
           <!-- OPCIONALES -->
           <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
         </form>
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <div class="w-30 fix__products">
+      <div class="checkout__bill_info fix__products">
         <h2 style="padding-left: 30px">Orden de compra</h2>
         <cart
           :details="true"
@@ -117,7 +117,7 @@ export default {
       phone: '',
       modalText: '',
       stateOptions: [],
-      signature: '',
+      reference: '',
       totalPriceInCents: 0,
     };
   },
@@ -192,7 +192,7 @@ export default {
         throw 'Error in getUserData';
       }
     },
-    // This method creates the order, waits the signature and save it in state
+    // This method creates the order, waits the reference and save it in state
     async createOrder() {
       const order = this.getOrderObject();
       this.$v.$touch();
@@ -204,7 +204,7 @@ export default {
       try {
         const { data } = await this.$http.post('/api/order/createOrder', order);
         this.totalPriceInCents = order.totalPrice * 100;
-        this.signature = data.signature;
+        this.reference = data._id;
 
         this.modalText = 'Redirigiendo a la plataforma de pago';
         this.$refs.modal.triggerModal();
@@ -282,14 +282,13 @@ h1
   > *
     box-sizing: border-box
 
-.w-70
-  width: 70%
+.checkout__personal__data
+  flex-grow: 4
 
-.w-30
-  width: 70%
+.checkout__bill_info
+  flex-grow: 1
 
 .fix__products
-  width: 30vw
   position: sticky
   right: 0
   background: $color-black-soft
@@ -320,5 +319,12 @@ h1
   &.error
     border: 1px solid red
     box-shadow: 0px 0px 2px red;
+
+@media (max-width: 800px)
+  .row
+    flex-direction: column;  
+
+  .checkout__personal__data
+    flex-grow: 1
 
 </style>
