@@ -215,7 +215,7 @@ export default {
           this.$router.push({
             name: 'Catalog',
           });
-        }, 1000);
+        }, 1500);
       } catch (error) {
         this.modalText = 'Algo salió mal. Intenta nuevamente';
         this.$refs.modal.triggerModal();
