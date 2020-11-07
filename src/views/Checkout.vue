@@ -206,8 +206,6 @@ export default {
         const { createdOrder } = data;
         this.totalPriceInCents = order.totalPrice * 100;
         this.reference = createdOrder._id;
-        console.log(createdOrder);
-        console.log(this.reference);
         this.modalText = 'Redirigiendo a la plataforma de pago';
         this.$refs.modal.triggerModal();
 
