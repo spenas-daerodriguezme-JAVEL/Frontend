@@ -72,6 +72,17 @@ const router = new Router({
           path: '/order/:id',
           name: 'OrderDescription',
           component: OrderDetail,
+          meta: {
+            isAdmin: false,
+          },
+        },
+        {
+          path: '/orderAdmin/:id',
+          name: 'OrderDescription',
+          component: OrderDetail,
+          meta: {
+            isAdmin: true,
+          },
         },
         // {
         //   path: '/admin',

@@ -3,7 +3,7 @@
 
     <div class="product edit-product">
      <div class="row">
-		  <router-link :to="'AdminPanel'" exact>Volver</router-link>
+		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
 	     </div>
       <div class="row">
         <div class="field">
@@ -23,9 +23,9 @@
             <input v-model="product.capacity" type="text" />
           </div>
         </div>
-        <div class="field field--small">
-          <div class="tag">Precio</div>
-          <input v-model="product.price" type="text" />
+         <div class="field field--small">
+          <div class="tag">Unidad de medida</div>
+          <input v-model="product.measurementUnit" type="text" />
         </div>
       </div>
 
@@ -33,6 +33,10 @@
         <div class="field">
           <div class="tag">Id Descripcion</div>
           <input v-model="product.properties" type="text" />
+        </div>
+        <div class="field field--small">
+          <div class="tag">Precio</div>
+          <input v-model="product.price" type="text" />
         </div>
         <div class="field">
           <div class="tag">SKU</div>
@@ -52,6 +56,10 @@
           </select>
         </div>
         <div class="field">
+          <div class="tag">Cantidad</div>
+          <input v-model="product.quantity" type="text" />
+        </div>
+        <div class="field">
           <div class="tag">Posición de catálogo</div>
           <input v-model="product.position" type="text" />
         </div>
@@ -59,7 +67,7 @@
 
       <div
         class="btn btn--save"
-        @click="saveForm"
+        @click="updateProduct"
       >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
     </div>
   </div>
@@ -76,12 +84,15 @@ export default {
         name: '',
         businessLine: '',
         capacity: '',
+        measurementUnit: '',
         price: '',
-        properties: '',
         SKU: '',
         isActive: true,
+        quantity: 0,
         position: 1,
+        properties: '',
       },
+      url: '/admin',
     };
   },
 
@@ -97,6 +108,16 @@ export default {
       const product = await VAPI.get(`/api/product/${parameter}`);
       const productData = product.data;
       this.product = productData;
+      this.product.properties = productData.properties._id;
+    },
+    async updateProduct() {
+      try {
+        const parameter = this.$route.params.id;
+        const updateProduct = await VAPI.put(`/api/product/${parameter}`, this.product);
+        console.log(updateProduct);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

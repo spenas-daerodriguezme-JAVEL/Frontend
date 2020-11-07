@@ -11,7 +11,7 @@
       </div>
 
       <div slot="Productos">
-        <ProductsAdmin />
+        <ProductsAdmin/>
       </div>
 
       <div slot="Descripciones">
