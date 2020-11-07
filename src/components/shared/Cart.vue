@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="btn btn--right btn--white"
+    <div class="btn btn--white"
       style="margin-top: 10px"
       @click="createOrder">{{ details ? 'Pagar' : 'Crear orden'}}</div>
   </div>
@@ -204,4 +204,8 @@ export default {
 .priceRow
   text-align: end
   margin-top: 1rem
+
+@media (max-width: 800px)
+  .box-general
+    height: auto
 </style>

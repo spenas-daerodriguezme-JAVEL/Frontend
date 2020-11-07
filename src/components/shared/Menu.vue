@@ -37,10 +37,15 @@
       <div class="menu__logo">
         <img src="../../assets/aguadejavel_logo.png" alt="Agua de Javel" />
       </div>
-      <div class="menu__shopping-bag menu__shopping-bag--mobile">
+      <router-link 
+        tag="div"
+        :to="{name: 'Checkout'}"
+        @click="isActive = false; selectedMenu = ''"
+        class="menu__shopping-bag menu__shopping-bag--mobile"
+      >
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.195 426.195" style="enable-background:new 0 0 426.195 426.195;" xml:space="preserve" > <g> <g> <path d="M213.098,30c23.158,0,41.998,18.84,41.998,41.997h30C285.096,32.298,252.798,0,213.098,0c-39.699,0-71.997,32.298-71.997,71.997h30C171.101,48.84,189.941,30,213.098,30z" /> <path d="M383.013,409.543l-19.955-308.686c-0.455-7.938-7.024-14.143-14.976-14.143H78.095c-7.951,0-14.521,6.205-14.976,14.143l-20,309.483c-0.236,4.119,1.236,8.156,4.07,11.156c2.833,3,6.778,4.699,10.905,4.699h309.987c0.008,0,0.014,0,0.02,0c8.284,0,15-6.715,15-15C383.102,410.639,383.071,410.086,383.013,409.543z M183.578,134.397c0,10.487-8.501,18.988-18.988,18.988c-10.487,0-18.988-8.501-18.988-18.988V123.59c0-10.487,8.501-18.988,18.988-18.988c10.487,0,18.988,8.501,18.988,18.988V134.397z M280.595,134.397c0,10.487-8.501,18.988-18.988,18.988s-18.988-8.501-18.988-18.988V123.59c0-10.487,8.501-18.988,18.988-18.988s18.988,8.501,18.988,18.988V134.397z" /> </g> </g> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> <g /> </svg>
         <div class="menu__shopping-bag__count">{{ countProducts }}</div>
-      </div>
+      </router-link>
     </div>
     <!-- Dropdown menu -->
     <transition name="trfade1">
@@ -213,6 +218,8 @@ export default {
   border-bottom: 1px solid rgba(black, 0.15);
   z-index: 2;
   background: white;
+  -moz-box-align: center;
+  -moz-box-pack: justify;
 }
 
 .menu__shopping-bag {
@@ -366,10 +373,11 @@ export default {
 @media (max-width: 1200px) {
   .menu__shopping-bag--mobile {
     position: relative;
+    margin-left: auto;
   }
 
   .menu {
-    padding-right: 20px;
+    padding-right: 10px;
   }
 }
 </style>
