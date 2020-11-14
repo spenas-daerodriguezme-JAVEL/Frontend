@@ -3,6 +3,11 @@
  <div class="row">
 		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
 	     </div>
+       <div class="row">
+         <h1>
+           {{title}}
+         </h1>
+       </div>
     <div class="row">
       <div class="field field--small">
         <div class="tag">Imagen 1</div>
@@ -206,13 +211,19 @@
 
     <div
       class="btn btn--save"
-      @click="updateDescription"
+      @click="executeActionDescription"
     >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
+     <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">{{modalMessage}}</div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
 <script>
 import VAPI from '../http_common';
+import CustomSelector from '../components/ui/CustomSelector.vue';
 
 export default {
   data() {
@@ -237,10 +248,13 @@ export default {
         paragraph3: '',
         paragraph4: '',
         stepTitle: '',
-        steps: [],
+        steps: [''],
         promoTitle: '',
+        images: ['', '', ''],
       },
       url: '/admin',
+      title: '',
+      modalMessage: '',
     };
   },
 
@@ -248,9 +262,18 @@ export default {
     this.currentAction = this.$route.meta.actionType;
     if (this.currentAction === 'Editar') {
       await this.editDescription();
+      this.title = 'Editar descripción';
+    } else if (this.currentAction === 'Crear') {
+      this.title = 'Crear nueva descripción';
     }
   },
   methods: {
+    addStep(index) {
+      this.description.steps.splice(index + 1, 0, '');
+    },
+    removeStep(index) {
+      this.description.steps.splice(index, 1);
+    },
     async editDescription() {
       const parameter = this.$route.params.id;
       const description = await VAPI.get(`/api/description/${parameter}`);
@@ -259,11 +282,32 @@ export default {
       this.description = descriptionData;
     },
 
-    async updateDescription() {
-      const parameter = this.$route.params.id;
-      const description = await VAPI.put(`/api/description/${parameter}`, this.description);
-      console.log(description);
+    async executeActionDescription() {
+      const { modal } = this.$refs;
+      try {
+        let description;
+        this.currentAction = this.$route.meta.actionType;
+        if (this.currentAction === 'Editar') {
+          const parameter = this.$route.params.id;
+          description = await VAPI.put(`/api/description/${parameter}`, this.description);
+        } else if (this.currentAction === 'Crear') {
+          description = await VAPI.post('/api/description/', this.description);
+        }
+
+        if (description.status === 200) {
+          this.modalMessage = 'Operación exitosa';
+        }
+        modal.triggerModal();
+        console.log(description);
+      } catch (error) {
+        this.modalMessage = 'Error en servidor, vuelva a intentar';
+        modal.triggerModal();
+        console.log(error);
+      }
     },
+  },
+  components: {
+    Selector: CustomSelector,
   },
 };
 </script>

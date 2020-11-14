@@ -1,6 +1,6 @@
 <template>
 <div>
-  <router-link class="btn" :to="'/aja'" style="max-width: 140px">Crear descripcion</router-link>
+  <router-link class="btn" :to="'/admin/description/'" style="max-width: 140px">Crear descripcion</router-link>
   <DynamicTable :headers="headers" :data="getDescriptionData" href="/admin/description"/>
 </div>
 </template>
