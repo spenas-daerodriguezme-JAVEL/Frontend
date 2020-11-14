@@ -2,7 +2,7 @@
   <div class="mision">
 
     <div class="rigid-container">
-      <div class="box60 image-holder" style="height: 90vh">
+      <div class="box60 image-holder rigid-container__img">
         <img src="../assets/placeholders/philosophy.jpg" alt="">
       </div>
       <div class="box40 frcenter-h motto-main">
@@ -111,7 +111,7 @@
           </div>
           <div class="image-box__item__desc">
             <div class="imb-title">
-              {{ product.title }}.
+              {{ product.title }}.  
               {{ product.capacity }}.
             </div>
             <div class="imb-price">
@@ -285,8 +285,31 @@ export default {
   padding: 50px 0
   background: #cecece
 
+.rigid-container__img
+  height: 90vh
+
 @media (max-width: 800px)
   .box40, .box60
-    width: auto 
+    width: auto
+    padding-top: 0px
 
+  .title-res
+    font-size: 45px
+  
+  .images-box
+    .image-box__item__desc    
+      flex-direction: column
+      font-size: 15px
+
+  .slideshow
+    height: 470px
+
+  .shipping
+    font-size: 28px
+
+  .rigid-container
+    flex-direction: column
+
+    .rigid-container__img
+      height: 50vh
 </style>

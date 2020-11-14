@@ -133,4 +133,9 @@ export default {
       font-size: 14px
       margin: 8px 0
 
+@media (max-width: 800px)
+
+  .title
+    margin-top: 20px
+    font-size: 38px
 </style>
