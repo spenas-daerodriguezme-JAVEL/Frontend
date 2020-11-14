@@ -8,16 +8,16 @@
           REGALO
           ELECTRÓNICA.
         </div>
-
+        
         Selecciona el formato, el importe y el mensaje que la acompañará.
       </div>
-      <div class="box60 image-holder" style="height: 90vh">
+      <div class="box60 image-holder img-first" >
         <img src="../assets/placeholders/philosophy.jpg" alt="">
       </div>
     </div>
 
     <div class="rigid-container">
-      <div class="box40 image-holder" style="min-height: 100%">
+      <div class="box40 image-holder img-second" >
         <img src="../assets/placeholders/philosophy.jpg" alt="">
       </div>
       <div class="box60 gf-main" >
@@ -185,4 +185,23 @@ export default {
 
   .step__image--circular
     border-radius: 50%
+
+.img-first
+    height: 90vh
+
+.img-second
+  min-height: 100%
+
+@media (max-width: 800px)
+  .rigid-container
+    flex-direction: column-reverse
+
+    .box40, .box60
+      width: auto
+
+  .title, .title-res   
+    white-space: normal
+  
+  .img-first, .img-second
+    height: 40vh 
 </style>
