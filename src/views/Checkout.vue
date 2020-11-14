@@ -137,7 +137,7 @@ export default {
       ID_TYPES.map((idType) => idType.type),
     );
     this.stateOptions = util.pairLabelValue(
-      STATES.map((state) => state.departamento)
+      STATES.map((state) => state.departamento),
     );
 
     const userId = this.getUserIdFromJWT();
@@ -203,9 +203,9 @@ export default {
       }
       try {
         const { data } = await this.$http.post('/api/order/createOrder', order);
+        const { createdOrder } = data;
         this.totalPriceInCents = order.totalPrice * 100;
-        this.reference = data._id;
-
+        this.reference = createdOrder._id;
         this.modalText = 'Redirigiendo a la plataforma de pago';
         this.$refs.modal.triggerModal();
 
@@ -215,7 +215,7 @@ export default {
           this.$router.push({
             name: 'Catalog',
           });
-        }, 1000);
+        }, 1500);
       } catch (error) {
         this.modalText = 'Algo salió mal. Intenta nuevamente';
         this.$refs.modal.triggerModal();
@@ -322,7 +322,7 @@ h1
 
 @media (max-width: 800px)
   .row
-    flex-direction: column;  
+    flex-direction: column;
 
   .checkout__personal__data
     flex-grow: 1
