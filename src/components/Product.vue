@@ -284,8 +284,21 @@ export default {
 
 @keyframes fadeIn
     from
-        left: 100%
+      left: 100%
 
     to
-        left: 0
+      left: 0
+
+@media (max-width: 800px)
+  .buy__item
+    margin-bottom: 50px
+
+  .buy__item--inner
+    transition: all .1s ease-in-out
+
+    &:active
+      transform: scale(1.1)
+      background-color: white
+      color: black
+      transition: .1s
 </style>
