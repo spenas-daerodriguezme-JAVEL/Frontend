@@ -108,11 +108,27 @@ const router = new Router({
           },
         },
         {
+          path: '/admin/product/',
+          name: 'ProductCreate',
+          component: ProductDetailAdmin,
+          meta: {
+            actionType: 'Crear',
+          },
+        },
+        {
           path: '/admin/description/:id',
           name: 'DescriptionEdit',
           component: DescriptionDetailAdmin,
           meta: {
             actionType: 'Editar',
+          },
+        },
+        {
+          path: '/admin/description/',
+          name: 'DescriptionCreate',
+          component: DescriptionDetailAdmin,
+          meta: {
+            actionType: 'Crear',
           },
         },
         {

@@ -5,6 +5,11 @@
      <div class="row">
 		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
 	     </div>
+       <div class="row">
+         <h1>
+           {{title}}
+         </h1>
+       </div>
       <div class="row">
         <div class="field">
           <div class="tag">Nombre del producto</div>
@@ -67,9 +72,14 @@
 
       <div
         class="btn btn--save"
-        @click="updateProduct"
+        @click="executeActionProduct"
       >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
     </div>
+    <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">{{modalMessage}}</div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
@@ -93,6 +103,8 @@ export default {
         properties: '',
       },
       url: '/admin',
+      title: '',
+      modalMessage: '',
     };
   },
 
@@ -100,6 +112,9 @@ export default {
     this.currentAction = this.$route.meta.actionType;
     if (this.currentAction === 'Editar') {
       await this.editProduct();
+      this.title = 'Editar producto';
+    } else if (this.currentAction === 'Crear') {
+      this.title = 'Crear nuevo producto';
     }
   },
   methods: {
@@ -110,12 +125,24 @@ export default {
       this.product = productData;
       this.product.properties = productData.properties._id;
     },
-    async updateProduct() {
+    async executeActionProduct() {
+      const { modal } = this.$refs;
       try {
-        const parameter = this.$route.params.id;
-        const updateProduct = await VAPI.put(`/api/product/${parameter}`, this.product);
+        let updateProduct;
+        if (this.currentAction === 'Editar') {
+          const parameter = this.$route.params.id;
+          updateProduct = await VAPI.put(`/api/product/${parameter}`, this.product);
+        } else if (this.currentAction === 'Crear') {
+          updateProduct = await VAPI.post('/api/product', this.product);
+        }
+        if (updateProduct.status === 200) {
+          this.modalMessage = 'Operación exitosa';
+        }
+        modal.triggerModal();
         console.log(updateProduct);
       } catch (error) {
+        this.modalMessage = 'Error en servidor, vuelva a intentar';
+        modal.triggerModal();
         console.log(error);
       }
     },
