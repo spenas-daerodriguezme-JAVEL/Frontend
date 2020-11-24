@@ -317,7 +317,7 @@ export default {
     },
     async saveForm() {
       try {
-        const formData = new FormData();
+         
 
         for (const key in this.product) {
           if (key == 'images') {

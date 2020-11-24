@@ -49,27 +49,27 @@
     <div class="row">
       <div class="field field--small">
         <div class="tag">Imagen 4</div>
-        <div class="image__preview" @click="triggerRef(1)">
+        <div class="image__preview" @click="triggerRef(4)">
           <svg class="material-icon" viewBox="0 0 24 24">
             <path
               d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
             />
           </svg>
-          <img src ref="preview_1" />
+          <img src ref="preview_4" />
         </div>
-        <input style="display: none" @change="uploadFile(1)" ref="image_1" type="file" />
+        <input style="display: none" @change="uploadFile(4)" ref="image_4" type="file" />
       </div>
       <div class="field field--small">
         <div class="tag">Imagen 5</div>
-        <div class="image__preview" @click="triggerRef(2)">
+        <div class="image__preview" @click="triggerRef(5)">
           <svg class="material-icon" viewBox="0 0 24 24">
             <path
               d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
             />
           </svg>
-          <img src ref="preview_2" />
+          <img src ref="preview_5" />
         </div>
-        <input style="display: none" @change="uploadFile(2)" ref="image_2" type="file" />
+        <input style="display: none" @change="uploadFile(5)" ref="image_5" type="file" />
       </div>
     </div>
 
@@ -250,31 +250,53 @@ export default {
         stepTitle: '',
         steps: [''],
         promoTitle: '',
-        images: ['', '', ''],
+        images: ['', '', '', '', ''],
       },
       url: '/admin',
       title: '',
       modalMessage: '',
+      images2change: ['', '', '', '', ''],
     };
   },
 
   async beforeMount() {
     this.currentAction = this.$route.meta.actionType;
     if (this.currentAction === 'Editar') {
-      await this.editDescription();
+      await this.loadDescription();
       this.title = 'Editar descripción';
     } else if (this.currentAction === 'Crear') {
       this.title = 'Crear nueva descripción';
     }
   },
   methods: {
+    triggerRef(index) {
+      this.$refs[`image_${index}`].click();
+    },
+    uploadFile(index) {
+      const item = this.$refs[`image_${index}`];
+
+      if (item.files && item.files[0]) {
+        const reader = new FileReader();
+        const self = this;
+
+        reader.onload = function (e) {
+          self.$refs[`preview_${index}`].src = e.target.result;
+          self.$refs[`preview_${index}`].style = 'display: inline-block';
+        };
+
+        reader.readAsDataURL(item.files[0]);
+        this.images2change[index - 1] = item.files[0];
+        console.log(item);
+        console.log(item.files[0]);
+      }
+    },
     addStep(index) {
       this.description.steps.splice(index + 1, 0, '');
     },
     removeStep(index) {
       this.description.steps.splice(index, 1);
     },
-    async editDescription() {
+    async loadDescription() {
       const parameter = this.$route.params.id;
       const description = await VAPI.get(`/api/description/${parameter}`);
       const descriptionData = description.data;
@@ -286,23 +308,42 @@ export default {
       const { modal } = this.$refs;
       try {
         let description;
+        let parameter;
         this.currentAction = this.$route.meta.actionType;
         if (this.currentAction === 'Editar') {
-          const parameter = this.$route.params.id;
+          parameter = this.$route.params.id;
           description = await VAPI.put(`/api/description/${parameter}`, this.description);
         } else if (this.currentAction === 'Crear') {
           description = await VAPI.post('/api/description/', this.description);
+          parameter = description['_id'];
         }
-
+        if (this.images2change.length !== 0) {
+          const formData = new FormData();
+          for (let i = 0; i < this.images2change.length; i++) {
+            if (this.images2change[i] instanceof File) {
+              formData.append(`image_${i + 1}`, this.images2change[i]);
+            }
+          }
+          await VAPI.put(`/api/upload/${parameter}`, formData);
+        }
         if (description.status === 200) {
           this.modalMessage = 'Operación exitosa';
         }
         modal.triggerModal();
         console.log(description);
+        // check if any image has changed and sends it to back
       } catch (error) {
         this.modalMessage = 'Error en servidor, vuelva a intentar';
         modal.triggerModal();
         console.log(error);
+      }
+    },
+    setImages() {
+      for (let i = 1; i <= 3; i++) {
+        if (this.product.images[i - 1]) {
+          this.$refs[`preview_${i}`].src = URI + this.product.images[i - 1].url;
+          this.$refs[`preview_${i}`].style = 'display: inline-block';
+        }
       }
     },
   },

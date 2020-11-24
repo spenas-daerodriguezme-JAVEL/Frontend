@@ -1,66 +1,44 @@
 <template>
-  <div class="checkout">
-    <div class="section">Hola Santiago</div>
+  <div>
+     En caso de que algún producto no se encuentre en existencia. Llene el formulario con los productos que necesite y nos pondremos en contacto con usted
 
-    <selector-list
-      :options="options">
-
-      <div slot="Información de contacto">
-        <UserInfo/>
+      <div class="frow spacing">
+        <div class="col"><h3>Nombre</h3></div>
+        <div class="col"><h3>Presentación</h3></div>
+        <div class="col"><h3>Cantidad</h3></div>
+        <div class="col"><h3>Acciones</h3></div>
       </div>
+        <hr>
 
-    <div slot="Órdenes de compra">
-      <OrderDescriptions/>
-    </div>
-    <div slot="Solicitud de productos">
-      <ProductRequest/>
-    </div>
-
-   <div slot="Quejas, reclamos, sugerencias y felicitaciones">
-     <Complaints/>
-   </div>
-    </selector-list>
+        <div class="frow spacing">
+          <div class="col">
+          <input class="table-input" type="text"></input>
+          </div>
+          <div class="col">
+          <input class="table-input"  type="text"></input>
+          </div>
+          <div class="col">
+          <input class="table-input"  type="text"></input>
+          </div>
+          <div class="col inline">
+          <div class="icon btn" @click="" style="max-width: 200px; ">+</div>
+          <div class="icon btn" @click="" style="max-width: 200px; ">-</div>
+          </div>
+        </div>
+         <div class="frow">
+          <div class="btn" @click="" style="max-width: 200px; ">Enviar</div>
+        </div>
   </div>
 </template>
 
 <script>
-import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
-import Cart from '../components/shared/Cart.vue';
-import InputBase from '../components/InputBase.vue';
-import SelectorList from '../components/ui/SelectorList.vue';
-import UserInfo from '../components/shared/UserInfo.vue';
-import OrderDescriptions from '../components/ui/OrdersDescriptions.vue';
-import ProductRequest from '../components/ui/ProductRequest.vue';
-import Complaints from '../components/ui/Complaints.vue';
-
 export default {
-  data() {
-    return {
-      options: [
-        'Información de contacto',
-        'Órdenes de compra',
-        'Solicitud de productos',
-        'Quejas, reclamos, sugerencias y felicitaciones',
-      ],
-    };
-  },
-  mounted() {
 
-  },
-  components: {
-    InputBase,
-    UserInfo,
-    Cart,
-    SelectorList,
-    OrderDescriptions,
-    ProductRequest,
-    Complaints,
-  },
-};
+}
 </script>
 
 <style lang="sass" scoped>
-@import '../stylesheets/global.sass'
+@import '../../stylesheets/global.sass'
 
 .section
   +flex(1, 1)
