@@ -255,7 +255,6 @@ export default {
       url: '/admin',
       title: '',
       modalMessage: '',
-      images2change: ['', '', '', '', ''],
     };
   },
 
@@ -269,6 +268,25 @@ export default {
     }
   },
   methods: {
+
+    uploadImageSuccess(formData, index, fileList) {
+      console.log('data', formData, index, fileList);
+      // Upload image api
+      // axios.post('http://your-url-upload', formData).then(response => {
+      //   console.log(response)
+      // })
+    },
+    beforeRemove(index, done, fileList) {
+      console.log('index', index, fileList);
+      const r = confirm('remove image');
+      if (r === true) {
+        done();
+      }
+    },
+    editImage(formData, index, fileList) {
+      console.log('edit data', formData, index, fileList);
+    },
+
     triggerRef(index) {
       this.$refs[`image_${index}`].click();
     },
@@ -285,7 +303,7 @@ export default {
         };
 
         reader.readAsDataURL(item.files[0]);
-        this.images2change[index - 1] = item.files[0];
+        console.log(reader);
         console.log(item);
         console.log(item.files[0]);
       }
@@ -315,7 +333,7 @@ export default {
           description = await VAPI.put(`/api/description/${parameter}`, this.description);
         } else if (this.currentAction === 'Crear') {
           description = await VAPI.post('/api/description/', this.description);
-          parameter = description['_id'];
+          parameter = description._id;
         }
         if (this.images2change.length !== 0) {
           const formData = new FormData();

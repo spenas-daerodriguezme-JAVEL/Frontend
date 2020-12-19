@@ -24,7 +24,9 @@
       <div class="product__description">
         <div class="product__heading">
           <div class="product__title">
+            <div>
             {{ data.name }}
+            </div>
             <!-- <custom-selector
             class="selector--product"
             :value="selectedPresentation"
@@ -33,7 +35,10 @@
           </div>
           <div class="product__price">{{ data.price | toMoney }}</div>
         </div>
-        {{ data.properties.description | trimText(150) }}
+         <div>
+              <b>Capacidad:</b> {{ data.capacity }}
+        </div>
+        {{ data.properties.description | trimText(100) }}
       </div>
     </div>
   </div>

@@ -97,7 +97,7 @@ export default {};
   +flex(1, 1)
   flex-direction: column
   width: 100vw
-  position: fixed
+  // position: fixed
   z-index: 0
   bottom: 0
   left: 0
@@ -105,7 +105,7 @@ export default {};
   background: black
   color: white
   border-top: 1px solid rgba(black, 0.3)
-  backface-visibility: hidden
+  //backface-visibility: hidden
   box-sizing: border-box
 
 .title

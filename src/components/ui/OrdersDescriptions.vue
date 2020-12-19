@@ -18,7 +18,7 @@ export default {
       data: [],
       statusEquivalences: {
         PENDING: 'Pendiente',
-        DENIED: 'Denegado',
+        DECLINED: 'Denegado',
         APPROVED: 'Aprobado',
       },
     };

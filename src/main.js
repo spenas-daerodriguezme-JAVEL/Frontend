@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueLazyload from 'vue-lazyload';
 import App from './App';
 import router from './router';
 import { store } from './store/index';
@@ -14,6 +15,7 @@ import UTIL from './util/index';
 import VAPI from './http_common';
 
 Vue.use(Vuex);
+Vue.use(VueLazyload);
 
 Vue.component('input-base', InputBase);
 Vue.component('modal-info', ModalInfo);
@@ -28,9 +30,9 @@ Vue.prototype.$http = VAPI;
 Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    store,
-    components: { App },
-    template: '<App/>',
+  el: '#app',
+  router,
+  store,
+  components: { App },
+  template: '<App/>',
 });

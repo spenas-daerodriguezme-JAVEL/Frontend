@@ -244,6 +244,7 @@ export default {
 <style lang="sass" scoped>
 @import '../stylesheets/global.sass'
 
+
 .title
     +flex(1, 1)
     text-align: center
@@ -376,6 +377,7 @@ export default {
 .no-results
     font-weight: 20px
     text-align: center
+
 
 @media (max-width: 630px)
     .catalog-box2
