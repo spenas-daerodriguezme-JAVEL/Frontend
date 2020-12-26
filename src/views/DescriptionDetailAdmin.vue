@@ -1,7 +1,12 @@
 <template>
   <div class="product edit-product">
  <div class="row">
-		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
+		  <a class="btn" href="/admin" style="max-width: 100px">Volver</a>
+           <a
+        class="btn btn--save danger-btn"
+        v-if="isEdit"
+        :href="deleteUrl"
+      >Eliminar descripción</a>
 	     </div>
        <div class="row">
          <h1>
@@ -213,6 +218,10 @@
       class="btn btn--save"
       @click="executeActionDescription"
     >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
+     <div
+      class="btn btn--save danger-btn"
+      @click="saveImages"
+    >Guardar imágenes</div>
      <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
         <div class="title__menu">{{modalMessage}}</div>
@@ -255,12 +264,16 @@ export default {
       url: '/admin',
       title: '',
       modalMessage: '',
+      isEdit: false,
+      deleteUrl: '',
+      descriptionId: 0,
     };
   },
 
   async beforeMount() {
     this.currentAction = this.$route.meta.actionType;
     if (this.currentAction === 'Editar') {
+      this.isEdit = true;
       await this.loadDescription();
       this.title = 'Editar descripción';
     } else if (this.currentAction === 'Crear') {
@@ -268,25 +281,6 @@ export default {
     }
   },
   methods: {
-
-    uploadImageSuccess(formData, index, fileList) {
-      console.log('data', formData, index, fileList);
-      // Upload image api
-      // axios.post('http://your-url-upload', formData).then(response => {
-      //   console.log(response)
-      // })
-    },
-    beforeRemove(index, done, fileList) {
-      console.log('index', index, fileList);
-      const r = confirm('remove image');
-      if (r === true) {
-        done();
-      }
-    },
-    editImage(formData, index, fileList) {
-      console.log('edit data', formData, index, fileList);
-    },
-
     triggerRef(index) {
       this.$refs[`image_${index}`].click();
     },
@@ -303,9 +297,6 @@ export default {
         };
 
         reader.readAsDataURL(item.files[0]);
-        console.log(reader);
-        console.log(item);
-        console.log(item.files[0]);
       }
     },
     addStep(index) {
@@ -314,54 +305,59 @@ export default {
     removeStep(index) {
       this.description.steps.splice(index, 1);
     },
+    setInitialImages(imagesArray) {
+      for (let index = 1; index <= imagesArray.length; index++) {
+        const self = this;
+        // console.log('ok' + self.$refs['preview_1'].src);
+        self.$refs[`preview_${index}`].src = imagesArray[index];
+        self.$refs[`preview_${index}`].style = 'display: inline-block';
+      }
+    },
     async loadDescription() {
-      const parameter = this.$route.params.id;
-      const description = await VAPI.get(`/api/description/${parameter}`);
+      this.descriptionId = this.$route.params.id;
+      this.deleteUrl = `/delete/description/${this.descriptionId}`;
+      const description = await VAPI.get(`/api/description/${this.descriptionId}`);
       const descriptionData = description.data;
-      console.log(descriptionData);
       this.description = descriptionData;
+      this.setInitialImages(descriptionData.images);
     },
 
     async executeActionDescription() {
       const { modal } = this.$refs;
       try {
         let description;
-        let parameter;
         this.currentAction = this.$route.meta.actionType;
         if (this.currentAction === 'Editar') {
-          parameter = this.$route.params.id;
-          description = await VAPI.put(`/api/description/${parameter}`, this.description);
+          description = await VAPI.put(`/api/description/${this.descriptionId}`, this.description);
         } else if (this.currentAction === 'Crear') {
           description = await VAPI.post('/api/description/', this.description);
-          parameter = description._id;
+          this.descriptionId = description._id;
         }
-        if (this.images2change.length !== 0) {
-          const formData = new FormData();
-          for (let i = 0; i < this.images2change.length; i++) {
-            if (this.images2change[i] instanceof File) {
-              formData.append(`image_${i + 1}`, this.images2change[i]);
-            }
+
+        const formData = new FormData();
+        const positions = [];
+        for (let index = 1; index <= 5; index++) {
+          const item = this.$refs[`image_${index}`];
+          if (item.files.length !== 0) {
+            positions.push(index);
+            console.log('guarde');
+            formData.append('image', item.files[0]);
+          // console.log(self.$refs[`preview_${index}`].src);
           }
-          await VAPI.put(`/api/upload/${parameter}`, formData);
         }
-        if (description.status === 200) {
+        formData.append('positions', positions);
+        formData.append('id', this.descriptionId);
+        const response = await VAPI.post('/imagenes', formData);
+
+        if (description.status === 200 && response.status === 200) {
           this.modalMessage = 'Operación exitosa';
         }
         modal.triggerModal();
-        console.log(description);
         // check if any image has changed and sends it to back
       } catch (error) {
         this.modalMessage = 'Error en servidor, vuelva a intentar';
         modal.triggerModal();
         console.log(error);
-      }
-    },
-    setImages() {
-      for (let i = 1; i <= 3; i++) {
-        if (this.product.images[i - 1]) {
-          this.$refs[`preview_${i}`].src = URI + this.product.images[i - 1].url;
-          this.$refs[`preview_${i}`].style = 'display: inline-block';
-        }
       }
     },
   },
@@ -473,5 +469,9 @@ textarea
 	height: 20px
 	margin-left: auto
     margin-bottom: 20px
+
+.danger-btn
+  background-color: red
+  border-color: red
 
 </style>

@@ -244,7 +244,6 @@ export default {
 <style lang="sass" scoped>
 @import '../stylesheets/global.sass'
 
-
 .title
     +flex(1, 1)
     text-align: center
