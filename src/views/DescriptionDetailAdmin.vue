@@ -218,10 +218,6 @@
       class="btn btn--save"
       @click="executeActionDescription"
     >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
-     <div
-      class="btn btn--save danger-btn"
-      @click="saveImages"
-    >Guardar imágenes</div>
      <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
         <div class="title__menu">{{modalMessage}}</div>
@@ -306,10 +302,12 @@ export default {
       this.description.steps.splice(index, 1);
     },
     setInitialImages(imagesArray) {
-      for (let index = 1; index <= imagesArray.length; index++) {
+      const thumbnails = imagesArray.filter((element) => element.includes('thumbnail'));
+      console.log(imagesArray);
+      for (let index = 1; index <= thumbnails.length; index++) {
         const self = this;
         // console.log('ok' + self.$refs['preview_1'].src);
-        self.$refs[`preview_${index}`].src = imagesArray[index];
+        self.$refs[`preview_${index}`].src = thumbnails[index - 1];
         self.$refs[`preview_${index}`].style = 'display: inline-block';
       }
     },
@@ -353,6 +351,9 @@ export default {
           this.modalMessage = 'Operación exitosa';
         }
         modal.triggerModal();
+        setTimeout(() => {
+          this.$router.replace('/admin');
+        }, 500);
         // check if any image has changed and sends it to back
       } catch (error) {
         this.modalMessage = 'Error en servidor, vuelva a intentar';

@@ -9,22 +9,23 @@
         <div class="col"><h3>Acciones</h3></div>
       </div>
         <hr>
-
+      <div v-for="(product, index) in products">
         <div class="frow spacing">
-          <div class="col">
-          <input class="table-input" type="text"></input>
-          </div>
-          <div class="col">
-          <input class="table-input"  type="text"></input>
-          </div>
-          <div class="col">
-          <input class="table-input"  type="text"></input>
+          <div class="col inline">
+          <input class="table-input" type="text" v-model="product.name">
           </div>
           <div class="col inline">
-          <div class="icon btn" @click="" style="max-width: 200px; ">+</div>
-          <div class="icon btn" @click="" style="max-width: 200px; ">-</div>
+          <input class="table-input"  type="text" v-model="product.presentation">
+          </div>
+          <div class="col inline">
+          <input class="table-input"  type="text" v-model="product.quantity">
+          </div>
+          <div class="col inline">
+          <div class="icon btn" @click="addProduct(index)" style="max-width: 100px; ">+</div>
+          <div class="icon btn" @click="removeProduct(index)" v-show="products.length > 1" style="max-width: 100px; ">-</div>
           </div>
         </div>
+      </div>
          <div class="frow">
           <div class="btn" @click="" style="max-width: 200px; ">Enviar</div>
         </div>
@@ -33,8 +34,19 @@
 
 <script>
 export default {
+  data: () => ({
+    products: [{ name: '', presentation: '', quantity: '' }],
+  }),
+  methods: {
+    addProduct(index) {
+      this.products.splice(index + 1, 0, { name: '', presentation: '', quantity: '' });
+    },
 
-}
+    removeProduct(index) {
+      this.products.splice(index, 1);
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -129,6 +141,10 @@ h1
   font-weight: bold
   font-size: 20px
   margin: 20px 0
+
+.col
+  justify-content: center;
+  align-items: center;
 
 @media (max-width: 820px)
   .center--responsive

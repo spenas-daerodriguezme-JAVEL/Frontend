@@ -142,10 +142,13 @@ export default {
           const parameter = this.$route.params.id;
           updateProduct = await VAPI.put(`/api/product/${parameter}`, this.product);
         } else if (this.currentAction === 'Crear') {
-          updateProduct = await VAPI.post('/api/product', this.product);
+          updateProduct = await VAPI.post('/api/product/', this.product);
         }
         if (updateProduct.status === 200) {
           this.modalMessage = 'Operación exitosa';
+          setTimeout(() => {
+            this.$router.replace('/admin');
+          }, 500);
         }
         modal.triggerModal();
       } catch (error) {

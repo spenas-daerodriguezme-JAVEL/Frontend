@@ -3,8 +3,6 @@
     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
      <textarea style="width:1000px;height:300px" v-model="complaintText"> </textarea>
      <div style="display: inline-block;">
-       <p style="margin: 12px 0;">Documentos anexos</p>
-       <input type="file" name="" id="">
 
      </div>
       <div class="frow">
