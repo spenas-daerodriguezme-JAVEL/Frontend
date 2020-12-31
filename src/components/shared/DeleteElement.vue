@@ -169,7 +169,7 @@ textarea
 	height: 20px
 
 .buttons
-  justify: space-around
+  justify-content: space-around
   margin-left: 300px
   margin-right: 300px
 
