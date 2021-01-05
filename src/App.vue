@@ -9,10 +9,10 @@
 import ChatBubble from './components/shared/ChatBubble.vue';
 
 export default {
-    name: 'App',
-    components: {
-        ChatBubble,
-    },
+  name: 'App',
+  components: {
+    ChatBubble,
+  },
 };
 </script>
 

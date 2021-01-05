@@ -93,10 +93,9 @@ h1
   width: 70%
 
 .w-30
-  width: 70%
+  width: 30%
 
 .fix__products
-  width: 30vw
   height: 100vh
   background: $color-black-soft
   color: white

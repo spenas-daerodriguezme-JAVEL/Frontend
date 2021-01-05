@@ -13,60 +13,11 @@
       <OrderDescriptions/>
     </div>
     <div slot="Solicitud de productos">
-      <!-- <b>Contacto</b> -->
-
-      En caso de que algún producto no se encuentre en existencia. Llene el formulario con los productos que necesite y nos pondremos en contacto con usted
-<table cellspacing="0">
-        <tbody>
-          <tr>
-            <th>Nombre</th>
-            <th>Presentación</th>
-            <th>Cantidad</th>
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-          <tr>
-            <td><input> </input></td>
-            <td><input> </input></td>
-            <td><input> </input></td>
-
-          </tr>
-
-        </tbody>
-      </table>
-
-       <div class="frow">
-          <div class="btn" @click="" style="max-width: 200px; ">Enviar</div>
-        </div>
+      <ProductRequest/>
     </div>
 
    <div slot="Quejas, reclamos, sugerencias y felicitaciones">
-     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
-     <textarea style="width:1000px;height:300px"> </textarea>
-     <div style="display: inline-block;">
-       <p style="margin: 12px 0;">Documentos anexos</p>
-       <input type="file" name="" id="">
-
-     </div>
-      <div class="frow">
-          <div class="btn" @click="" style="max-width: 200px; ">Enviar</div>
-        </div>
+     <Complaints/>
    </div>
     </selector-list>
   </div>
@@ -79,6 +30,8 @@ import InputBase from '../components/InputBase.vue';
 import SelectorList from '../components/ui/SelectorList.vue';
 import UserInfo from '../components/shared/UserInfo.vue';
 import OrderDescriptions from '../components/ui/OrdersDescriptions.vue';
+import ProductRequest from '../components/ui/ProductRequest.vue';
+import Complaints from '../components/ui/Complaints.vue';
 
 export default {
   data() {
@@ -100,6 +53,8 @@ export default {
     Cart,
     SelectorList,
     OrderDescriptions,
+    ProductRequest,
+    Complaints,
   },
 };
 </script>
@@ -124,6 +79,18 @@ h1
 
   > *
     box-sizing: border-box
+
+.spacing
+  justify-content: space-around !important
+
+.inline
+  display: flex !important
+
+.icon
+  font-size: 1.2rem !important
+
+.table-input
+  padding: 20px 30px 0
 
 .w-70
   width: 70%

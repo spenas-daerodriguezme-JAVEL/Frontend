@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <base-menu></base-menu>
-    <dir class="content" :style="{'margin-bottom': contentMargin}">
+    <dir class="content" >
       <transition name="trfade">
         <div v-show="isLoading" class="content--loading"></div>
       </transition>

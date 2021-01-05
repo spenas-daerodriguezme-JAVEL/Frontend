@@ -21,6 +21,7 @@ import AdminPanel from '../views/AdminPanel.vue';
 import ProductDetailAdmin from '../views/ProductDetailAdmin.vue';
 import DescriptionDetailAdmin from '../views/DescriptionDetailAdmin.vue';
 import OrderDetail from '../components/shared/OrderDetail.vue';
+import DeleteElement from '../components/shared/DeleteElement.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -191,6 +192,22 @@ const router = new Router({
           path: '/admin',
           name: 'AdminPanel',
           component: AdminPanel,
+        },
+        {
+          path: '/delete/product/:id',
+          name: 'DeleteProduct',
+          component: DeleteElement,
+          meta: {
+            actionType: 'Product',
+          },
+        },
+        {
+          path: '/delete/description/:id',
+          name: 'DeleteDescription',
+          component: DeleteElement,
+          meta: {
+            actionType: 'Description',
+          },
         },
         {
           path: '*',

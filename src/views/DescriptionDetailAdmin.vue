@@ -1,7 +1,12 @@
 <template>
   <div class="product edit-product">
  <div class="row">
-		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
+		  <a class="btn" href="/admin" style="max-width: 100px">Volver</a>
+           <a
+        class="btn btn--save danger-btn"
+        v-if="isEdit"
+        :href="deleteUrl"
+      >Eliminar descripción</a>
 	     </div>
        <div class="row">
          <h1>
@@ -49,27 +54,27 @@
     <div class="row">
       <div class="field field--small">
         <div class="tag">Imagen 4</div>
-        <div class="image__preview" @click="triggerRef(1)">
+        <div class="image__preview" @click="triggerRef(4)">
           <svg class="material-icon" viewBox="0 0 24 24">
             <path
               d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
             />
           </svg>
-          <img src ref="preview_1" />
+          <img src ref="preview_4" />
         </div>
-        <input style="display: none" @change="uploadFile(1)" ref="image_1" type="file" />
+        <input style="display: none" @change="uploadFile(4)" ref="image_4" type="file" />
       </div>
       <div class="field field--small">
         <div class="tag">Imagen 5</div>
-        <div class="image__preview" @click="triggerRef(2)">
+        <div class="image__preview" @click="triggerRef(5)">
           <svg class="material-icon" viewBox="0 0 24 24">
             <path
               d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
             />
           </svg>
-          <img src ref="preview_2" />
+          <img src ref="preview_5" />
         </div>
-        <input style="display: none" @change="uploadFile(2)" ref="image_2" type="file" />
+        <input style="display: none" @change="uploadFile(5)" ref="image_5" type="file" />
       </div>
     </div>
 
@@ -250,36 +255,69 @@ export default {
         stepTitle: '',
         steps: [''],
         promoTitle: '',
-        images: ['', '', ''],
+        images: ['', '', '', '', ''],
       },
       url: '/admin',
       title: '',
       modalMessage: '',
+      isEdit: false,
+      deleteUrl: '',
+      descriptionId: 0,
     };
   },
 
   async beforeMount() {
     this.currentAction = this.$route.meta.actionType;
     if (this.currentAction === 'Editar') {
-      await this.editDescription();
+      this.isEdit = true;
+      await this.loadDescription();
       this.title = 'Editar descripción';
     } else if (this.currentAction === 'Crear') {
       this.title = 'Crear nueva descripción';
     }
   },
   methods: {
+    triggerRef(index) {
+      this.$refs[`image_${index}`].click();
+    },
+    uploadFile(index) {
+      const item = this.$refs[`image_${index}`];
+
+      if (item.files && item.files[0]) {
+        const reader = new FileReader();
+        const self = this;
+
+        reader.onload = function (e) {
+          self.$refs[`preview_${index}`].src = e.target.result;
+          self.$refs[`preview_${index}`].style = 'display: inline-block';
+        };
+
+        reader.readAsDataURL(item.files[0]);
+      }
+    },
     addStep(index) {
       this.description.steps.splice(index + 1, 0, '');
     },
     removeStep(index) {
       this.description.steps.splice(index, 1);
     },
-    async editDescription() {
-      const parameter = this.$route.params.id;
-      const description = await VAPI.get(`/api/description/${parameter}`);
+    setInitialImages(imagesArray) {
+      const thumbnails = imagesArray.filter((element) => element.includes('thumbnail'));
+      console.log(imagesArray);
+      for (let index = 1; index <= thumbnails.length; index++) {
+        const self = this;
+        // console.log('ok' + self.$refs['preview_1'].src);
+        self.$refs[`preview_${index}`].src = thumbnails[index - 1];
+        self.$refs[`preview_${index}`].style = 'display: inline-block';
+      }
+    },
+    async loadDescription() {
+      this.descriptionId = this.$route.params.id;
+      this.deleteUrl = `/delete/description/${this.descriptionId}`;
+      const description = await VAPI.get(`/api/description/${this.descriptionId}`);
       const descriptionData = description.data;
-      console.log(descriptionData);
       this.description = descriptionData;
+      this.setInitialImages(descriptionData.images);
     },
 
     async executeActionDescription() {
@@ -288,17 +326,35 @@ export default {
         let description;
         this.currentAction = this.$route.meta.actionType;
         if (this.currentAction === 'Editar') {
-          const parameter = this.$route.params.id;
-          description = await VAPI.put(`/api/description/${parameter}`, this.description);
+          description = await VAPI.put(`/api/description/${this.descriptionId}`, this.description);
         } else if (this.currentAction === 'Crear') {
           description = await VAPI.post('/api/description/', this.description);
+          this.descriptionId = description._id;
         }
 
-        if (description.status === 200) {
+        const formData = new FormData();
+        const positions = [];
+        for (let index = 1; index <= 5; index++) {
+          const item = this.$refs[`image_${index}`];
+          if (item.files.length !== 0) {
+            positions.push(index);
+            console.log('guarde');
+            formData.append('image', item.files[0]);
+          // console.log(self.$refs[`preview_${index}`].src);
+          }
+        }
+        formData.append('positions', positions);
+        formData.append('id', this.descriptionId);
+        const response = await VAPI.post('/imagenes', formData);
+
+        if (description.status === 200 && response.status === 200) {
           this.modalMessage = 'Operación exitosa';
         }
         modal.triggerModal();
-        console.log(description);
+        setTimeout(() => {
+          this.$router.replace('/admin');
+        }, 500);
+        // check if any image has changed and sends it to back
       } catch (error) {
         this.modalMessage = 'Error en servidor, vuelva a intentar';
         modal.triggerModal();
@@ -414,5 +470,9 @@ textarea
 	height: 20px
 	margin-left: auto
     margin-bottom: 20px
+
+.danger-btn
+  background-color: red
+  border-color: red
 
 </style>

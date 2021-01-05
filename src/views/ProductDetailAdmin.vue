@@ -1,10 +1,15 @@
 <template>
-  <div>
+  <div id="app">
 
     <div class="product edit-product">
      <div class="row">
-		  <router-link class="btn" :to='url' style="max-width: 100px">Volver</router-link>
-	     </div>
+      <a class="btn" href="/admin" style="max-width: 100px">Volver</a>
+      <a
+        class="btn btn--save danger-btn"
+        v-if="isEdit"
+        :href="deleteUrl"
+      >Eliminar producto</a>
+     </div>
        <div class="row">
          <h1>
            {{title}}
@@ -89,7 +94,7 @@ import VAPI from '../http_common';
 export default {
   data() {
     return {
-	    currentAction: '',
+      currentAction: '',
       product: {
         name: '',
         businessLine: '',
@@ -105,6 +110,8 @@ export default {
       url: '/admin',
       title: '',
       modalMessage: '',
+      isEdit: false,
+      deleteUrl: '',
     };
   },
 
@@ -120,10 +127,12 @@ export default {
   methods: {
     async editProduct() {
       const parameter = this.$route.params.id;
+      this.deleteUrl = `/delete/product/${parameter}`;
       const product = await VAPI.get(`/api/product/${parameter}`);
       const productData = product.data;
       this.product = productData;
       this.product.properties = productData.properties._id;
+      this.isEdit = true;
     },
     async executeActionProduct() {
       const { modal } = this.$refs;
@@ -133,13 +142,15 @@ export default {
           const parameter = this.$route.params.id;
           updateProduct = await VAPI.put(`/api/product/${parameter}`, this.product);
         } else if (this.currentAction === 'Crear') {
-          updateProduct = await VAPI.post('/api/product', this.product);
+          updateProduct = await VAPI.post('/api/product/', this.product);
         }
         if (updateProduct.status === 200) {
           this.modalMessage = 'Operación exitosa';
+          setTimeout(() => {
+            this.$router.replace('/admin');
+          }, 500);
         }
         modal.triggerModal();
-        console.log(updateProduct);
       } catch (error) {
         this.modalMessage = 'Error en servidor, vuelva a intentar';
         modal.triggerModal();
@@ -251,5 +262,9 @@ textarea
 	width: 150px
 	height: 20px
 	margin-left: auto
+
+.danger-btn
+  background-color: red
+  border-color: red
 
 </style>

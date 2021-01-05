@@ -377,6 +377,7 @@ export default {
     font-weight: 20px
     text-align: center
 
+
 @media (max-width: 630px)
     .catalog-box2
         flex-wrap: wrap
