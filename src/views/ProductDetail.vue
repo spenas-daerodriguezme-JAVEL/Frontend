@@ -8,10 +8,15 @@
       <div class="product__main">
         <div class="image__container">
           <img
-            src="../assets/productos/QUITAOXIDO.jpg"
+            :src="images[0]"
             alt=""
             class="image__holder"
           />
+          <!-- <img
+            src="../assets/productos/QUITAOXIDO.jpg"
+            alt=""
+            class="image__holder"
+          /> -->
 
           <div class="btn-buy">
             <div class="btn-buy__item btn-buy--left">
@@ -50,10 +55,12 @@
 
       <div class="gallery">
         <div class="gallery__item hlp__image-cover">
-          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+          <img :src="images[1]" alt="" />
+          <!-- <img src="../assets/productos/CLORO 900 ML.jpg" alt="" /> -->
         </div>
         <div class="gallery__item hlp__image-cover">
-          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+          <img :src="images[2]" alt="" />
+          <!-- <img src="../assets/productos/CLORO 900 ML.jpg" alt="" /> -->
         </div>
       </div>
 
@@ -82,10 +89,10 @@
 
       <div class="gallery">
         <div class="gallery__item hlp__image-cover gallery__item--centered">
-          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+          <img :src="images[3]" alt="" />
         </div>
         <div class="gallery__item hlp__image-cover gallery__item--centered">
-          <img src="../assets/productos/CLORO 900 ML.jpg" alt="" />
+          <img :src="images[4]" alt="" />
         </div>
       </div>
 
@@ -110,14 +117,22 @@
 </template>
 
 <script>
-import { TweenMax, Power2, TimelineLite } from "gsap/TweenMax";
-import util from "../util/index";
+import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+import util from '../util/index';
+import VAPI from '../http_common';
 
 export default {
   data() {
     return {
       product_id: null,
       product: {},
+      images: [
+        '../../static/test_images/ld1.jpg',
+        '../../static/test_images/ld2.jpg',
+        '../../static/test_images/ld3.jpg',
+        '../../static/test_images/ld3.jpg',
+        '../../static/test_images/ld3.jpg',
+      ],
       modalText: '',
       isLoading: true,
       productFeaturesLabels: {
@@ -139,23 +154,24 @@ export default {
       },
     };
   },
-  beforeCreate() {
+  async beforeCreate() {
     this.product_id = this.$route.params.id;
 
-    this.$http
-      .get(`/api/product/${this.product_id}`)
-      .then((response) => {
-        this.product = response.data;
-      })
-      .catch((error) => {
-        this.modalText =
-          "Algo salió mal. Por favor intentalo de nuevo más tarde.";
-        this.$refs.modal.triggerModal();
-        console.log(error);
-      }).finally(() => {
-        this.isLoading = false;
-      });
+    try {
+      const response = await VAPI.get(`/api/product/${this.product_id}`);
+      this.product = response.data;
+      this.isLoading = false;
+      for (let index = 0; index < this.product.properties.images.length; index++) {
+        this.images.splice(index, 1, this.images[index]);
+        this.images.splice(index, 1, this.product.properties.images[index]);
+      }
+    } catch (error) {
+      this.modalText = 'Algo salió mal. Por favor intentalo de nuevo más tarde.';
+      this.$refs.modal.triggerModal();
+      console.log(error);
+    }
   },
+
   methods: {
     sendToCart() {
       const copy = util.deepCopy(this.product);
@@ -211,7 +227,6 @@ img.image__holder
   padding: 15px
   line-height: 30px
   white-space: pre-line
-
 
 // Product images
 
@@ -291,7 +306,7 @@ img.image__holder
     > .btn-buy--left
       color: white
       border-color: white
-      
+
       &:after
         top: 0
         left: 0px

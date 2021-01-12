@@ -4,18 +4,18 @@
   >
     <div v-if="isDouble" class="img-aux">
       <!-- <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt=""> -->
-      <img src="../assets/productos/QUITAOXIDO.jpg" />
+      <img :src="product.images[1]" />
     </div>
 
     <div class="wrapper__single">
       <div class="display" ref="display">
         <!-- <img :src="data.images.length != 0 ? URI + data.images[0].url : ''" alt=""> -->
-        <img src="../assets/productos/QUITAOXIDO.jpg" />
+        <img :src="product.images[0]" />
         <img
-          v-for="(image, index) in data.properties.images"
+          v-for="(image, index) in product.images"
           :key="index"
           v-show="activeImage == index && index != 0"
-          :src="image.url ? URI + image.url : ''"
+          :src="image ? image : ''"
         />
         <div class="buy__item">
           <div class="buy__item--inner" @click.stop="sendToCart">Comprar</div>
@@ -27,11 +27,6 @@
             <div>
             {{ data.name }}
             </div>
-            <!-- <custom-selector
-            class="selector--product"
-            :value="selectedPresentation"
-            :default-first="true "
-            :options="presentationOptions"></custom-selector>-->
           </div>
           <div class="product__price">{{ data.price | toMoney }}</div>
         </div>
@@ -96,6 +91,7 @@ export default {
     }
   },
   beforeMount() {
+    this.putImages();
     // this.presentationOptions = this.data.price.map(
     //   function(o, index) {
     //     return {
@@ -126,26 +122,13 @@ export default {
 
       return -1;
     },
-    async getImages(id) {
-      for (let i = 1; i <= 3; i++) {
-        const ans = await this.$http.get(`products/${id}/preview?image_id=${i}`, { responseType: 'arraybuffer' });
-        if (ans.status == 200) {
-          const image = Buffer.from(ans.data, 'binary').toString('base64');
-          const src = `data:image/png;base64,${image}`;
-          this.images.push(src);
-        }
-      }
 
-      if (!this.isDouble) {
-        this.setImages();
-      }
-    },
     setImages() {
       const { display } = this.$refs;
       const rect = display.getBoundingClientRect();
 
       const limits = [];
-      const imgSize = this.data.properties.images.length;
+      const imgSize = this.product.images.length;
       const blockSize = rect.width / (imgSize - 1);
 
       for (let i = 0; i < imgSize - 1; i++) {
@@ -156,7 +139,6 @@ export default {
           right: rect.left + blockSize * (i + 1),
         });
       }
-
       const self = this;
       display.onmousemove = function (e) {
         const image = self.getBlock(limits, e);
@@ -167,6 +149,23 @@ export default {
         self.activeImage = -1;
       };
     },
+    putImages() {
+      this.product.images = [
+        '../../static/test_images/ld1.jpg',
+        '../../static/test_images/ld2.jpg',
+        '../../static/test_images/ld3.jpg',
+      ];
+      const thumbnailImages = [];
+      this.data.properties.images.forEach((image) => {
+        const imageName = image.split('/')[4];
+        if (imageName.includes('thumbnail')) {
+          thumbnailImages.push(image);
+        }
+      });
+      for (let index = 0; index < thumbnailImages.length; index++) {
+        this.product.images.splice(index, 1, thumbnailImages[index]);
+      }
+    },
     showDetail(productId) {
       this.$router.push({ name: 'ProductDetail', params: { id: productId } });
     },
@@ -174,6 +173,9 @@ export default {
   watch: {
     resize() {
       this.setImages();
+    },
+    data() {
+      this.putImages();
     },
   },
   filters: {
