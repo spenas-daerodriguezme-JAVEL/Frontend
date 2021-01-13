@@ -18,8 +18,11 @@ export default {
     };
   },
   async created() {
-    const res = await VAPI.get('/api/product/allProducts');
-    this.data = res.data;
+    const jwt = localStorage.getItem('jwt');
+    const res = await VAPI.get('/api/product/allProducts',
+      { headers: { 'x-auth-token': jwt } }
+    );
+    this.data = res.data;    
   },
   computed: {
     getProductsData() {

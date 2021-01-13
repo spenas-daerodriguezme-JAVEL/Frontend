@@ -21,7 +21,10 @@ export default {
     };
   },
   async created() {
-    const res = await VAPI.get('/api/description/allDescriptions');
+    const jwt = localStorage.getItem('jwt');
+    const res = await VAPI.get('/api/description/allDescriptions',
+      { headers: { 'x-auth-token': jwt }}
+    );
     this.data = res.data;
   },
   computed: {
