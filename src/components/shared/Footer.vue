@@ -20,65 +20,16 @@
 
     <router-link
       tag="li"
-      :to="{name: 'Clients'}"
+      :to="{name: 'Contact'}"
       @click="isActive = false; selectedMenu = ''"
-    > Clientes
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'GiftCard'}"
-      @click="isActive = false; selectedMenu = ''"
-    > Tarjeta Regalo
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'Checkout'}"
-      @click="isActive = false; selectedMenu = ''"
-    > Checkout
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'MyAccount'}"
-      @click="isActive = false; selectedMenu = ''"
-    > Mi cuenta
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'CreateAccount'}"
-      @click="isActive = false; selectedMenu = ''"
-    > Crear cuenta
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'ForgotPassword'}"
-      @click="isActive = false; selectedMenu = ''"
-    > Olvide contraseña
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'ProductDetail'}"
-      @click="isActive = false; selectedMenu = ''"
-    > Detalle de producto
-    </router-link>
-
-    <router-link
-      tag="li"
-      :to="{name: 'AdminCatalogProduct'}"
-      @click="isActive = false; selectedMenu = ''"
-    > admin
+    > Contacto
     </router-link>
 
     <router-link
       tag="li"
       :to="{name: 'Contact'}"
       @click="isActive = false; selectedMenu = ''"
-    > contacto
+    > Términos y Condiciones
     </router-link>
   </div>
 
@@ -131,6 +82,10 @@ export default {};
   li
     list-style: none
     padding: 5px 10px
+    cursor: pointer
+
+    &:hover
+      text-decoration: underline
 
 .social-media
   +flex(0, 0)
