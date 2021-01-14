@@ -123,7 +123,7 @@ export default {
         maxValue: 300000,
       },
       pages: 0,
-      resizedWindow: false,
+      resizedWindow: true,
       currentPage: 1,
       selected: '',
       products: [],
@@ -184,7 +184,11 @@ export default {
           isMultipleSearch ? '/' : ''
         }${price}${page}`,
       );
-      this.productList = data.products;
+      for (let index = 0; index < data.products.length; index++) {
+        this.$set(this.products, index, data.products[index]);
+      }
+      console.log(this.productList);
+      // this.productList = data.products;
       this.pages = data.pages;
       this.isLoading = false;
     },
