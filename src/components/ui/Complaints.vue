@@ -26,10 +26,9 @@ export default {
     const jwt = localStorage.getItem('jwt');
     // eslint-disable-next-line no-underscore-dangle
     if (jwt) {
-      const jsonJWT = this.parseJwt(jwt);
-      const userId = jsonJWT._id;
-      const userInfo = await VAPI.get(`/api/users/${userId}`);
-      console.log(userInfo);
+      // const jsonJWT = this.parseJwt(jwt);
+      // const userId = jsonJWT._id;
+      const userInfo = await VAPI.get(`/api/users/me`, { headers: { 'x-auth-token': jwt } });
     }
   },
   methods: {

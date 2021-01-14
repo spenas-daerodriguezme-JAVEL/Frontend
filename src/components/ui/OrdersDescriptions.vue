@@ -41,7 +41,9 @@ export default {
       retrieveUrl = `/api/order/byUserId/${jsonJWT._id}`;
       this.headers = ['Orden', 'Fecha', 'Estado de orden', 'Total'];
     }
-    const res = await VAPI.get(retrieveUrl);
+    const res = await VAPI.get(retrieveUrl,
+      { headers: { 'x-auth-token': jwt }}
+    );
     if (res.status === 200) {
       this.data = res.data;
     }
