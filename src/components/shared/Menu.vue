@@ -62,10 +62,9 @@
 
           <div v-if="selectedMenu == 'Nosotros'">
             <div class="title__menu">Nosotros</div>
-            <div class="about">
-              <a href>Acerca de</a>
-              <a href>Contáctenos</a>
-            </div>
+            <a class="btn link" href="/mision">Acerca de nosotros</a>
+            <a class="btn link" href="/contact">Contáctenos</a>
+            <a class="btn link" href="/environment">Medio ambiente</a>
           </div>
         </div>
       </div>
@@ -100,11 +99,6 @@ const menuData = [
     showName: 'Catálogo',
     dropdown: false,
     path: { name: 'Catalog' },
-  },
-  {
-    showName: 'Clientes',
-    dropdown: false,
-    path: { name: 'Clients' },
   },
   {
     showName: 'Nosotros',
@@ -298,7 +292,7 @@ export default {
   padding: 20px;
 
   > div {
-    min-height: 360px;
+    min-height: 300px;
   }
 }
 
@@ -310,21 +304,8 @@ export default {
   border-image: linear-gradient(to left, #743ad5, #d53a9d);
 }
 
-.about {
-  margin-top: 60px;
-  min-height: 100px;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-around;
-  align-items: center;
-
-  a {
-    color: inherit;
-
-    &:hover {
-      transform: skewX(-10deg);
-    }
-  }
+.link {
+  text-decoration: none;
 }
 
 /* Mobile version */
