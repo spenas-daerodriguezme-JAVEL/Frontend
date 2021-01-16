@@ -21,7 +21,7 @@
                     <div
                         style="margin-bottom: 10px;"
                         class="text--fs25">{{ image.subtitle }}</div>
-                    <a href="">Ver en el catálogo</a>
+                    <a :href="catalogPath">Ver en el catálogo</a>
                 </div>
             </div>
         </div>
@@ -47,6 +47,7 @@ export default {
     data() {
         return {
             itemSize: 0,
+            catalogPath: `${location.toString()}catalogo`,
         };
     },
     props: {

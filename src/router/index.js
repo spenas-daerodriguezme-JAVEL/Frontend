@@ -7,7 +7,6 @@ import Landing from '../views/Landing.vue';
 import Contact from '../views/Contact.vue';
 import Search from '../views/Search.vue';
 import Clients from '../views/Clients.vue';
-import GiftCard from '../views/GiftCard.vue';
 import Checkout from '../views/Checkout.vue';
 import MyAccount from '../views/MyAccount.vue';
 import CreateAccount from '../views/CreateAccount.vue';
@@ -58,7 +57,7 @@ const router = new Router({
           component: Search,
         },
         {
-          path: '/clientes',
+          path: '/environment',
           name: 'Clients',
           component: Clients,
         },
@@ -66,12 +65,7 @@ const router = new Router({
           path: '/mision',
           name: 'Motto',
           component: Motto,
-        },
-        {
-          path: '/tarjeta-regalo',
-          name: 'GiftCard',
-          component: GiftCard,
-        },
+        },        
         {
           path: '/order/:id',
           name: 'OrderDescription',

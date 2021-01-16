@@ -2,7 +2,7 @@
   <div>
     <template v-if="isLogged">
       <div class="title__menu">Tu cuenta</div>
-
+      <a class="btn link" href="/my-account">Mis datos</a>
       <div class="btn" @click="logout">Salir</div>
     </template>
     <!-- Account login -->
@@ -122,4 +122,9 @@ export default {
 .form__row {
   margin: 7px 0;
 }
+
+.link {
+  text-decoration: none;
+}
+ 
 </style>
