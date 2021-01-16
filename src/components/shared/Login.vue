@@ -2,7 +2,7 @@
   <div>
     <template v-if="isLogged">
       <div class="title__menu">Tu cuenta</div>
-      <a class="btn link" href="/my-account">Mis datos</a>
+      <a class="btn link" :href="accountLink">Mi cuenta</a>
       <div class="btn" @click="logout">Salir</div>
     </template>
     <!-- Account login -->
@@ -54,6 +54,7 @@ export default {
     return {
       isLogged: false,
       formError: false,
+      accountLink: '',
       userAccount: {
         email: '',
         password: '',
@@ -63,6 +64,7 @@ export default {
   computed: {},
   mounted() {
     this.isLogged = localStorage.getItem('jwt') !== null;
+    this.updateLinks();
   },
   methods: {
     closeMenu() {
@@ -73,8 +75,8 @@ export default {
         const res = await VAPI.post('/auth', this.userAccount);
         localStorage.clear();
         localStorage.jwt = res.data;
-
         if (res.status === 200) {
+          this.updateLinks()
           this.$refs.modal.triggerModal();
           this.formError = false;
           this.isLogged = true;
@@ -97,6 +99,16 @@ export default {
       this.$store.commit('resetCart');
       this.closeMenu();
       this.$router.push({ name: 'Landing' });
+    },
+    updateLinks() {
+      const JWT = localStorage.getItem('jwt');
+      const tokens = JWT.split('.');
+      const JwtPayload = JSON.parse(atob(tokens[1]));
+      if (JwtPayload.isAdmin === true) {
+        this.accountLink = '/admin';
+      } else {
+        this.accountLink = '/my-account';
+      }
     },
   },
 };
@@ -126,5 +138,5 @@ export default {
 .link {
   text-decoration: none;
 }
- 
+
 </style>

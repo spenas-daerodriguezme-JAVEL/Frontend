@@ -27,7 +27,8 @@ import PaymentTest from '../views/Payment/Test.vue';
 
 import NotFound from '../views/NotFound.vue';
 
-import authRequired from './authRequired';
+import AuthRequired from './authRequired';
+import AdminRequired from './verifyAdmin';
 
 Vue.use(Router);
 
@@ -65,10 +66,11 @@ const router = new Router({
           path: '/mision',
           name: 'Motto',
           component: Motto,
-        },        
+        },
         {
           path: '/order/:id',
           name: 'OrderDescription',
+          beforeEnter: AuthRequired,
           component: OrderDetail,
           meta: {
             isAdmin: false,
@@ -77,6 +79,7 @@ const router = new Router({
         {
           path: '/orderAdmin/:id',
           name: 'OrderDescription',
+          beforeEnter: AdminRequired,
           component: OrderDetail,
           meta: {
             isAdmin: true,
@@ -91,6 +94,7 @@ const router = new Router({
         {
           path: '/admin/edit/:id',
           name: 'ProductEdit',
+          beforeEnter: AdminRequired,
           component: AdminCatalogProduct,
           meta: {
             // actionType: 'Editar',
@@ -100,6 +104,7 @@ const router = new Router({
         {
           path: '/admin/product/:id',
           name: 'ProductEdit',
+          beforeEnter: AdminRequired,
           component: ProductDetailAdmin,
           meta: {
             actionType: 'Editar',
@@ -108,6 +113,7 @@ const router = new Router({
         {
           path: '/admin/product/',
           name: 'ProductCreate',
+          beforeEnter: AdminRequired,
           component: ProductDetailAdmin,
           meta: {
             actionType: 'Crear',
@@ -116,6 +122,7 @@ const router = new Router({
         {
           path: '/admin/description/:id',
           name: 'DescriptionEdit',
+          beforeEnter: AdminRequired,
           component: DescriptionDetailAdmin,
           meta: {
             actionType: 'Editar',
@@ -124,6 +131,7 @@ const router = new Router({
         {
           path: '/admin/description/',
           name: 'DescriptionCreate',
+          beforeEnter: AdminRequired,
           component: DescriptionDetailAdmin,
           meta: {
             actionType: 'Crear',
@@ -137,6 +145,7 @@ const router = new Router({
         {
           path: '/admin/new/',
           name: 'ProductNew',
+          beforeEnter: AdminRequired,
           component: AdminCatalogProduct,
           meta: {
             actionType: 'Crear',
@@ -145,6 +154,7 @@ const router = new Router({
         {
           path: '/admin/user/:id',
           name: 'UserDetail',
+          beforeEnter: AdminRequired,
           component: UserInfo,
           meta: {
             actionType: 'Visualizar',
@@ -168,6 +178,7 @@ const router = new Router({
         {
           path: '/change-password',
           name: 'ChangePassword',
+          beforeEnter: AuthRequired,
           component: ChangePassword,
         },
         {
@@ -178,6 +189,7 @@ const router = new Router({
         {
           path: '/my-account',
           name: 'MyAccount',
+          beforeEnter: AuthRequired,
           component: MyAccount,
         },
         {
@@ -193,11 +205,13 @@ const router = new Router({
         {
           path: '/admin',
           name: 'AdminPanel',
+          beforeEnter: AdminRequired,
           component: AdminPanel,
         },
         {
           path: '/delete/product/:id',
           name: 'DeleteProduct',
+          beforeEnter: AdminRequired,
           component: DeleteElement,
           meta: {
             actionType: 'Product',
@@ -206,6 +220,7 @@ const router = new Router({
         {
           path: '/delete/description/:id',
           name: 'DeleteDescription',
+          beforeEnter: AdminRequired,
           component: DeleteElement,
           meta: {
             actionType: 'Description',
