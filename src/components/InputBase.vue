@@ -20,57 +20,57 @@
 
 <script>
 export default {
-    props: {
-        value: {
-            type: [Number, String],
-            required: true,
-        },
-        numeric: {
-            type: Boolean,
-            default: false,
-        },
-        label: {
-            type: String,
-            default: '',
-            required: true,
-        },
-        type: {
-            type: String,
-            default: 'text',
-            required: false,
-        },
-        autocomplete: {
-            type: Boolean,
-            default: true,
-            required: false,
-        },
-        hasError: {
-            type: Boolean,
-            default: false,
-        },
+  props: {
+    value: {
+      type: [Number, String],
+      required: false,
     },
-    data() {
-        return {
-            hasFocus: false,
-            localValue: '',
-            isFocused: false,
-            hasContent: false,
-        };
+    numeric: {
+      type: Boolean,
+      default: false,
     },
-    watch: {
-        value(val) {
-            this.hasContent = val.length > 0;
-        },
+    label: {
+      type: String,
+      default: '',
+      required: true,
     },
-    methods: {
-        updateValue() {
-            this.$emit('input', this.$refs.refValue.value);
-        },
+    type: {
+      type: String,
+      default: 'text',
+      required: false,
     },
-    mounted() {
-        if (this.value != '') this.hasContent = true;
-        else this.hasContent = false;
+    autocomplete: {
+      type: Boolean,
+      default: true,
+      required: false,
     },
+    hasError: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      hasFocus: false,
+      localValue: '',
+      isFocused: false,
+      hasContent: false,
+    };
+  },
+  watch: {
+    value(val) {
+      this.hasContent = val.length > 0;
+    },
+  },
+  methods: {
+    updateValue() {
+      this.$emit('input', this.$refs.refValue.value);
+    },
+  },
+  mounted() {
+    if (this.value !== '') this.hasContent = true;
+    else this.hasContent = false;
+  },
 };
 </script>
 

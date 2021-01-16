@@ -22,10 +22,13 @@ import ProductDetailAdmin from '../views/ProductDetailAdmin.vue';
 import DescriptionDetailAdmin from '../views/DescriptionDetailAdmin.vue';
 import OrderDetail from '../components/shared/OrderDetail.vue';
 import DeleteElement from '../components/shared/DeleteElement.vue';
+import ChangePassword from '../views/ChangePassword.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
 import NotFound from '../views/NotFound.vue';
+
+import authRequired from './authRequired';
 
 Vue.use(Router);
 
@@ -167,6 +170,11 @@ const router = new Router({
           path: '/reset-password',
           name: 'ForgotPassword',
           component: ForgotPassword,
+        },
+        {
+          path: '/change-password',
+          name: 'ChangePassword',
+          component: ChangePassword,
         },
         {
           path: '/contact',

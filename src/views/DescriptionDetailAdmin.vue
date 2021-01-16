@@ -24,7 +24,7 @@
           </svg>
           <img src ref="preview_1" />
         </div>
-        <input style="display: none" @change="uploadFile(1)" ref="image_1" type="file" />
+        <input style="display: none" @change="uploadFile(1)" ref="image_1" type="file" accept=".webp"/>
       </div>
       <div class="field field--small">
         <div class="tag">Imagen 2</div>
@@ -36,7 +36,7 @@
           </svg>
           <img src ref="preview_2" />
         </div>
-        <input style="display: none" @change="uploadFile(2)" ref="image_2" type="file" />
+        <input style="display: none" @change="uploadFile(2)" ref="image_2" type="file" accept=".webp"/>
       </div>
       <div class="field field--small">
         <div class="tag">Imagen 3</div>
@@ -48,7 +48,7 @@
           </svg>
           <img src ref="preview_3" />
         </div>
-        <input style="display: none" @change="uploadFile(3)" ref="image_3" type="file" />
+        <input style="display: none" @change="uploadFile(3)" ref="image_3" type="file" accept=".webp"/>
       </div>
     </div>
     <div class="row">
@@ -62,7 +62,7 @@
           </svg>
           <img src ref="preview_4" />
         </div>
-        <input style="display: none" @change="uploadFile(4)" ref="image_4" type="file" />
+        <input style="display: none" @change="uploadFile(4)" ref="image_4" type="file" accept=".webp"/>
       </div>
       <div class="field field--small">
         <div class="tag">Imagen 5</div>
@@ -74,7 +74,7 @@
           </svg>
           <img src ref="preview_5" />
         </div>
-        <input style="display: none" @change="uploadFile(5)" ref="image_5" type="file" />
+        <input style="display: none" @change="uploadFile(5)" ref="image_5" type="file" accept=".webp"/>
       </div>
     </div>
 
@@ -334,22 +334,28 @@ export default {
 
         const formData = new FormData();
         const positions = [];
+        let flag = false;
         for (let index = 1; index <= 5; index++) {
           const item = this.$refs[`image_${index}`];
           if (item.files.length !== 0) {
             positions.push(index);
             console.log('guarde');
             formData.append('image', item.files[0]);
+            flag = true;
           // console.log(self.$refs[`preview_${index}`].src);
           }
         }
-        formData.append('positions', positions);
-        formData.append('id', this.descriptionId);
-        const response = await VAPI.post('/imagenes', formData);
-
-        if (description.status === 200 && response.status === 200) {
+        if (flag) {
+          formData.append('positions', positions);
+          formData.append('id', this.descriptionId);
+          const response = await VAPI.post('/imagenes', formData);
+          if (description.status === 200 && response.status === 200) {
+            this.modalMessage = 'Operación exitosa';
+          }
+        } else if (description.status === 200) {
           this.modalMessage = 'Operación exitosa';
         }
+
         modal.triggerModal();
         setTimeout(() => {
           this.$router.replace('/admin');
