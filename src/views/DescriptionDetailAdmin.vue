@@ -227,8 +227,8 @@
 </template>
 
 <script>
-import VAPI from '../http_common';
 import CustomSelector from '../components/ui/CustomSelector.vue';
+import util from '../util/index';
 
 export default {
   data() {
@@ -303,18 +303,25 @@ export default {
     },
     setInitialImages(imagesArray) {
       const thumbnails = imagesArray.filter((element) => element.includes('thumbnail'));
-      console.log(imagesArray);
       for (let index = 1; index <= thumbnails.length; index++) {
         const self = this;
-        // console.log('ok' + self.$refs['preview_1'].src);
         self.$refs[`preview_${index}`].src = thumbnails[index - 1];
         self.$refs[`preview_${index}`].style = 'display: inline-block';
       }
     },
     async loadDescription() {
       this.descriptionId = this.$route.params.id;
+      const jwt = localStorage.getItem('jwt');
+      const jsonJWT = util.parseJwt(jwt);
+      // eslint-disable-next-line no-underscore-dangle
+      const userId = jsonJWT._id;
       this.deleteUrl = `/delete/description/${this.descriptionId}`;
-      const description = await VAPI.get(`/api/description/${this.descriptionId}`);
+      const description = await this.$http.get(`/api/description/${this.descriptionId}`, {
+        headers: {
+          id: userId,
+          'x-auth-token': localStorage.getItem('jwt'),
+        },
+      });
       const descriptionData = description.data;
       this.description = descriptionData;
       this.setInitialImages(descriptionData.images);
@@ -324,11 +331,25 @@ export default {
       const { modal } = this.$refs;
       try {
         let description;
+        const jwt = localStorage.getItem('jwt');
+        const jsonJWT = util.parseJwt(jwt);
+        // eslint-disable-next-line no-underscore-dangle
+        const userId = jsonJWT._id;
         this.currentAction = this.$route.meta.actionType;
         if (this.currentAction === 'Editar') {
-          description = await VAPI.put(`/api/description/${this.descriptionId}`, this.description);
+          description = await this.$http.put(`/api/description/${this.descriptionId}`, this.description, {
+            headers: {
+              id: userId,
+              'x-auth-token': localStorage.getItem('jwt'),
+            },
+          });
         } else if (this.currentAction === 'Crear') {
-          description = await VAPI.post('/api/description/', this.description);
+          description = await this.$http.post('/api/description/', this.description, {
+            headers: {
+              id: userId,
+              'x-auth-token': localStorage.getItem('jwt'),
+            },
+          });
           this.descriptionId = description._id;
         }
 

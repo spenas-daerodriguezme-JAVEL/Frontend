@@ -87,6 +87,7 @@
 
 <script>
 import VAPI from '../../http_common';
+import util from '../../util/index';
 
 export default {
   data() {
@@ -107,7 +108,16 @@ export default {
   },
   async created() {
     const parameter = this.$route.params.id;
-    const order = await VAPI.get(`/api/order/byId/${parameter}`);
+    const jwt = localStorage.getItem('jwt');
+    const jsonJWT = util.parseJwt(jwt);
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = jsonJWT._id;
+    const order = await VAPI.get(`/api/order/byId/${parameter}`, {
+      headers: {
+        id: userId,
+        'x-auth-token': localStorage.getItem('jwt'),
+      },
+    });
     console.log(order);
     this.products = order.data.products;
     this.userInfo = order.data.user;
@@ -125,7 +135,7 @@ export default {
 
   computed: {
     getIVA() {
-      const price = (this.orderPrice * 0.19).toFixed(0)
+      const price = (this.orderPrice * 0.19).toFixed(0);
       return this.formatPrice(price);
     },
     getSubtotal() {

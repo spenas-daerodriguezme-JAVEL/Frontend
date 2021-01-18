@@ -9,10 +9,10 @@
 
       <div class="w-70 pad" ref="column2">
         <div class="container">
-         <!-- <img :src="imageSource" alt="" srcset="" class="state-image"> -->
+         <img :src="imageSource" alt="" srcset="" class="state-image">
          <!-- <img src="../assets/pending.png" alt="" srcset="" class="state-image"> -->
          <!-- <img src="../assets/error.png" alt="" srcset="" class="state-image"> -->
-         <img src="../assets/approve.jpg" alt="" srcset="" class="state-image">
+         <!-- <img src="../assets/approve.jpg" alt="" srcset="" class="state-image"> -->
        <h1>{{title}}</h1>
        <h2>{{subtitle}}</h2>
         </div>
@@ -48,19 +48,19 @@ export default {
       case 'APPROVED':
         this.title = '¡Gracias por tu compra!';
         this.subtitle = 'Tu pedido será entregado en el transcurso de la semana.';
-        this.imageSource = '../assets/approve.jpg';
+        this.imageSource = '../../static/purchaseResume/approve.jpg';
         break;
 
       case 'PENDING':
         this.title = 'La transacción está en proceso de verificación.';
         this.subtitle = 'Este proceso suele tardar algunos minutos, tan pronto recibamos noticias nos comunicaremos contigo';
-        this.imageSource = '../assets/pending.png';
+        this.imageSource = '../../static/purchaseResume/pending.png';
         break;
 
       default:
         this.title = 'Ha ocurrido un problema con tu transaccion';
         this.subtitle = 'Intenta realizar el pago de nuevo, si el problema persiste comunicate con tu entidad bancaria.';
-        this.imageSource = '../assets/error.png';
+        this.imageSource = '../../static/purchaseResume/error.png';
         break;
       }
       console.log(requestData);

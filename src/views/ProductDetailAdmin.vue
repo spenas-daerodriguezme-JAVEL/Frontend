@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import VAPI from '../http_common';
+import util from '../util/index';
 
 export default {
   data() {
@@ -128,7 +128,7 @@ export default {
     async editProduct() {
       const parameter = this.$route.params.id;
       this.deleteUrl = `/delete/product/${parameter}`;
-      const product = await VAPI.get(`/api/product/${parameter}`);
+      const product = await this.$http.get(`/api/product/${parameter}`);
       const productData = product.data;
       this.product = productData;
       this.product.properties = productData.properties._id;
@@ -136,13 +136,28 @@ export default {
     },
     async executeActionProduct() {
       const { modal } = this.$refs;
+      const jwt = localStorage.getItem('jwt');
+      const jsonJWT = util.parseJwt(jwt);
+      // eslint-disable-next-line no-underscore-dangle
+      const userId = jsonJWT._id;
       try {
         let updateProduct;
         if (this.currentAction === 'Editar') {
           const parameter = this.$route.params.id;
-          updateProduct = await VAPI.put(`/api/product/${parameter}`, this.product);
+          console.log(this.product);
+          updateProduct = await this.$http.put(`/api/product/${parameter}`, this.product, {
+            headers: {
+              id: userId,
+              'x-auth-token': localStorage.getItem('jwt'),
+            },
+          });
         } else if (this.currentAction === 'Crear') {
-          updateProduct = await VAPI.post('/api/product/', this.product);
+          updateProduct = await this.$http.post('/api/product/', this.product, {
+            headers: {
+              id: userId,
+              'x-auth-token': localStorage.getItem('jwt'),
+            },
+          });
         }
         if (updateProduct.status === 200) {
           this.modalMessage = 'Operación exitosa';

@@ -25,6 +25,7 @@
 
 <script>
 import VAPI from '../../http_common';
+import util from '../../util/index';
 
 export default {
   data() {
@@ -49,8 +50,17 @@ export default {
   methods: {
     async deleteElement() {
       const { modal } = this.$refs;
+      const jwt = localStorage.getItem('jwt');
+      const jsonJWT = util.parseJwt(jwt);
+      // eslint-disable-next-line no-underscore-dangle
+      const userId = jsonJWT._id;
       try {
-        const deletedElement = await VAPI.delete(this.url);
+        const deletedElement = await VAPI.delete(this.url, {
+          headers: {
+            id: userId,
+            'x-auth-token': localStorage.getItem('jwt'),
+          },
+        });
         if (deletedElement.status === 200) {
           this.modalMessage = 'Operacion exitosa';
           modal.triggerModal();

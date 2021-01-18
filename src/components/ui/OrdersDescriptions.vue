@@ -6,7 +6,7 @@
 
 <script>
 import DynamicTable from '../shared/DynamicTable.vue';
-import VAPI from '../../http_common';
+import util from '../../util/index';
 
 export default {
   components: {
@@ -25,7 +25,9 @@ export default {
   },
   async created() {
     const jwt = localStorage.getItem('jwt');
-    const jsonJWT = this.parseJwt(jwt);
+    const jsonJWT = util.parseJwt(jwt);
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = jsonJWT._id;
     let retrieveUrl;
     if (jsonJWT.isAdmin) {
       retrieveUrl = '/api/order/allOrders';
@@ -41,9 +43,13 @@ export default {
       retrieveUrl = `/api/order/byUserId/${jsonJWT._id}`;
       this.headers = ['Orden', 'Fecha', 'Estado de orden', 'Total'];
     }
-    const res = await VAPI.get(retrieveUrl,
-      { headers: { 'x-auth-token': jwt }}
-    );
+    const res = await this.$http.get(retrieveUrl,
+      {
+        headers: {
+          id: userId,
+          'x-auth-token': localStorage.getItem('jwt'),
+        },
+      });
     if (res.status === 200) {
       this.data = res.data;
     }
@@ -61,19 +67,6 @@ export default {
     },
   },
   methods: {
-    parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
-          .join(''),
-      );
-
-      return JSON.parse(jsonPayload);
-    },
-
     formatPrice(price) {
       const needFormat = price / 1000 >= 1;
       if (needFormat) {

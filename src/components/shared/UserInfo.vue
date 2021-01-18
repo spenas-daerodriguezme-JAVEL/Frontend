@@ -46,7 +46,6 @@
 <script>
 import { ID_TYPES } from '../../idTypes';
 import util from '../../util/index';
-import VAPI from '../../http_common';
 
 export default {
 
@@ -77,7 +76,7 @@ export default {
       ID_TYPES.map((idType) => idType.type),
     );
     const jwt = localStorage.getItem('jwt');
-    const jsonJWT = this.parseJwt(jwt);
+    const jsonJWT = util.parseJwt(jwt);
     // eslint-disable-next-line no-underscore-dangle
     const userId = jsonJWT._id;
     const userInfo = await this.$http.get('/api/users/me', {
@@ -92,18 +91,7 @@ export default {
   },
 
   methods: {
-    parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
-          .join(''),
-      );
-
-      return JSON.parse(jsonPayload);
-    },
+    
 
     async updateUser() {
       const { modal } = this.$refs;
