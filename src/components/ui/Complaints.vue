@@ -3,11 +3,19 @@
     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
      <textarea style="width:1000px;height:300px" v-model="complaintText"> </textarea>
      <div style="display: inline-block;">
+     
+     <div class="text--error" v-if="!textValid">No puede enviar un mensaje vacio.</div>
 
      </div>
       <div class="frow">
-          <div class="btn" @click="" style="max-width: 200px; ">Enviar</div>
+        <div class="btn" @click="sendComplaint" style="max-width: 200px; ">Enviar</div>
+      </div>
+
+      <modal-info useSlot autoSize ref="modal">
+        <div class="modal__message">
+          <div class="title__menu">{{ modalMsg }}</div>
         </div>
+      </modal-info>
   </div>
 </template>
 
@@ -19,24 +27,46 @@ export default {
     return {
       complaintText: '',
       loggedIn: false,
+      modalMsg: '',
     };
-  },
-  async mounted() {
-    //asign to data and ready to send and if not show the fields and do the same thing
-    const jwt = localStorage.getItem('jwt');
-    // eslint-disable-next-line no-underscore-dangle
-    if (jwt) {
-      // const jsonJWT = this.parseJwt(jwt);
-      // const userId = jsonJWT._id;
-      const userInfo = await VAPI.get(`/api/users/me`, { headers: { 'x-auth-token': jwt } });
+  },  
+  computed: {
+    textValid() {
+      return this.complaintText !== '' && this.complaintText !== null;
     }
   },
   methods: {
-
+    async sendComplaint() {
+      if ( !this.textValid ) {
+        return ;
+      }      
+      const { modal } = this.$refs;
+      const jwt = localStorage.getItem('jwt');
+      try {
+        const pqrs = await VAPI.post( 
+          `/api/pqrs`, 
+          { message: this.complaintText },
+          { headers: { 'x-auth-token': jwt }}
+        );
+        this.modalMsg = 'Envio exitoso'
+        modal.triggerModal();
+        this.resetState();
+      }
+      catch( error ) {
+        this.modalMsg = 'Algo salió mal intentelo nuevamente.'
+        modal.triggerModal();
+      }
+    },
+    resetState() {
+      this.complaintText = '';
+    }
   },
 };
 </script>
 
-<style>
+<style scoped>
+.text--error {
+  color: red;
+}
 
 </style>
