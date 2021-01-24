@@ -4,7 +4,8 @@
      <textarea style="width:1000px;height:300px" v-model="complaintText"> </textarea>
      <div style="display: inline-block;">
      
-     <div class="text--error" v-if="!textValid">No puede enviar un mensaje vacio.</div>
+     <div class="text--counter">Contador de caracteres {{textLength}}/2000</div>
+     <div class="text--error" v-if="!textValid">No puede enviar un mensaje vacio o con más de 2000 caracteres.</div>
 
      </div>
       <div class="frow">
@@ -32,7 +33,13 @@ export default {
   },  
   computed: {
     textValid() {
-      return this.complaintText !== '' && this.complaintText !== null;
+      if (this.complaintText !== '' && this.complaintText !== null && this.textLength < 2000)
+        return true;
+      else
+        return false
+    },
+    textLength() {
+      return this.complaintText.length;
     }
   },
   methods: {
@@ -43,9 +50,10 @@ export default {
       const { modal } = this.$refs;
       const jwt = localStorage.getItem('jwt');
       try {
+        const textTruncated = this.truncateText(this.complaintText, 2000);
         const pqrs = await VAPI.post( 
           `/api/pqrs`, 
-          { message: this.complaintText },
+          { message: textTruncated },
           { headers: { 'x-auth-token': jwt }}
         );
         this.modalMsg = 'Envio exitoso'
@@ -59,6 +67,13 @@ export default {
     },
     resetState() {
       this.complaintText = '';
+    },
+    truncateText(text, length) {
+      if (text.length <= length) {
+        return text;
+      }
+
+      return text.substr(0, length);
     }
   },
 };
@@ -66,7 +81,12 @@ export default {
 
 <style scoped>
 .text--error {
-  color: red;
+  color: rgb(194, 10, 10);
+  font-size: 0.9rem;
 }
 
+.text--counter {
+  color: rgb(78, 76, 76);
+  font-size: 0.9rem;
+}
 </style>
