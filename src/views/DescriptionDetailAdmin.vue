@@ -369,7 +369,7 @@ export default {
         if (flag) {
           formData.append('positions', positions);
           formData.append('id', this.descriptionId);
-          const response = await VAPI.post('/imagenes', formData);
+          const response = await this.$http.post('/imagenes', formData);
           if (description.status === 200 && response.status === 200) {
             this.modalMessage = 'Operación exitosa';
           }
