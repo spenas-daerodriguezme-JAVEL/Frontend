@@ -33,7 +33,7 @@ export default {
   },  
   computed: {
     textValid() {
-      if (this.complaintText !== '' && this.complaintText !== null && this.textLength < 2000)
+      if (this.complaintText !== '' && this.complaintText !== null && this.textLength <= 2000)
         return true;
       else
         return false
