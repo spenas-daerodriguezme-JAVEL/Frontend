@@ -100,7 +100,19 @@
         </div>
 
         <div class="frow">
-          <div class="btn" @click="register" style="max-width: 100px; margin-left: 20px">Regístrate</div>
+          <div style="margin-left: 20px">
+            <input type="checkbox" name="termsAndConditions" v-model="isTermsAndConditionsAccepted">
+            <label for="termsAndConditions">Al marcar este campo aceptas 
+              <a href="/mision" target="_blank">los terminos y condiciones</a> y
+              <a href="/contact" target="_blank"> la politica de tratamiento de datos</a>.
+            </label>
+          </div>
+        </div>
+
+        <div class="frow">
+          <div class="btn" @click="register" 
+            style="max-width: 100px; margin-left: 20px"
+            v-if="isTermsAndConditionsAccepted" >Regístrate</div>
         </div>
       </div>
     </div>
@@ -155,6 +167,7 @@ export default {
       formErrors: '',
       stateOptions: [],
       idTypeOptions: [],
+      isTermsAndConditionsAccepted: false,
     };
   },
   computed: {

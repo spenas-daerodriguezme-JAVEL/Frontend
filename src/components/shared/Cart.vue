@@ -62,10 +62,19 @@
         <span class="text--price">{{ totalCost | toMoney}}</span>
       </div>
     </div>
-
+    <div class="row">
+      <div style="max-width: fit-content">
+        <input type="checkbox" name="termsAndConditions" v-model="isTermsAndConditionsAccepted">
+        <label for="termsAndConditions">Al marcar este campo aceptas 
+          <a href="/mision" target="_blank">los terminos y condiciones</a> y
+          <a href="/contact" target="_blank"> la politica de tratamiento de datos</a>.
+        </label>
+      </div>
+    </div>
     <div class="btn btn--white"
       style="margin-top: 10px"
-      @click="createOrder">{{ details ? 'Pagar' : 'Crear orden'}}</div>
+      @click="createOrder"
+      v-if="isTermsAndConditionsAccepted">{{ details ? 'Pagar' : 'Crear orden'}}</div>
   </div>
 </template>
 
@@ -86,7 +95,8 @@ export default {
   },
   data() {
     return {
-      products: []
+      products: [],
+      isTermsAndConditionsAccepted: false,
     }
   },
   computed: {
