@@ -1,6 +1,6 @@
 <template>
   <div class="checkout">
-    <div class="section">Hola Santiago</div>
+    <div class="section">Hola {{ userName }}</div>
 
     <selector-list
       :options="options">
@@ -32,6 +32,7 @@ import UserInfo from '../components/shared/UserInfo.vue';
 import OrderDescriptions from '../components/ui/OrdersDescriptions.vue';
 import ProductRequest from '../components/ui/ProductRequest.vue';
 import Complaints from '../components/ui/Complaints.vue';
+import util from '../util/index';
 
 export default {
   data() {
@@ -42,10 +43,23 @@ export default {
         'Solicitud de productos',
         'Quejas, reclamos, sugerencias y felicitaciones',
       ],
+      userName: '',
     };
   },
-  mounted() {
-
+  async beforeMount() {
+    const jwt = localStorage.getItem('jwt');
+    const jsonJWT = util.parseJwt(jwt);
+    // eslint-disable-next-line no-underscore-dangle
+    const userId = jsonJWT._id;
+    const userInfo = await this.$http.get('/api/users/me', {
+      headers: {
+        id: userId,
+        'x-auth-token': localStorage.getItem('jwt'),
+      },
+    });
+    console.log('----------- user ---------------');
+    console.log(userInfo);
+    this.userName = userInfo.data.name;
   },
   components: {
     InputBase,
@@ -69,6 +83,7 @@ export default {
   height: 30vw
   font-size: 60px
   @extend %title
+  text-transform: capitalize
 
 h1
   font-size: 40px
