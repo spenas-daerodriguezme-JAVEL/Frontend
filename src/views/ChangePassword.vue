@@ -61,9 +61,40 @@ export default {
     },
   },
   methods: {
-    savePassword() {
-
-    },
+    async savePassword() {
+		if (!this.passwordMatch) {
+			return;
+		}
+		const { modal } = this.$refs;
+		const body = {
+			oldPassword: this.oldPassword,
+			newPassword: this.password
+		}
+		const headers = {
+			headers: {
+				'x-auth-token': localStorage.getItem('jwt'),
+			},
+		}
+		try {			
+			const response = await this.$http.post('/auth/change-password',	body, headers);
+			this.modalMessage = 'Cambio exitoso';
+			modal.triggerModal();
+			this.resetState();
+		} catch (error) {			
+			if (error.response.status === 400) {
+				this.modalMessage = 'La contraseña antigua no coincide';
+				modal.triggerModal();
+				return ;
+			}
+			this.modalMessage = 'Algo salió mal. Intentelo de nuevo.'
+        	modal.triggerModal();
+		}		
+	},
+	resetState() {
+		this.password= '';
+    	this.passwordConfirmation= '';
+    	this.oldPassword= '';
+	}
   },
 };
 </script>
