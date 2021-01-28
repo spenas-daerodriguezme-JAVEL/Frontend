@@ -57,8 +57,7 @@ export default {
         'x-auth-token': localStorage.getItem('jwt'),
       },
     });
-    console.log('----------- user ---------------');
-    console.log(userInfo);
+    
     this.userName = userInfo.data.name;
   },
   components: {
