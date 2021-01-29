@@ -34,6 +34,14 @@
           class="new-account text--fs14"
         >¿Eres nuevo?, Crea una cuenta</router-link>
 
+        <router-link
+          tag="div"
+          @click.native="closeMenu"
+          :to="{ name: 'ForgotPassword' }"
+          class="new-account text--fs14"
+          style="margin-top: 10px;"
+        >Olvidé mi contraseña</router-link>
+
         <div class="btn" @click="login">Ingresar</div>
       </div>
     </template>
