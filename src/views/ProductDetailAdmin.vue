@@ -25,7 +25,8 @@
       <div class="row">
         <div class="field field--small">
           <div class="tag">Línea de negocio</div>
-          <input v-model="product.businessLine" type="text" />
+          <!-- <input v-model="product.businessLine" type="text" /> -->
+          <Autocomplete :suggestions="businessLine" @selectedValue="updateValue"></Autocomplete>
         </div>
         <div class="flex">
           <div class="tag">Presentación disponible</div>
@@ -90,6 +91,7 @@
 
 <script>
 import util from '../util/index';
+import Autocomplete from '../components/shared/Autocomplete.vue';
 
 export default {
   data() {
@@ -112,6 +114,7 @@ export default {
       modalMessage: '',
       isEdit: false,
       deleteUrl: '',
+      businessLine: [],
     };
   },
 
@@ -123,7 +126,16 @@ export default {
     } else if (this.currentAction === 'Crear') {
       this.title = 'Crear nuevo producto';
     }
+    try {
+      const { data } = await this.$http.get(
+        '/api/product/businesslinelist',
+      );
+      this.businessLine = data.businessLines;
+    } catch (error) {
+      console.error(error);
+    }
   },
+
   methods: {
     async editProduct() {
       const parameter = this.$route.params.id;
@@ -172,6 +184,12 @@ export default {
         console.log(error);
       }
     },
+    updateValue(selectedValue) {
+      this.product.businessLine = selectedValue;
+    },
+  },
+  components: {
+    Autocomplete,
   },
 };
 </script>
