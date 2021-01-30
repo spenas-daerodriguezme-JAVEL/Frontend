@@ -56,7 +56,7 @@
         :class="{'menu__filter--active': isActive}"
       >
         <div class="menu__item__dropdown" ref="dropdown">
-          <div v-if="selectedMenu == 'Cuenta'">
+          <div v-if="selectedMenu == 'Cuenta' || selectedMenu == 'Ingresar'">
             <Login @click="isActive = true" @close="isActive = false" />
           </div>
 
@@ -135,6 +135,13 @@ export default {
     };
   },
   mounted() {
+    const jwt = localStorage.getItem('jwt');
+    if ( !jwt ) {
+      this.isLogged = true;
+      const index = this.menuData.findIndex(item => item.showName === 'Cuenta');
+      this.menuData[index].showName = 'Ingresar';
+    }
+    
     this.$refs.filter.addEventListener('click', (e) => {
       const dropdown = this.$refs.dropdown.getBoundingClientRect();
       const isInBounds = e.clientX <= dropdown.right
@@ -159,6 +166,16 @@ export default {
         if (!event.matches) this.isMobileMenuActive = false;
       });
   },
+  updated() {
+    const jwt = localStorage.getItem('jwt');
+    if ( !jwt ) {
+      const index = this.menuData.findIndex(item => item.showName === 'Cuenta');
+      this.menuData[index].showName = 'Ingresar';
+    }else {
+      const index = this.menuData.findIndex(item => item.showName === 'Ingresar');
+      this.menuData[index].showName = 'Cuenta';
+    }
+  },
   methods: {
     onClickMenu(menuItem) {
       this.isActive = menuItem.dropdown;
@@ -171,7 +188,7 @@ export default {
     ...mapGetters([
       'countProducts',
     ]),
-  }
+  },  
 };
 </script>
 

@@ -22,6 +22,7 @@ import DescriptionDetailAdmin from '../views/DescriptionDetailAdmin.vue';
 import OrderDetail from '../components/shared/OrderDetail.vue';
 import DeleteElement from '../components/shared/DeleteElement.vue';
 import ChangePassword from '../views/ChangePassword.vue';
+import NewPassword from '../views/NewPassword.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -225,6 +226,11 @@ const router = new Router({
           meta: {
             actionType: 'Description',
           },
+        },
+        {
+          path: '/new-password/:token',
+          name: 'NewPassword',
+          component: NewPassword,
         },
         {
           path: '*',

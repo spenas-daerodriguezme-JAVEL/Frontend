@@ -13,7 +13,11 @@
           <input-base
             :label="'Dirección de correo'"
             class="input--large"
-            v-model="account.email"></input-base>
+            v-model="email"></input-base>
+        </div>
+
+        <div class="text--error" v-if="!validateEmail">
+          El correo no es válido
         </div>
 
         <div class="frow help__container">
@@ -22,10 +26,18 @@
             Recibirás un enlace para crear una nueva contraseña mediante tu correo.
           </div>
           <div class="btn"
-            style="max-width: 200px; margin-left: 5px">Reiniciar contraseña</div>
+            style="max-width: 200px; margin-left: 5px"
+            @click="recover"
+            v-if="validateEmail"
+          > {{  sending ? "Enviando..." : "Reiniciar contraseña" }}</div>
         </div>
       </div>
     </div>
+    <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">{{ modalMessage }}</div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
@@ -36,21 +48,24 @@ import InputBase from '../components/InputBase.vue';
 
 export default {
     data() {
-        return {
-            account: {
-                email: '',
-            },
-        };
+      return {
+        email: '',
+        modalMessage: "",
+        successfulSend: false,
+        sending: false,
+      };
+    },
+    computed: {
+      validateEmail() {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(this.email).toLowerCase());
+      }
     },
     mounted() {
         const title = this.$refs.title1;
         const welcome = this.$refs.title2;
-        console.log(this.$refs);
-
         TweenMax;
-
         const tl = new TimelineLite();
-
         tl
             .from(title, 1.5, {
                 x: 100,
@@ -69,6 +84,33 @@ export default {
         Object.assign([column.style, column2.style], {
             height: `calc(100vh - ${bounds.top}px)`,
         });
+    },
+    methods: {
+      async recover() {      
+        if (!this.validateEmail) {
+          return;
+        }
+        const { modal } = this.$refs;
+        const body = {
+          email: this.email
+        };      
+        try {
+          this.sending = true;
+          const response = await this.$http.post("/auth/recover", body);
+          this.modalMessage = "Envio exitoso";
+          modal.triggerModal();
+          this.successfulSend = true;
+          this.resetState();
+        } catch (error) {        
+          this.modalMessage = "Algo salió mal. Intentelo de nuevo.";
+          modal.triggerModal();
+        } finally {
+          this.sending = false;
+        }
+      },
+      resetState() {
+        this.email = "";
+      },
     },
     components: {
         InputBase,
@@ -136,6 +178,10 @@ h1
   font-size: 13px
   max-width: 380px
   white-space: pre-line
+
+.text--error 
+  color: rgb(194, 10, 10)
+  font-size: 0.9rem
 
 @media (max-width: 820px)
   .center--responsive
