@@ -3,7 +3,7 @@
     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
      <textarea style="width:1000px;height:300px" v-model="complaintText"> </textarea>
      <div style="display: inline-block;">
-     
+
      <div class="text--counter">Contador de caracteres {{textLength}}/2000</div>
      <div class="text--error" v-if="!textValid">No puede enviar un mensaje vacio o con más de 2000 caracteres.</div>
 
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import VAPI from '../../http_common';
 
 export default {
   data() {
@@ -30,38 +29,35 @@ export default {
       loggedIn: false,
       modalMsg: '',
     };
-  },  
+  },
   computed: {
     textValid() {
-      if (this.complaintText !== '' && this.complaintText !== null && this.textLength <= 2000)
-        return true;
-      else
-        return false
+      if (this.complaintText !== '' && this.complaintText !== null && this.textLength <= 2000) return true;
+      return false;
     },
     textLength() {
       return this.complaintText.length;
-    }
+    },
   },
   methods: {
     async sendComplaint() {
-      if ( !this.textValid ) {
-        return ;
-      }      
+      if (!this.textValid) {
+        return;
+      }
       const { modal } = this.$refs;
       const jwt = localStorage.getItem('jwt');
       try {
         const textTruncated = this.truncateText(this.complaintText, 2000);
-        const pqrs = await VAPI.post( 
-          `/api/pqrs`, 
+        const pqrs = await this.$http.post(
+          '/api/pqrs',
           { message: textTruncated },
-          { headers: { 'x-auth-token': jwt }}
+          { headers: { 'x-auth-token': jwt } },
         );
-        this.modalMsg = 'Envio exitoso'
+        this.modalMsg = 'Envio exitoso';
         modal.triggerModal();
         this.resetState();
-      }
-      catch( error ) {
-        this.modalMsg = 'Algo salió mal intentelo nuevamente.'
+      } catch (error) {
+        this.modalMsg = 'Algo salió mal intentelo nuevamente.';
         modal.triggerModal();
       }
     },
@@ -74,7 +70,7 @@ export default {
       }
 
       return text.substr(0, length);
-    }
+    },
   },
 };
 </script>

@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Vuelidate from 'vuelidate';
 import App from './App';
 import router from './router';
 import { store } from './store/index';
@@ -13,6 +14,7 @@ import CustomSelector from './components/ui/CustomSelector.vue';
 import UTIL from './util/index';
 import VAPI from './http_common';
 
+Vue.use(Vuelidate);
 Vue.use(Vuex);
 
 Vue.component('input-base', InputBase);

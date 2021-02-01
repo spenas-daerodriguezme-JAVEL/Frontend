@@ -46,6 +46,9 @@ export default {
       this.products.splice(index, 1);
     },
   },
+  computed: {
+
+  },
 };
 </script>
 
