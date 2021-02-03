@@ -98,24 +98,25 @@
         <img src="../assets/productos/fwdneuvosavancesyfotos/DESINFECTANTE.jpg" alt="">
       </div>
     </div>
+    <div v-if="products && products.length > 0">
+      <div class="title">
+        PRODUCTOS INTELIGENTES.
+      </div>
 
-    <div class="title">
-      PRODUCTOS INTELIGENTES.
-    </div>
-
-    <div class="slideshow">
-      <div class="images-box">
-        <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
-          <div class="image-box__item__img">
-            <img :src="getImage(product.img)" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              {{ product.title }}.  
-              {{ product.capacity }}.
+      <div class="slideshow">
+        <div class="images-box">
+          <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
+            <div class="image-box__item__img">
+              <img :src="getImage(product.img)" alt="">
             </div>
-            <div class="imb-price">
-              {{ product.price | toMoney }}
+            <div class="image-box__item__desc">
+              <div class="imb-title">
+                {{ product.name }}.  
+                {{ product.capacity }}.
+              </div>
+              <div class="imb-price">
+                {{ product.price | toMoney }}
+              </div>
             </div>
           </div>
         </div>
@@ -131,51 +132,19 @@ import util from '../util/index';
 export default {
   data() {
     return {
-      products: [
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS GRANULADO',
-          capacity: '400 gr',
-          price: 6000,
-          img: '/productos/QUITA MANCHAS.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS LÍQUIDO',
-          capacity: '250 ml',
-          price: 6700,
-          img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA TINTA',
-          capacity: '10 ml',
-          price: 5700,
-          img: '/productos/QUITA TINTA.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS GRANULADO',
-          capacity: '400 gr',
-          price: 6000,
-          img: '/productos/QUITA MANCHAS.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS LÍQUIDO',
-          capacity: '250 ml',
-          price: 6700,
-          img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA TINTA',
-          capacity: '10 ml',
-          price: 5700,
-          img: '/productos/QUITA TINTA.jpg',
-        },
-      ],
+      products: [],
     };
+  },  
+  async created() {
+    try {
+      const response = await this.$http.get('/api/product/carousel');
+      console.log(response);
+      this.products = response.data;
+      this.products.forEach(product => product.img = '/productos/QUITA MANCHAS.jpg')
+    } catch (error) {
+      this.products = []
+      console.log(error);
+    }
   },
   methods: {
     getImage(url) {
