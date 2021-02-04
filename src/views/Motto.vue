@@ -107,7 +107,7 @@
         <div class="images-box">
           <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
             <div class="image-box__item__img">
-              <img :src="getImage(product.img)" alt="">
+              <img :src="getImage(product.properties.images[0])" alt="product">
             </div>
             <div class="image-box__item__desc">
               <div class="imb-title">
@@ -140,7 +140,6 @@ export default {
       const response = await this.$http.get('/api/product/carousel');
       console.log(response);
       this.products = response.data;
-      this.products.forEach(product => product.img = '/productos/QUITA MANCHAS.jpg')
     } catch (error) {
       this.products = []
       console.log(error);
@@ -148,7 +147,8 @@ export default {
   },
   methods: {
     getImage(url) {
-      return require('../assets' + url);
+      if(url) return require('../assets' + url);
+      else return require('../assets/productos/QUITA MANCHAS.jpg');
     },
     showDetail(productId) {
       this.$router.push({ name: 'ProductDetail', params: { id: productId } });
