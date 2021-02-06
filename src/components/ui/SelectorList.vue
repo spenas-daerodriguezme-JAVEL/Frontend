@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="box--padding">
-        <slot 
+        <slot
           :name="activeOption"></slot>
       </div>
     </div>
@@ -26,38 +26,31 @@
 </template>
 
 <script>
-import { TweenMax } from 'gsap/TweenMax';
 
 export default {
   props: {
     options: {
       required: true,
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
-      currentTitle: ''
-    }
+      currentTitle: '',
+    };
   },
   mounted() {
-    window.addEventListener('resize', () => {
-      if(window.innerWidth <= 800) {
-        this.currentTitle = '';
-      } else {
-        this.currentTitle = this.options[0];
-      }
-    })
+
   },
   beforeMount() {
-    this.currentTitle = this.options[0]
+    this.currentTitle = this.options[0];
   },
   computed: {
     activeOption() {
       return this.options[this.options.indexOf(this.currentTitle)];
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -65,7 +58,7 @@ export default {
 
 .selector-list
   +flex(0, 0)
-  height: calc(100vh - 100px)
+
 
 .selector__menu
   width: 30vw
@@ -92,7 +85,7 @@ export default {
 .selector--selected
   color: white
   background: black
-  
+
 .selector__content
   width: 70vw
   white-space: pre-line
@@ -143,7 +136,5 @@ export default {
 
   .title
     display: block
-  
-
 
 </style>

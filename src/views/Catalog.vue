@@ -134,15 +134,19 @@ export default {
       ],
     };
   },
+
   async beforeMount() {
     const { searchTerm } = this.$route.query;
-
     if (searchTerm) {
       this.isLoading = true;
       const { data } = await this.$http.get(
         `/api/product/search/${searchTerm}`,
       );
-      this.productList = data.products;
+      console.log(data);
+      // this.productList = data.products;
+      for (let index = 0; index < data.products.length; index++) {
+        this.$set(this.products, index, data.products[index]);
+      }
       this.pages = data.pages;
       this.isLoading = false;
     } else {
@@ -153,6 +157,12 @@ export default {
       const { data } = await this.$http.get(
         '/api/product/businesslinelist',
       );
+      const priceLimits = await this.$http.get(
+        '/api/product/extreme-values',
+      );
+      this.$set(this.ranges, 'minValue', priceLimits.data.minValue);
+      this.$set(this.ranges, 'maxValue', priceLimits.data.maxValue);
+
       this.options = data.businessLines.map((option) => ({
         value: option,
         label: option,
@@ -184,10 +194,10 @@ export default {
           isMultipleSearch ? '/' : ''
         }${price}${page}`,
       );
+      console.log(data);
       for (let index = 0; index < data.products.length; index++) {
         this.$set(this.products, index, data.products[index]);
       }
-      console.log(this.productList);
       // this.productList = data.products;
       this.pages = data.pages;
       this.isLoading = false;
@@ -380,7 +390,6 @@ export default {
 .no-results
     font-weight: 20px
     text-align: center
-
 
 @media (max-width: 630px)
     .catalog-box2

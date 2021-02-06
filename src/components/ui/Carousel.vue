@@ -44,64 +44,64 @@ const TRANSITION_TIME = 700;
 const SLIDE_TIME = 3000;
 
 export default {
-    data() {
-        return {
-            itemSize: 0,
-            catalogPath: `${location.toString()}catalogo`,
-        };
+  data() {
+    return {
+      itemSize: 0,
+      catalogPath: `${location.toString()}catalogo`,
+    };
+  },
+  props: {
+    images: {
+      type: Array,
+      default: () => [],
     },
-    props: {
-        images: {
-            type: Array,
-            default: () => [],
-        },
-        auto: {
-            type: Boolean,
-        },
+    auto: {
+      type: Boolean,
     },
-    mounted() {
-        const container = this.$refs.carousel__container;
+  },
+  mounted() {
+    const container = this.$refs.carousel__container;
 
+    this.itemSize = this.$refs.carousel.getBoundingClientRect().width;
+    container.style.left = `-${this.itemSize}px`;
+
+    window.addEventListener('resize', () => {
+      try {
         this.itemSize = this.$refs.carousel.getBoundingClientRect().width;
         container.style.left = `-${this.itemSize}px`;
+      } catch (error) { }
+    });
 
-        window.addEventListener('resize', () => {
-            try {
-                this.itemSize = this.$refs.carousel.getBoundingClientRect().width;
-                container.style.left = `-${this.itemSize}px`;
-            } catch (error) { }
-        });
+    if (this.auto) {
+      setInterval(() => {
+        this.translateImage(-1);
+      }, SLIDE_TIME);
+    }
+  },
+  methods: {
+    translateImage: _.throttle(function (direction) {
+      const carouselSize = this.$refs.carousel.getBoundingClientRect().width;
+      const container = this.$refs.carousel__container;
 
-        if (this.auto) {
-            setInterval(() => {
-                this.translateImage(-1);
-            }, SLIDE_TIME);
+      const items = container.querySelectorAll('.carousel__item');
+      const firstItem = items[0];
+      const lastItem = items[items.length - 1];
+
+      container.classList.add('carousel--transition');
+      container.style.transform = `translateX(${carouselSize * direction}px) translateZ(0) scale(1.0, 1.0)`;
+
+      setTimeout(() => {
+        container.classList.remove('carousel--transition');
+        container.style.transform = 'translateX(0px)';
+
+        if (direction === 1) {
+          container.insertBefore(lastItem, firstItem);
+        } else {
+          container.appendChild(firstItem);
         }
-    },
-    methods: {
-        translateImage: _.throttle(function (direction) {
-            const carouselSize = this.$refs.carousel.getBoundingClientRect().width;
-            const container = this.$refs.carousel__container;
-
-            const items = container.querySelectorAll('.carousel__item');
-            const firstItem = items[0];
-            const lastItem = items[items.length - 1];
-
-            container.classList.add('carousel--transition');
-            container.style.transform = `translateX(${carouselSize * direction}px) translateZ(0) scale(1.0, 1.0)`;
-
-            setTimeout(() => {
-                container.classList.remove('carousel--transition');
-                container.style.transform = 'translateX(0px)';
-
-                if (direction === 1) {
-                    container.insertBefore(lastItem, firstItem);
-                } else {
-                    container.appendChild(firstItem);
-                }
-            }, TRANSITION_TIME);
-        }, TRANSITION_TIME),
-    },
+      }, TRANSITION_TIME);
+    }, TRANSITION_TIME),
+  },
 };
 </script>
 

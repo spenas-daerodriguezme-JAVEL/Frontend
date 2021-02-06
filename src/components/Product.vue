@@ -156,14 +156,16 @@ export default {
         '../../static/test_images/ld3.jpg',
       ];
       const thumbnailImages = [];
-      this.data.properties.images.forEach((image) => {
-        const imageName = image.split('/')[4];
-        if (imageName.includes('thumbnail')) {
-          thumbnailImages.push(image);
+      if (this.data) {
+        this.data.properties.images.forEach((image) => {
+          const imageName = image.split('/')[4];
+          if (imageName.includes('thumbnail')) {
+            thumbnailImages.push(image);
+          }
+        });
+        for (let index = 0; index < thumbnailImages.length; index++) {
+          this.product.images.splice(index, 1, thumbnailImages[index]);
         }
-      });
-      for (let index = 0; index < thumbnailImages.length; index++) {
-        this.product.images.splice(index, 1, thumbnailImages[index]);
       }
     },
     showDetail(productId) {

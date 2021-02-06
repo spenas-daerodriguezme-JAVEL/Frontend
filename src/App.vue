@@ -1,7 +1,7 @@
 <template>
         <div id="app">
                 <router-view/>
-                <ChatBubble/>
+                <!-- <ChatBubble/> -->
         </div>
 </template>
 
@@ -42,6 +42,9 @@ html, body
         margin: 0
         padding: 0
         font-family: $body-font
+        width: 100%
+        height: 100%
+        overflow-x: hidden
 
 .hlp__image-cover
         img
