@@ -3,7 +3,7 @@
 
     <div class="product edit-product">
      <div class="row">
-      <a class="btn" href="/admin" style="max-width: 100px">Volver</a>
+      <a class="btn" @click="$router.go(-1)" style="max-width: 100px">Volver</a>
       <a
         class="btn btn--save danger-btn"
         v-if="isEdit"

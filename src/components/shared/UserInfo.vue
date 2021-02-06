@@ -1,44 +1,45 @@
 /* eslint-disable no-underscore-dangle */
 <template>
 <div>
-        <div class="frow">
-        <input-base :label="'Nombre'" class="input--medium" v-model="user.name"></input-base>
-        <input-base :label="'Apellido'" class="input--medium" v-model="user.lastName"></input-base>
-        </div>
-
-        <div class="frow">
-          <custom-selector
-            label="Tipo de Documento"
-            class="input-base input--small"
-            v-model="user.identificationType"
-            :options="idTypeOptions"
-          ></custom-selector>
-          <input-base :label="'Número de documento'" class="input--medium" v-model="user.identificationNumber"></input-base>
-        </div>
-
-        <div class="frow">
-          <input-base :label="'Dirección'" class="input--medium" v-model="user.address"></input-base>
-          <input-base :label="'Telefono'" class="input--medium" v-model="user.telephone"></input-base>
-        </div>
-        <div class="frow">
-          <input-base :label="'Correo electrónico'" class="input--medium" v-model="user.email"></input-base>
-        </div>
-        <div class="frow">
-          <input-base :label="'Ciudad'" class="input--small" v-model="user.city"></input-base>
-          <input-base :label="'Estado'" class="input--small" v-model="user.state"></input-base>
-        </div>
-
-        <div class="frow">
-          <div class="btn" @click="updateUser" style="max-width: 100px; margin-left: 20px">Guardar</div>
-          <a class="btn" href="/change-password" style="max-width: 200px; margin-left: 20px">Cambiar Contraseña</a>
-        </div>
-        <modal-info useSlot autoSize ref="modal">
-          <div class="modal__message">
-         <div class="title__menu">{{modalMessage}}</div>
-        </div>
-       </modal-info>
+    <div class="frow" v-if="isView" >
+      <a class="btn" @click="$router.go(-1)" style="max-width: 100px; margin: 2%; margin-bottom: 0px;">Volver</a>
+    </div>
+    <div class="frow">
+      <input-base :label="'Nombre'" class="input--medium" v-model="user.name"></input-base>
+      <input-base :label="'Apellido'" class="input--medium" v-model="user.lastName"></input-base>
     </div>
 
+    <div class="frow">
+      <custom-selector
+        label="Tipo de Documento"
+        class="input-base input--small"
+        v-model="user.identificationType"
+        :options="idTypeOptions"
+      ></custom-selector>
+      <input-base :label="'Número de documento'" class="input--medium" v-model="user.identificationNumber"></input-base>
+    </div>
+
+    <div class="frow">
+      <input-base :label="'Dirección'" class="input--medium" v-model="user.address"></input-base>
+      <input-base :label="'Telefono'" class="input--medium" v-model="user.telephone"></input-base>
+    </div>
+    <div class="frow">
+      <input-base :label="'Correo electrónico'" class="input--medium" v-model="user.email"></input-base>
+    </div>
+    <div class="frow">
+      <input-base :label="'Ciudad'" class="input--small" v-model="user.city"></input-base>
+      <input-base :label="'Estado'" class="input--small" v-model="user.state"></input-base>
+    </div>
+
+    <div class="frow">
+      <div class="btn" @click="updateUser" style="max-width: 100px; margin-left: 20px">Guardar</div>
+      <a class="btn" href="/change-password" style="max-width: 200px; margin-left: 20px">Cambiar Contraseña</a>
+    </div>
+    <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">{{modalMessage}}</div>
+      </div>
+    </modal-info>
 </div>
 
 </template>
@@ -59,17 +60,22 @@ export default {
         name: '',
         lastName: '',
         email: '',
-        identificationNumber: '',
         address: '',
         city: '',
         state: '',
         identificationType: '',
+        identificationNumber: '',
         telephone: '',
         isAdmin: false,
       },
       modalMessage: '',
       idTypeOptions: ['CC', 'NIT'],
     };
+  },
+  computed: {
+    isView() {
+      return this.$route.meta.actionType === 'Visualizar';
+    }
   },
   async beforeMount() {
     this.idTypeOptions = util.pairLabelValue(
