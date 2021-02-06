@@ -39,8 +39,8 @@ export default {
       showPlaceholder: true,
       message: [],
       typerTimers: [],
-      caretTimer: null
-    }
+      caretTimer: null,
+    };
   },
   mounted() {
     const effectTime = 130;
@@ -53,11 +53,11 @@ export default {
           this.message.pop();
         }, effectTime * caretMultiplier);
       }, effectTime * caretMultiplier * 2);
-    }
+    };
 
     message.split('')
       .forEach((letter, idx) => {
-        let timer = setTimeout(() => {
+        const timer = setTimeout(() => {
           this.message.push(letter);
         }, effectTime * idx);
 
@@ -67,12 +67,12 @@ export default {
     this.typerTimers.push(
       setTimeout(() => {
         caretFn();
-      }, message.length * effectTime)
+      }, message.length * effectTime),
     );
   },
   methods: {
     removePlaceholder() {
-      this.typerTimers.forEach(timer => clearTimeout(timer));
+      this.typerTimers.forEach((timer) => clearTimeout(timer));
       clearInterval(this.caretTimer);
       this.showPlaceholder = false;
       this.$refs.search.focus();
@@ -82,16 +82,17 @@ export default {
       empty string
     */
     triggerSearch() {
-      if (this.search != '') {
-        this.$router.push({ name: 'Catalog',
+      if (this.search !== '') {
+        this.$router.push({
+          name: 'Catalog',
           query: {
-            searchTerm: UTIL.removeAccents(this.search)
-          }
+            searchTerm: UTIL.removeAccents(this.search),
+          },
         });
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

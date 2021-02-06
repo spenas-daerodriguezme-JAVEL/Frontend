@@ -1,14 +1,14 @@
 <template>
   <div class="layout">
     <base-menu></base-menu>
-    <dir class="content" >
+    <div class="content" >
       <transition name="trfade">
         <div v-show="isLoading" class="content--loading"></div>
       </transition>
       <transition :name="transitionName">
         <router-view></router-view>
       </transition>
-    </dir>
+    </div>
     <base-footer ref="footer"></base-footer>
   </div>
 </template>

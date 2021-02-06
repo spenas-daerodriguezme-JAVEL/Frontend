@@ -15,10 +15,10 @@
           <input class="table-input" type="text" v-model="product.name">
           </div>
           <div class="col inline">
-          <input class="table-input"  type="text" v-model="product.presentation">
+          <input class="table-input"  type="text" v-model="product.capacity">
           </div>
           <div class="col inline">
-          <input class="table-input"  type="text" v-model="product.quantity">
+          <input class="table-input"  type="text" v-model="product.qty">
           </div>
           <div class="col inline">
           <div class="icon btn" @click="addProduct(index)" style="max-width: 100px; ">+</div>
@@ -27,23 +27,54 @@
         </div>
       </div>
          <div class="frow">
-          <div class="btn" @click="" style="max-width: 200px; ">Enviar</div>
+          <div class="btn" @click="sendProductRequest" style="max-width: 200px; ">Enviar</div>
         </div>
+            <modal-info useSlot autoSize ref="modal">
+      <div class="modal__message">
+        <div class="title__menu">{{modalMessage}}</div>
+      </div>
+    </modal-info>
   </div>
 </template>
 
 <script>
+import util from '../../util/index';
+
 export default {
   data: () => ({
-    products: [{ name: '', presentation: '', quantity: '' }],
+    products: [{ name: '', capacity: '', qty: '' }],
+    modalMessage: '',
   }),
   methods: {
     addProduct(index) {
-      this.products.splice(index + 1, 0, { name: '', presentation: '', quantity: '' });
+      this.products.splice(index + 1, 0, { name: '', capacity: '', qty: '' });
     },
 
     removeProduct(index) {
       this.products.splice(index, 1);
+    },
+    sendProductRequest() {
+      const { modal } = this.$refs;
+      const jwt = localStorage.getItem('jwt');
+      const jsonJWT = util.parseJwt(jwt);
+      // eslint-disable-next-line no-underscore-dangle
+      const userId = jsonJWT._id;
+      try {
+        const res = this.$http.post('/api/product/request-products', this.products, {
+          headers: {
+            id: userId,
+            'x-auth-token': jwt,
+          },
+        });
+        if (res.status === 500) {
+          this.modalMessage = 'Operacion exitosa';
+          modal.triggerModal();
+        }
+      } catch (error) {
+        this.modalMessage = 'Hubo un error con la transaccion';
+        modal.triggerModal();
+        console.log(error);
+      }
     },
   },
   computed: {
