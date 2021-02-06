@@ -118,6 +118,15 @@
                 {{ product.price | toMoney }}
               </div>
             </div>
+            <div class="buy__container">
+              <button class="buy__item" 
+                @click.stop="sendToCart(product)" 
+                :disabled="product.quantity <= 0"
+              >
+                Comprar
+              </button>
+              <p v-if="product.quantity <= 0">Producto agotado</p>
+            </div>
           </div>
         </div>
       </div>
@@ -128,6 +137,7 @@
 
 <script>
 import util from '../util/index';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -146,6 +156,14 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'addToCart',
+    ]),
+    sendToCart(product) {
+      const copy = util.deepCopy(product);
+      copy.preview = this.getImage(product.properties.images);
+      this.addToCart(copy);
+    },
     getImage(images) {
       if (images.length < 2) {
         return require('../assets/productos/QUITA MANCHAS.jpg');
@@ -155,7 +173,7 @@ export default {
     },
     showDetail(productId) {
       this.$router.push({ name: 'ProductDetail', params: { id: productId } });
-    }
+    },
   },
   filters: {
     toMoney: util.toMoney,
@@ -169,7 +187,7 @@ export default {
 .slideshow
   position: relative
   overflow: hidden
-  height: 430px
+  height: 470px
 
 .images-box
   +flex(0, 0)
@@ -259,6 +277,39 @@ export default {
 
 .rigid-container__img
   height: 90vh
+
+.buy__container
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  p
+    font-weight: 600
+    margin: 5px
+
+.buy__item
+  box-sizing: border-box
+  width: 100%;
+  height: 2.5rem;
+  background: black
+  color: white
+  font-weight: bold
+  font-size: 16px
+  cursor: pointer    
+  border: 1px solid white
+  transition: transform .2s;
+
+  &:hover
+    transform: scale(1.05);
+
+  &:active
+    background: white
+    color: black
+  
+  &:disabled
+    background: gray
+    transform: scale(1);
+
 
 @media (max-width: 800px)
   .box40, .box60
