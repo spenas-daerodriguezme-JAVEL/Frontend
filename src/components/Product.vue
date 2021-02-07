@@ -91,15 +91,7 @@ export default {
     }
   },
   beforeMount() {
-    this.product = this.data;
-    this.product.images = [
-      '../../static/test_images/ld1.jpg',
-      '../../static/test_images/ld2.jpg',
-      '../../static/test_images/ld3.jpg',
-    ];
-    if (this.product.properties === null) {
-      this.product.properties.description = '';
-    }
+    this.setInitialProperties();
     this.putImages();
     // this.presentationOptions = this.data.price.map(
     //   function(o, index) {
@@ -130,6 +122,18 @@ export default {
       }
 
       return -1;
+    },
+    setInitialProperties() {
+      this.product = this.data;
+      this.product.images = [
+        '../../static/test_images/ld1.jpg',
+        '../../static/test_images/ld2.jpg',
+        '../../static/test_images/ld3.jpg',
+      ];
+      if (this.product.properties === null) {
+        this.product.properties = {};
+        this.product.properties.description = '';
+      }
     },
 
     setImages() {
@@ -181,12 +185,7 @@ export default {
       this.setImages();
     },
     data() {
-      this.product = this.data;
-      this.product.images = [
-        '../../static/test_images/ld1.jpg',
-        '../../static/test_images/ld2.jpg',
-        '../../static/test_images/ld3.jpg',
-      ];
+      this.setInitialProperties();
       this.putImages();
     },
   },
