@@ -98,24 +98,34 @@
         <img src="../assets/productos/fwdneuvosavancesyfotos/DESINFECTANTE.jpg" alt="">
       </div>
     </div>
+    <div v-if="products && products.length > 0">
+      <div class="title">
+        PRODUCTOS INTELIGENTES.
+      </div>
 
-    <div class="title">
-      PRODUCTOS INTELIGENTES.
-    </div>
-
-    <div class="slideshow">
-      <div class="images-box">
-        <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
-          <div class="image-box__item__img">
-            <img :src="getImage(product.img)" alt="">
-          </div>
-          <div class="image-box__item__desc">
-            <div class="imb-title">
-              {{ product.title }}.  
-              {{ product.capacity }}.
+      <div class="slideshow">
+        <div class="images-box">
+          <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
+            <div class="image-box__item__img">
+              <img :src="getImage(product.properties.images)" alt="product">
             </div>
-            <div class="imb-price">
-              {{ product.price | toMoney }}
+            <div class="image-box__item__desc">
+              <div class="imb-title">
+                {{ product.name }}.  
+                {{ product.capacity }}.
+              </div>
+              <div class="imb-price">
+                {{ product.price | toMoney }}
+              </div>
+            </div>
+            <div class="buy__container">
+              <button class="buy__item" 
+                @click.stop="sendToCart(product)" 
+                :disabled="product.quantity <= 0"
+              >
+                Comprar
+              </button>
+              <p v-if="product.quantity <= 0">Producto agotado</p>
             </div>
           </div>
         </div>
@@ -127,63 +137,43 @@
 
 <script>
 import util from '../util/index';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
-      products: [
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS GRANULADO',
-          capacity: '400 gr',
-          price: 6000,
-          img: '/productos/QUITA MANCHAS.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS LÍQUIDO',
-          capacity: '250 ml',
-          price: 6700,
-          img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA TINTA',
-          capacity: '10 ml',
-          price: 5700,
-          img: '/productos/QUITA TINTA.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS GRANULADO',
-          capacity: '400 gr',
-          price: 6000,
-          img: '/productos/QUITA MANCHAS.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA MANCHAS LÍQUIDO',
-          capacity: '250 ml',
-          price: 6700,
-          img: '/productos/fwdneuvosavancesyfotos/QUITAMANCHASLIQ.jpg',
-        },
-        {
-          _id: '5f73ea99d6c7d382abdd08f4',
-          title: 'QUITA TINTA',
-          capacity: '10 ml',
-          price: 5700,
-          img: '/productos/QUITA TINTA.jpg',
-        },
-      ],
+      products: [],
     };
+  },  
+  async created() {
+    try {
+      const response = await this.$http.get('/api/product/carousel');
+      console.log(response);
+      this.products = response.data;
+    } catch (error) {
+      this.products = []
+      console.log(error);
+    }
   },
   methods: {
-    getImage(url) {
-      return require('../assets' + url);
+    ...mapMutations([
+      'addToCart',
+    ]),
+    sendToCart(product) {
+      const copy = util.deepCopy(product);
+      copy.preview = this.getImage(product.properties.images);
+      this.addToCart(copy);
+    },
+    getImage(images) {
+      if (images.length < 2) {
+        return require('../assets/productos/QUITA MANCHAS.jpg');
+      }
+      
+      return  images[1];
     },
     showDetail(productId) {
       this.$router.push({ name: 'ProductDetail', params: { id: productId } });
-    }
+    },
   },
   filters: {
     toMoney: util.toMoney,
@@ -197,7 +187,7 @@ export default {
 .slideshow
   position: relative
   overflow: hidden
-  height: 430px
+  height: 470px
 
 .images-box
   +flex(0, 0)
@@ -287,6 +277,39 @@ export default {
 
 .rigid-container__img
   height: 90vh
+
+.buy__container
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  p
+    font-weight: 600
+    margin: 5px
+
+.buy__item
+  box-sizing: border-box
+  width: 100%;
+  height: 2.5rem;
+  background: black
+  color: white
+  font-weight: bold
+  font-size: 16px
+  cursor: pointer    
+  border: 1px solid white
+  transition: transform .2s;
+
+  &:hover
+    transform: scale(1.05);
+
+  &:active
+    background: white
+    color: black
+  
+  &:disabled
+    background: gray
+    transform: scale(1);
+
 
 @media (max-width: 800px)
   .box40, .box60
