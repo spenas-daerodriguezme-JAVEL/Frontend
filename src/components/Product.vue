@@ -25,15 +25,15 @@
         <div class="product__heading">
           <div class="product__title">
             <div>
-            {{ data.name }}
+            {{ product.name }}
             </div>
           </div>
-          <div class="product__price">{{ data.price | toMoney }}</div>
+          <div class="product__price">{{ product.price | toMoney }}</div>
         </div>
          <div>
-              <b>Capacidad:</b> {{ data.capacity }}
+              <b>Capacidad:</b> {{ product.capacity }}
         </div>
-        {{ data.properties.description | trimText(100) }}
+        {{ product.properties.description | trimText(100) }}
       </div>
     </div>
   </div>
@@ -91,6 +91,15 @@ export default {
     }
   },
   beforeMount() {
+    this.product = this.data;
+    this.product.images = [
+      '../../static/test_images/ld1.jpg',
+      '../../static/test_images/ld2.jpg',
+      '../../static/test_images/ld3.jpg',
+    ];
+    if (this.product.properties === null) {
+      this.product.properties.description = '';
+    }
     this.putImages();
     // this.presentationOptions = this.data.price.map(
     //   function(o, index) {
@@ -150,13 +159,8 @@ export default {
       };
     },
     putImages() {
-      this.product.images = [
-        '../../static/test_images/ld1.jpg',
-        '../../static/test_images/ld2.jpg',
-        '../../static/test_images/ld3.jpg',
-      ];
       const thumbnailImages = [];
-      if (this.data) {
+      if (this.data && this.data.properties) {
         this.data.properties.images.forEach((image) => {
           const imageName = image.split('/')[4];
           if (imageName.includes('thumbnail')) {
@@ -177,6 +181,12 @@ export default {
       this.setImages();
     },
     data() {
+      this.product = this.data;
+      this.product.images = [
+        '../../static/test_images/ld1.jpg',
+        '../../static/test_images/ld2.jpg',
+        '../../static/test_images/ld3.jpg',
+      ];
       this.putImages();
     },
   },

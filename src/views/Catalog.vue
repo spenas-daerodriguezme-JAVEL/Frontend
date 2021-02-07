@@ -67,7 +67,8 @@
                     <div class="item">
                         <div
                             class="anounce"
-                            v-if="products[5] && products[5].promoTitle != ''"
+                            v-if="products[5] && products[5].properties !== null
+                            && products[5].properties.promoTitle != ''"
                         >
                             {{ products[5].properties.promoTitle }}
                         </div>
@@ -125,6 +126,7 @@ export default {
       pages: 0,
       resizedWindow: true,
       currentPage: 1,
+      searchTerm: '',
       selected: '',
       products: [],
       options: [
@@ -138,6 +140,7 @@ export default {
   async beforeMount() {
     const { searchTerm } = this.$route.query;
     if (searchTerm) {
+      this.searchTerm = searchTerm;
       this.isLoading = true;
       const { data } = await this.$http.get(
         `/api/product/search/${searchTerm}`,
@@ -160,8 +163,8 @@ export default {
       const priceLimits = await this.$http.get(
         '/api/product/extreme-values',
       );
-      this.$set(this.ranges, 'minValue', priceLimits.data.minValue);
-      this.$set(this.ranges, 'maxValue', priceLimits.data.maxValue);
+      // this.$set(this.ranges, 'minValue', priceLimits.data.minValue);
+      // this.$set(this.ranges, 'maxValue', priceLimits.data.maxValue);
 
       this.options = data.businessLines.map((option) => ({
         value: option,
@@ -187,15 +190,24 @@ export default {
         : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
 
       const isMultipleSearch = price !== '' && businessLine !== '';
-      const page = this.currentPage !== 1 ? `?from=${this.currentPage}` : '';
+      const page = this.currentPage !== 1 ? `?from=${this.currentPage - 1}` : '';
 
-      const { data } = await this.$http.get(
-        `/api/product/${businessLine}${
-          isMultipleSearch ? '/' : ''
-        }${price}${page}`,
-      );
-      console.log(data);
+      let data;
+
+      if (this.searchTerm) {
+        ({ data } = await this.$http.get(
+          `/api/product/search/${this.searchTerm}${page}`,
+        ));
+      } else {
+        ({ data } = await this.$http.get(
+          `/api/product/${businessLine}${
+            isMultipleSearch ? '/' : ''
+          }${price}${page}`,
+        ));
+      }
+
       for (let index = 0; index < data.products.length; index++) {
+        console.log(data.products[0]);
         this.$set(this.products, index, data.products[index]);
       }
       // this.productList = data.products;
@@ -210,6 +222,7 @@ export default {
     ranges: {
       handler: _.debounce(
         function () {
+          this.searchTerm = '';
           this.filter();
         },
         800,
@@ -219,6 +232,7 @@ export default {
       ),
     },
     selected() {
+      this.searchTerm = '';
       this.filter();
     },
   },
