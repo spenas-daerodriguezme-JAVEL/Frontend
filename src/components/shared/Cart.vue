@@ -73,8 +73,8 @@
     </div>
     <div class="btn btn--white"
       style="margin-top: 10px"
-      @click="createOrder"
-      v-if="isTermsAndConditionsAccepted">{{ details ? 'Pagar' : 'Crear orden'}}</div>
+      @click="createOrder(isTermsAndConditionsAccepted)"
+    >{{ details ? 'Pagar' : 'Crear orden'}}</div>
   </div>
 </template>
 
@@ -214,6 +214,7 @@ export default {
 .priceRow
   text-align: end
   margin-top: 1rem
+    
 
 @media (max-width: 800px)
   .box-general

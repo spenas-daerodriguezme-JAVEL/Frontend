@@ -193,7 +193,12 @@ export default {
       }
     },
     // This method creates the order, waits the reference and save it in state
-    async createOrder() {
+    async createOrder(termsAndConditions) {
+      if (!termsAndConditions) {
+        this.modalText = 'No se han aceptado los terminos y condiciones';
+        this.$refs.modal.triggerModal();
+        return false;
+      }
       const order = this.getOrderObject();
       this.$v.$touch();
       if (this.$v.$anyError) {
