@@ -9,8 +9,7 @@
         <div class="row">
           <div class="product__general">
             <div class="product__image" style="background: coral">
-              <!-- <img :src="product.preview ? product.preview : defaultImage" alt=""> -->
-              <img src="../../assets/productos/JABON PARA MANOS 900 ML.jpg" alt="">
+              <img :src="product.preview ? product.preview : defaultImage" alt="">
             </div>
             <div>
               <span>{{ product.name }}</span>
@@ -97,6 +96,7 @@ export default {
     return {
       products: [],
       isTermsAndConditionsAccepted: false,
+      defaultImage: require('../../assets/productos/QUITA MANCHAS.jpg'),
     }
   },
   computed: {

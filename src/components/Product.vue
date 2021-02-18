@@ -108,7 +108,7 @@ export default {
     ]),
     sendToCart() {
       const copy = util.deepCopy(this.data);
-      copy.preview = this.images[0];
+      copy.preview = util.getImageFromProduct(this.data.properties.images, 1);
       this.addToCart(copy);
     },
     getBlock(limits, mouse) {
@@ -124,12 +124,11 @@ export default {
       return -1;
     },
     setInitialProperties() {
-      this.product = this.data;
+      this.product = this.data;      
       this.product.images = [
-        '../../static/test_images/ld1.jpg',
-        '../../static/test_images/ld2.jpg',
-        '../../static/test_images/ld3.jpg',
-      ];
+        util.getImageFromProduct(this.product.properties.images, 0),
+        util.getImageFromProduct(this.product.properties.images, 1)
+      ]
       if (this.product.properties === null) {
         this.product.properties = {};
         this.product.properties.description = '';

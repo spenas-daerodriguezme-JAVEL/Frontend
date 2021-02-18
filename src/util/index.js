@@ -83,6 +83,20 @@ function parseJwt(token) {
 
   return JSON.parse(jsonPayload);
 }
+/**
+ * This function returns the url of the image specify in imgPosition. If that
+ * image doesn't exist return a image by default. Each image has a two positions in array
+ * normal and thumbnail. Positions are adjacent.
+ * @param {*} productImages Array of images of Product to display
+ * @param {*} imgPosition Position of the image in array of images
+ */
+function getImageFromProduct(productImages, imgPosition) {
+  if (productImages.length < imgPosition) {
+    return require('../assets/productos/QUITA MANCHAS.jpg');
+  }
+  
+  return productImages[imgPosition];
+}
 
 export default {
   toMoney,
@@ -95,4 +109,5 @@ export default {
   removeAccents,
   typeWriter,
   parseJwt,
+  getImageFromProduct,
 };

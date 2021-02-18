@@ -21,11 +21,15 @@
           </thead>
           <tbody>
             <tr v-for="(product, index) in products" :key="index">
-              <td>
-                <img
-                  src="../../assets/productos/QUITAOXIDO.jpg"
+              <td>                
+                <img                  
+                  :src=" product.images.length !== 0 ? product.images[1] : defaultImage"
                   width="150px"
                 />
+                <!-- <img
+                  src="../../assets/productos/QUITAOXIDO.jpg"
+                  width="150px"
+                /> -->
               </td>
               <td>
                 {{ product.productName }}
@@ -95,6 +99,7 @@ export default {
         APPROVED: "Aprobado",
       },
       routerUrl: "",
+      defaultImage: require('../../assets/productos/QUITAOXIDO.jpg'),
     };
   },
   async created() {
