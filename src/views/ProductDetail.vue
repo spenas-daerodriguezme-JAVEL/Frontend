@@ -405,11 +405,35 @@ img.image__holder
 
 @media (max-width: 816px)
   .btn-buy
-    left: 50%
+    left: 35%
     bottom: -10px
     transform: translate(-50%, 100%)
 
   .product__title
     margin-top: 100px
+  
+  .gallery
+    flex-wrap: wrap
 
+  .gallery__item
+    flex: 0 0 auto
+    width: 100vw
+    height: 100vw
+    padding: 0
+    margin-top: 20px
+    
+    &:first-child
+      padding-right: 0
+
+    &:last-child
+      padding-left: 0
+
+  .gallery__item--centered
+    padding-right: 0
+    width: 100vw
+    height: 100vw
+    margin: 20px 0
+
+    &:first-child
+      padding-left: 0
 </style>
