@@ -9,8 +9,7 @@
         <div class="row">
           <div class="product__general">
             <div class="product__image" style="background: coral">
-              <!-- <img :src="product.preview ? product.preview : defaultImage" alt=""> -->
-              <img src="../../assets/productos/JABON PARA MANOS 900 ML.jpg" alt="">
+              <img :src="product.preview ? product.preview : defaultImage" alt="">
             </div>
             <div>
               <span>{{ product.name }}</span>
@@ -65,16 +64,26 @@
     <div class="row">
       <div style="max-width: fit-content">
         <input type="checkbox" name="termsAndConditions" v-model="isTermsAndConditionsAccepted">
-        <label for="termsAndConditions">Al marcar este campo aceptas 
-          <a href="/mision" target="_blank">los terminos y condiciones</a> y
-          <a href="/contact" target="_blank"> la politica de tratamiento de datos</a>.
+        <label for="termsAndConditions">Al marcar este campo aceptas
+          <router-link
+            :to="{ name: 'TermsConditions' }"
+            target="_blank"
+          >
+            los terminos y condiciones
+          </router-link> y
+          <router-link
+            :to="{ name: 'TermsConditions' }"
+            target="_blank"
+          >
+            la politica de tratamiento de datos
+          </router-link>.
         </label>
       </div>
     </div>
     <div class="btn btn--white"
       style="margin-top: 10px"
-      @click="createOrder"
-      v-if="isTermsAndConditionsAccepted">{{ details ? 'Pagar' : 'Crear orden'}}</div>
+      @click="createOrder(isTermsAndConditionsAccepted)"
+    >{{ details ? 'Pagar' : 'Crear orden'}}</div>
   </div>
 </template>
 
@@ -97,6 +106,7 @@ export default {
     return {
       products: [],
       isTermsAndConditionsAccepted: false,
+      defaultImage: require('../../assets/productos/QUITA MANCHAS.jpg'),
     }
   },
   computed: {
@@ -214,6 +224,7 @@ export default {
 .priceRow
   text-align: end
   margin-top: 1rem
+    
 
 @media (max-width: 800px)
   .box-general

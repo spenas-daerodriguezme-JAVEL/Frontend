@@ -102,9 +102,19 @@
         <div class="frow">
           <div style="margin-left: 20px">
             <input type="checkbox" name="termsAndConditions" v-model="isTermsAndConditionsAccepted">
-            <label for="termsAndConditions">Al marcar este campo aceptas 
-              <a href="/mision" target="_blank">los terminos y condiciones</a> y
-              <a href="/contact" target="_blank"> la politica de tratamiento de datos</a>.
+            <label for="termsAndConditions">Al marcar este campo aceptas
+              <router-link
+                :to="{ name: 'TermsConditions' }"
+                target="_blank"
+              >
+                los terminos y condiciones
+              </router-link> y
+              <router-link
+                :to="{ name: 'TermsConditions' }"
+                target="_blank"
+              >
+                la politica de tratamiento de datos
+              </router-link>. 
             </label>
           </div>
         </div>

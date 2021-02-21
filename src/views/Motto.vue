@@ -191,7 +191,7 @@ export default {
 
 .images-box
   +flex(0, 0)
-  width: 200vw
+  width: 200%
   height: 100%
   position: absolute
   animation: slideshow 15s linear infinite
@@ -220,9 +220,8 @@ export default {
 
 
 
-@keyframes slideshow
-  100%
-    // transform: translateX(-66.6666%)
+@keyframes slideshow 
+  100%    
     transform: translateX(-50%)
 
 .title
@@ -320,12 +319,16 @@ export default {
     font-size: 45px
   
   .images-box
+    width: 600%
     .image-box__item__desc    
       flex-direction: column
       font-size: 15px
 
+    .image-box__item
+      width: 500px
+
   .slideshow
-    height: 470px
+    height: 480px
 
   .shipping
     font-size: 28px
@@ -335,4 +338,8 @@ export default {
 
     .rigid-container__img
       height: 50vh
+  
+  @keyframes slideshow 
+    100%    
+      transform: translateX(-83.33%)
 </style>

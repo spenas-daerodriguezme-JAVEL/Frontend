@@ -25,6 +25,7 @@ import ChangePassword from '../views/ChangePassword.vue';
 import NewPassword from '../views/NewPassword.vue';
 import Login from '../components/shared/Login.vue';
 import LogOut from '../components/LogOut.vue';
+import TermsConditions from '../views/TermsConditions.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -243,6 +244,11 @@ const router = new Router({
           path: '/logout',
           name: 'Logout',
           component: LogOut,
+        },
+        {
+          path: '/terms-and-conditions/',
+          name: 'TermsConditions',
+          component: TermsConditions,
         },
         {
           path: '*',
