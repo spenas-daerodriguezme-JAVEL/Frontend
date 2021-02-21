@@ -18,7 +18,7 @@
                     <RangeSlider v-model="ranges" />
                 </div>
             </div>
-            <div class="filter-box">
+            <div class="filter-box" id="search-container">
                 ¡Déjanos ayudarte!
                 <router-link class="rt-link" :to="{ name: 'Search' }">
                     <b>BUSCAR</b>
@@ -406,6 +406,22 @@ export default {
     text-align: center
 
 @media (max-width: 630px)
-    .catalog-box2
+    .catalog-box
         flex-wrap: wrap
+
+@media (max-width: 800px)
+    .filter-container
+        display: block
+
+    .filter-box
+        margin-top: 30px
+        margin-left: auto
+        margin-right: auto
+
+    .price-slider
+        height: 100% !important
+        margin-top: 30px !important
+
+    #search-container
+        margin-top: 100px
 </style>
