@@ -7,7 +7,7 @@
     </template>
     <!-- Account login -->
     <template v-else>
-      <div>
+      <div class="login-body">
         <div class="title__menu">Ingresa a tu cuenta</div>
         <div class="form__row">
           <input-base :hasError="formError" v-model="userAccount.email" label="Email"></input-base>
@@ -55,6 +55,7 @@
 
 <script>
 import VAPI from '../../http_common';
+import { EventBus } from './event-bus';
 
 export default {
   props: {},
@@ -73,6 +74,15 @@ export default {
   mounted() {
     this.isLogged = localStorage.getItem('jwt') !== null;
     this.updateLinks();
+
+    EventBus.$on('changed-logged-status', (newStatus) => {
+      if (newStatus === 'logged-in') {
+        this.isLogged = true;
+      } else {
+        console.log(newStatus);
+        this.isLogged = false;
+      }
+    });
   },
   methods: {
     closeMenu() {
@@ -84,10 +94,11 @@ export default {
         localStorage.clear();
         localStorage.jwt = res.data;
         if (res.status === 200) {
-          this.updateLinks()
+          this.updateLinks();
           this.$refs.modal.triggerModal();
           this.formError = false;
           this.isLogged = true;
+          EventBus.$emit('changed-logged-status', 'logged-in');
           setTimeout(() => {
             this.closeMenu();
             this.$router.push({
@@ -106,6 +117,7 @@ export default {
       this.isLogged = false;
       this.$store.commit('resetCart');
       this.closeMenu();
+      EventBus.$emit('changed-logged-status', 'logged-out');
       this.$router.push({ name: 'Landing' });
     },
     updateLinks() {
@@ -145,6 +157,13 @@ export default {
 
 .link {
   text-decoration: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .login-body {
+    height: 70vh;
+    padding: 40px;
+  }
 }
 
 </style>

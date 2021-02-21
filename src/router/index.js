@@ -23,6 +23,8 @@ import OrderDetail from '../components/shared/OrderDetail.vue';
 import DeleteElement from '../components/shared/DeleteElement.vue';
 import ChangePassword from '../views/ChangePassword.vue';
 import NewPassword from '../views/NewPassword.vue';
+import Login from '../components/shared/Login.vue';
+import LogOut from '../components/LogOut.vue';
 
 import PaymentTest from '../views/Payment/Test.vue';
 
@@ -231,6 +233,16 @@ const router = new Router({
           path: '/new-password/:token',
           name: 'NewPassword',
           component: NewPassword,
+        },
+        {
+          path: '/login',
+          name: 'Login',
+          component: Login,
+        },
+        {
+          path: '/logout',
+          name: 'Logout',
+          component: LogOut,
         },
         {
           path: '*',

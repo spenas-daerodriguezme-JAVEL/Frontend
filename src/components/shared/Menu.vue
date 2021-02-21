@@ -35,9 +35,11 @@
         <div class="burguer-item" v-for="i in 3" :key="i"></div>
       </div>
       <div class="menu__logo">
+      <router-link tag="a" class="menu__logo" :to="{name : 'Landing'}">
         <img src="../../assets/aguadejavel_logo.png" alt="Agua de Javel" />
+      </router-link>
       </div>
-      <router-link 
+      <router-link
         tag="div"
         :to="{name: 'Checkout'}"
         @click="isActive = false; selectedMenu = ''"
@@ -56,8 +58,8 @@
         :class="{'menu__filter--active': isActive}"
       >
         <div class="menu__item__dropdown" ref="dropdown">
-          <div v-if="selectedMenu == 'Cuenta' || selectedMenu == 'Ingresar'">
-            <Login @click="isActive = true" @close="isActive = false" />
+          <div v-show="selectedMenu == 'Cuenta' || selectedMenu == 'Ingresar'">
+            <Login @click="isActive=true" @close="isActive=false"/>
           </div>
 
           <div v-if="selectedMenu == 'Nosotros'">
@@ -81,7 +83,7 @@
     <transition name="trmenu">
       <MenuMobile
         v-if="isMobileMenuActive"
-        :menuItems="menuData"
+        :menuItems="mobileMenuData"
         @menuClick="isMobileMenuActive = false"
       />
     </transition>
@@ -92,6 +94,7 @@
 import { mapGetters } from 'vuex';
 import MenuMobile from '@shared/MenuMobile';
 import Login from './Login.vue';
+import { EventBus } from './event-bus';
 
 // * Names with '' do not redirect to a path
 const menuData = [
@@ -112,6 +115,29 @@ const menuData = [
   },
 ];
 
+const mobileMenuData = [
+  {
+    showName: 'Catálogo',
+    path: { name: 'Catalog' },
+  },
+  {
+    showName: 'Nosotros',
+    path: { name: 'Motto' },
+  },
+  {
+    showName: 'Contactenos',
+    path: { name: 'Contact' },
+  },
+  {
+    showName: 'Medio Ambiente',
+    path: { name: 'Clients' },
+  },
+  {
+    showName: 'Ingresar',
+    path: { name: 'Login' },
+  },
+];
+
 export default {
   components: {
     Login,
@@ -126,6 +152,7 @@ export default {
       isMobileMenuActive: false,
       isActive: false,
       selectedMenu: '',
+      mobileMenuData,
       /* User */
       userAccount: {
         email: '',
@@ -136,12 +163,12 @@ export default {
   },
   mounted() {
     const jwt = localStorage.getItem('jwt');
-    if ( !jwt ) {
+    if (!jwt) {
       this.isLogged = true;
-      const index = this.menuData.findIndex(item => item.showName === 'Cuenta');
+      const index = this.menuData.findIndex((item) => item.showName === 'Cuenta');
       this.menuData[index].showName = 'Ingresar';
     }
-    
+
     this.$refs.filter.addEventListener('click', (e) => {
       const dropdown = this.$refs.dropdown.getBoundingClientRect();
       const isInBounds = e.clientX <= dropdown.right
@@ -165,14 +192,22 @@ export default {
 
         if (!event.matches) this.isMobileMenuActive = false;
       });
+
+    const isLogged = localStorage.getItem('jwt') !== null;
+    if (isLogged) {
+      this.changeMenu('logged-in');
+    } else {
+      this.changeMenu('logged-out');
+    }
+    this.listenMenuLogged();
   },
   updated() {
     const jwt = localStorage.getItem('jwt');
-    if ( !jwt ) {
-      const index = this.menuData.findIndex(item => item.showName === 'Cuenta');
+    if (!jwt) {
+      const index = this.menuData.findIndex((item) => item.showName === 'Cuenta');
       this.menuData[index].showName = 'Ingresar';
-    }else {
-      const index = this.menuData.findIndex(item => item.showName === 'Ingresar');
+    } else {
+      const index = this.menuData.findIndex((item) => item.showName === 'Ingresar');
       this.menuData[index].showName = 'Cuenta';
     }
   },
@@ -183,12 +218,40 @@ export default {
         ? menuItem.showName
         : '';
     },
+
+    listenMenuLogged() {
+      EventBus.$on('changed-logged-status', (newStatus) => {
+        console.log(newStatus);
+        this.changeMenu(newStatus);
+      });
+    },
+
+    changeMenu(newStatus) {
+      if (newStatus === 'logged-in') {
+        this.mobileMenuData.pop();
+        this.mobileMenuData.push({
+          showName: 'Mi cuenta',
+          path: { name: 'MyAccount' },
+        });
+        this.mobileMenuData.push({
+          showName: 'Salir',
+          path: { name: 'Logout' },
+        });
+      } else if (newStatus === 'logged-out') {
+        this.mobileMenuData.pop();
+        this.mobileMenuData.pop();
+        this.mobileMenuData.push({
+          showName: 'Ingresar',
+          path: { name: 'Login' },
+        });
+      }
+    },
   },
   computed: {
     ...mapGetters([
       'countProducts',
     ]),
-  },  
+  },
 };
 </script>
 

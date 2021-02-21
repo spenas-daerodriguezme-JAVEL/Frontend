@@ -126,6 +126,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
   cursor: text;
 }
 
@@ -137,6 +138,7 @@ export default {
   background: black;
   color: white;
   border-radius: 30px;
+  z-index: 2;
 }
 
 .search__placeholder-letter {
@@ -146,6 +148,16 @@ export default {
   border: 0;
   font-weight: bold;
   color: black;
+}
+
+@media (max-width: 800px) {
+  .search__input {
+  font-size: 15px;
+  }
+  .search__trigger {
+  right: 0px;
+  padding: 5px 15px;
+}
 }
 
 </style>

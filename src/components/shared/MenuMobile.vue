@@ -18,40 +18,40 @@
 import { cloneDeep } from 'lodash';
 
 export default {
-    props: {
-        menuItems: {
-            type: Array,
-            default: () => [],
-        },
+  props: {
+    menuItems: {
+      type: Array,
+      default: () => [],
     },
-    computed: {
-        /*
+  },
+  computed: {
+    /*
             For mobile this menu change the paths were it redirects
             since the Motto and my account should have a single view
             for the account
         */
-        menuData() {
-            const menuCopy = cloneDeep(this.menuItems);
+    menuData() {
+      const menuCopy = cloneDeep(this.menuItems);
 
-            menuCopy.forEach((item) => {
-                // eslint-disable-next-line no-param-reassign
-                if (item.showName === 'Nosotros') item.path.name = 'Motto';
-                // eslint-disable-next-line no-param-reassign
-                if (item.showName === 'Cuenta') item.path.name = 'MyAccount';
-            });
+      menuCopy.forEach((item) => {
+        // eslint-disable-next-line no-param-reassign
+        if (item.showName === 'Nosotros') item.path.name = 'Motto';
+        // eslint-disable-next-line no-param-reassign
+        if (item.showName === 'Cuenta') item.path.name = 'MyAccount';
+      });
 
-            return menuCopy;
-        },
+      return menuCopy;
     },
-    data() {
-        return {
-        };
+  },
+  data() {
+    return {
+    };
+  },
+  methods: {
+    handleClick() {
+      this.$emit('menuClick');
     },
-    methods: {
-        handleClick() {
-            this.$emit('menuClick');
-        },
-    },
+  },
 };
 </script>
 
