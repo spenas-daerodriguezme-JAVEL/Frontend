@@ -6,7 +6,7 @@
         >Eliminar descripción</a
       >
     </div>
-    <div class="row">
+    <div class="row row--title">
       <h1>
         {{ title }}
       </h1>
@@ -153,6 +153,7 @@
             { label: 'No', value: 'No' },
           ]"
           :default-option="' - '"
+          class="selector--input"
         ></selector>
       </div>
       <div class="field field--small">
@@ -183,6 +184,7 @@
             { label: 'No', value: 'No' },
           ]"
           :default-option="' - '"
+          class="selector--input"
         ></selector>
       </div>
     </div>
@@ -260,9 +262,8 @@
       </div>
     </div>
 
-    <div class="btn btn--save" @click="executeActionDescription">
-      {{ currentAction == "Crear" ? "Crear" : "Guardar" }}
-    </div>
+    <!-- The line below is so large to avoid break line in HTML render -->
+    <div class="btn btn--save" @click="executeActionDescription">{{ currentAction == "Crear" ? "Crear" : "Guardar" }}</div>
     <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
         <div class="title__menu">{{ modalMessage }}</div>
@@ -477,6 +478,7 @@ export default {
   display: flex
   justify-content: space-between
   margin-bottom: 25px
+  flex-wrap: wrap;
 
 input
   width: 100%
@@ -498,6 +500,8 @@ textarea
 
 .field--small
   width: 30%
+  min-width: 300px
+  margin-bottom: 10px
 
 .field--controls
   +flex(0, 0)
@@ -559,4 +563,19 @@ textarea
 .danger-btn
   background-color: red
   border-color: red
+
+.selector--input
+  border: 1px solid rgb(118, 118, 118) !important
+  background-color: white !important
+
+@media (max-width: 816px)
+  .row--title
+    text-align: center
+
+  .row + .row
+    justify-content: center
+  
+  .btn--save
+    margin-right: auto
+
 </style>
