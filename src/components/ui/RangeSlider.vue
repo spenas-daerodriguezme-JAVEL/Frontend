@@ -24,7 +24,7 @@
 </template>
 
 <script>
-const MAX_VALUE = 300000;
+// const MAX_VALUE = 300000;
 import { TweenLite } from 'gsap/all';
 
 export default {
@@ -39,17 +39,15 @@ export default {
   },
   data() {
     return {
-      minValue: 0,
-      maxValue: MAX_VALUE,
       inputMinValue: 0,
-      inputMaxValue: MAX_VALUE,
+      inputMaxValue: this.value.maxValue,
       tweenMinValue: 0,
-      tweenMaxValue: MAX_VALUE,
+      tweenMaxValue: this.value.maxValue,
       sleft: null,
       sright: null,
 
-      MAX_VALUE: MAX_VALUE,
-      STEP: 1000
+      MAX_VALUE: this.value.maxValue,
+      STEP: 2000
     };
   },
   computed: {
@@ -70,7 +68,7 @@ export default {
           maxValue: this.inputMaxValue,
         });
       },
-      inmediate: true,
+      immediate: true,
     },
     inputMaxValue: {
       handler(value) {
@@ -81,31 +79,22 @@ export default {
           maxValue: this.inputMaxValue,
         });
       },
-      inmediate: true,
+      immediate: true,
     },
   },
   mounted() {
-    const left = this.$refs.left;
-    const right = this.$refs.right;
-
     const { sleft, sright } = this.$refs;
     this.sleft = sleft;
     this.sright = sright;
 
-    this.setSlidersPositions();
+    this.setSlidersPositions();    
   },
   methods: {
     setSlidersPositions() {
-      this.sleft.style.left = `${this.inputMinValue * 100 / MAX_VALUE}%`;
-      this.sright.style.left = `${this.inputMaxValue * 100 / MAX_VALUE}%`;
-    },
-    setRange(value) {
-      if (this.minValue > this.maxValue) {
-        [this.minValue, this.maxValue] = [this.maxValue, this.minValue];
+      if(this.sleft && this.sright){
+        this.sleft.style.left = `${this.inputMinValue * 100 / this.value.maxValue}%`;
+        this.sright.style.left = `${this.inputMaxValue * 100 / this.value.maxValue}%`;
       }
-
-      this.inputMinValue = this.minValue;
-      this.inputMaxValue = this.maxValue;
     },
     setInput() {
       if (this.inputMinValue > this.inputMaxValue) {
@@ -114,9 +103,6 @@ export default {
           this.inputMinValue
         ];
       }
-
-      this.minValue = this.inputMinValue;
-      this.maxValue = this.inputMaxValue;
     }
   }
 };

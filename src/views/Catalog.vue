@@ -14,7 +14,7 @@
             <div class="filter-box">
                 Tú pones los límites
                 <b>FILTRAR</b>
-                <div class="price-range">
+                <div class="price-range" v-if="areRangesLoaded">
                     <RangeSlider v-model="ranges" />
                 </div>
             </div>
@@ -119,10 +119,12 @@ export default {
   data() {
     return {
       isLoading: false,
+      areRangesLoaded: false,
       ranges: {
         minValue: 0,
-        maxValue: 300000,
+        maxValue: 0,
       },
+      MAX_VALUE: null,
       pages: 0,
       resizedWindow: true,
       currentPage: 1,
@@ -136,7 +138,19 @@ export default {
       ],
     };
   },
-
+  async created() {
+    try {
+      const priceLimits = await this.$http.get(
+        '/api/product/extreme-values',
+      );
+      this.ranges.minValue = priceLimits.data.minValue;
+      this.ranges.maxValue = priceLimits.data.maxValue;
+      this.MAX_VALUE = priceLimits.data.maxValue;
+    } catch (error) {
+      console.error(error);
+    }
+    this.areRangesLoaded = true;
+  },
   async beforeMount() {
     const { searchTerm } = this.$route.query;
     if (searchTerm) {
@@ -144,9 +158,7 @@ export default {
       this.isLoading = true;
       const { data } = await this.$http.get(
         `/api/product/search/${searchTerm}`,
-      );
-      console.log(data);
-      // this.productList = data.products;
+      );      
       for (let index = 0; index < data.products.length; index++) {
         this.$set(this.products, index, data.products[index]);
       }
@@ -160,12 +172,6 @@ export default {
       const { data } = await this.$http.get(
         '/api/product/businesslinelist',
       );
-      const priceLimits = await this.$http.get(
-        '/api/product/extreme-values',
-      );
-      // this.$set(this.ranges, 'minValue', priceLimits.data.minValue);
-      // this.$set(this.ranges, 'maxValue', priceLimits.data.maxValue);
-
       this.options = data.businessLines.map((option) => ({
         value: option,
         label: option,
@@ -184,7 +190,7 @@ export default {
     async filter() {
       this.isLoading = true;
       const businessLine = this.selected !== '' ? `businessline/${this.selected}` : '';
-      const isPriceRangeDefault = this.ranges.minValue === 0 && this.ranges.maxValue === 300000;
+      const isPriceRangeDefault = this.ranges.maxValue === 0 || (this.ranges.minValue === 0 && this.ranges.maxValue === this.MAX_VALUE);
       const price = isPriceRangeDefault
         ? ''
         : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
@@ -206,11 +212,9 @@ export default {
         ));
       }
 
-      for (let index = 0; index < data.products.length; index++) {
-        console.log(data.products[0]);
+      for (let index = 0; index < data.products.length; index++) {        
         this.$set(this.products, index, data.products[index]);
       }
-      // this.productList = data.products;
       this.pages = data.pages;
       this.isLoading = false;
     },
