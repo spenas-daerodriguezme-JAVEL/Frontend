@@ -23,7 +23,7 @@ export default {
             left: "10%",
           },
           title: "Jabones y detergentes",
-          // subtitle: 'Una experiencia única.'
+          busLine: "Jabones y detergentes ",
         },
         {
           src: "../../static/fotoslanding/IMG_1237.JPG",
@@ -32,7 +32,7 @@ export default {
             right: "10%",
           },
           title: "Fragancias",
-          // subtitle: 'Hay un aroma para cada lugar.'
+          busLine: "Perfumes y preparados de tocador",
         },
         {
           src: "../../static/fotoslanding/IMG_1279.jpg",
@@ -40,8 +40,8 @@ export default {
             center: true,
           },
           title: "Perfumes y preparados de tocador",
-          // subtitle: 'Imagina enamorar a todos.',
           textColor: "white",
+          busLine: "Perfumes y preparados de tocador",
         },
         {
           src: "../../static/fotoslanding/IMG_1282.JPG",
@@ -54,7 +54,7 @@ export default {
             y: "20%",
           },
           title: "Quita manchas",
-          // subtitle: 'Esta listo para cualquier desafío.'
+          busLine: 'Jabones y detergentes ',
         },
         {
           src: "../../static/fotoslanding/IMG_1283.jpg",
@@ -63,7 +63,7 @@ export default {
             hcenter: true,
           },
           title: "Preparados para limpiar y pulir",
-          // subtitle: 'Sin restregar y sin esfuerzo, como por arte de magia.'
+          busLine: "Preparados para limpiar y pulir",
         },
       ],
     };
