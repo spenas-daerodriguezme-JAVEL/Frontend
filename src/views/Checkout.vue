@@ -83,7 +83,7 @@
       </div>
       <!-- <button @click="getUserIdFromJWT">Decodificar</button> -->
     </div>
-    <modal-info useSlot autoSize ref="modal">
+    <modal-info useSlot autoSize ref="modal" duration="5000">
       <div class="modal__message">
         <div class="title__menu">{{this.modalText}}</div>
       </div>
@@ -235,6 +235,9 @@ export default {
         if (error.response.status === 406) {
           const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
           this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
+          this.$refs.modal.triggerModal();  
+        } else if ( error.response.status === 409 ) {
+          this.modalText = `No podemos procesar tu compra hoy, contáctanos o inténtalo de nuevo mañana.`;
           this.$refs.modal.triggerModal();  
         } else {
           this.modalText = 'Algo salió mal. Intenta nuevamente';
