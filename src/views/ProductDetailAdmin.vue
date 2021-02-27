@@ -1,24 +1,30 @@
 <template>
   <div id="app">
-
     <div class="product edit-product">
-     <div class="row">
-      <a class="btn" @click="$router.go(-1)" style="max-width: 100px">Volver</a>
-      <a
-        class="btn btn--save danger-btn"
-        v-if="isEdit"
-        :href="deleteUrl"
-      >Eliminar producto</a>
-     </div>
-       <div class="row">
-         <h1>
-           {{title}}
-         </h1>
-       </div>
+      <div class="row">
+        <a class="btn" @click="$router.go(-1)" style="max-width: 100px"
+          >Volver</a
+        >
+        <a class="btn btn--save danger-btn" v-if="isEdit" :href="deleteUrl"
+          >Eliminar producto</a
+        >
+      </div>
+      <div class="row">
+        <h1>
+          {{ title }}
+        </h1>
+      </div>
       <div class="row">
         <div class="field field--small">
           <div class="tag">Nombre del producto</div>
-          <input v-model="product.name" type="text" />
+          <input
+            v-model="product.name"
+            type="text"
+            @input="$v.product.name.$touch"
+          />
+          <div class="error" v-if="!$v.product.name.required">
+            El campo es requerido
+          </div>
         </div>
       </div>
 
@@ -26,74 +32,136 @@
         <div class="field field--small">
           <div class="tag">Línea de negocio</div>
           <!-- <input v-model="product.businessLine" type="text" /> -->
-          <Autocomplete :suggestions="businessLine" @selectedValue="updateValue"></Autocomplete>
+          <Autocomplete
+            :suggestions="businessLine"
+            @selectedValue="updateValue"
+            @input="$v.product.businessLine.$touch"
+          ></Autocomplete>
+          <div class="error" v-if="!$v.product.businessLine.required">
+            El campo es requerido
+          </div>
         </div>
         <div class="field field--small">
           <div class="tag">Presentación disponible</div>
           <div class="field--controls">
-            <input v-model="product.capacity" type="text" />
+            <input
+              v-model="product.capacity"
+              type="text"
+              @input="$v.product.capacity.$touch"
+            />
+          <div class="error" v-if="!$v.product.capacity.required">
+            El campo es requerido
+          </div>
           </div>
         </div>
-         <div class="field field--small">
+        <div class="field field--small">
           <div class="tag">Unidad de medida</div>
-          <input v-model="product.measurementUnit" type="text" />
+          <input
+            v-model="product.measurementUnit"
+            type="text"
+            @input="$v.product.measurementUnit.$touch"
+          />
+          <div class="error" v-if="!$v.product.measurementUnit.required">
+            El campo es requerido
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="field field--small">
           <div class="tag">Id Descripcion</div>
-          <input v-model="product.properties" type="text" />
+          <input
+            v-model="product.properties"
+            type="text"
+            @input="$v.product.properties.$touch"
+          />
+          <div class="error" v-if="!$v.product.properties.required">
+            El campo es requerido
+          </div>
         </div>
         <div class="field field--small">
           <div class="tag">Precio</div>
-          <input v-model="product.price" type="text" />
+          <input
+            v-model="product.price"
+            type="text"
+            @input="$v.product.price.$touch"
+          />
+          <div class="error" v-if="!$v.product.price.required">
+            El campo es requerido
+          </div>
         </div>
         <div class="field field--small">
           <div class="tag">SKU</div>
-          <input v-model="product.SKU" type="text" />
+          <input
+            v-model="product.SKU"
+            type="text"
+            @input="$v.product.SKU.$touch"
+          />
+          <div class="error" v-if="!$v.product.SKU.required">
+            El campo es requerido
+          </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="field  field--small">
+        <div class="field field--small">
           <div class="tag">¿Mostrar en catálogo?</div>
           <select
             v-model="product.isActive"
-            class='input-base input--medium'
+            class="input-base input--medium"
+            @input="$v.product.isActive.$touch"
           >
-          <option value='true'>Si</option>
-          <option value='false'>No</option>
+            <option value="true">Si</option>
+            <option value="false">No</option>
           </select>
+          <div class="error" v-if="!$v.product.isActive.required">
+            El campo es requerido
+          </div>
         </div>
-        <div class="field  field--small">
+        <div class="field field--small">
           <div class="tag">Cantidad</div>
-          <input v-model="product.quantity" type="text" />
+          <input
+            v-model="product.quantity"
+            @input="$v.product.quantity.$touch"
+            type="text"
+          />
+          <div class="error" v-if="!$v.product.quantity.required">
+            El campo es requerido
+          </div>
         </div>
-        <div class="field  field--small">
+        <div class="field field--small">
           <div class="tag">Posición de catálogo</div>
-          <input v-model="product.position" type="text" />
+          <input
+            v-model="product.position"
+            type="text"
+            @input="$v.product.position.$touch"
+          />
+          <div class="error" v-if="!$v.product.position.required">
+            El campo es requerido
+          </div>
         </div>
       </div>
 
-      <div
-        class="btn btn--save"
-        @click="executeActionProduct"
-      >{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
+      <div class="btn btn--save" @click="executeActionProduct">
+        {{ currentAction == "Crear" ? "Crear" : "Guardar" }}
+      </div>
     </div>
     <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
-        <div class="title__menu">{{modalMessage}}</div>
+        <div class="title__menu">{{ modalMessage }}</div>
       </div>
     </modal-info>
   </div>
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 import util from '../util/index';
 import Autocomplete from '../components/shared/Autocomplete.vue';
 
 export default {
+  mixins: [validationMixin],
   data() {
     return {
       currentAction: '',
@@ -118,6 +186,40 @@ export default {
     };
   },
 
+  validations: {
+    product: {
+      name: {
+        required,
+      },
+      businessLine: {
+        required,
+      },
+      capacity: {
+        required,
+      },
+      measurementUnit: {
+        required,
+      },
+      price: {
+        required,
+      },
+      SKU: {
+        required,
+      },
+      isActive: {
+        required,
+      },
+      quantity: {
+        required,
+      },
+      position: {
+        required,
+      },
+      properties: {
+        required,
+      },
+    },
+  },
   async beforeMount() {
     this.currentAction = this.$route.meta.actionType;
     if (this.currentAction === 'Editar') {
@@ -127,9 +229,7 @@ export default {
       this.title = 'Crear nuevo producto';
     }
     try {
-      const { data } = await this.$http.get(
-        '/api/product/businesslinelist',
-      );
+      const { data } = await this.$http.get('/api/product/businesslinelist');
       this.businessLine = data.businessLines;
     } catch (error) {
       console.error(error);
@@ -147,6 +247,10 @@ export default {
       this.isEdit = true;
     },
     async executeActionProduct() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return undefined;
+      }
       const { modal } = this.$refs;
       const jwt = localStorage.getItem('jwt');
       const jsonJWT = util.parseJwt(jwt);
@@ -157,12 +261,16 @@ export default {
         if (this.currentAction === 'Editar') {
           const parameter = this.$route.params.id;
           console.log(this.product);
-          updateProduct = await this.$http.put(`/api/product/${parameter}`, this.product, {
-            headers: {
-              id: userId,
-              'x-auth-token': localStorage.getItem('jwt'),
+          updateProduct = await this.$http.put(
+            `/api/product/${parameter}`,
+            this.product,
+            {
+              headers: {
+                id: userId,
+                'x-auth-token': localStorage.getItem('jwt'),
+              },
             },
-          });
+          );
         } else if (this.currentAction === 'Crear') {
           updateProduct = await this.$http.post('/api/product/', this.product, {
             headers: {
@@ -218,7 +326,7 @@ export default {
   display: flex
   justify-content: space-between
   margin-bottom: 25px
-  flex-wrap: wrap;
+  flex-wrap: wrap
 
 input
   width: 100%
@@ -307,6 +415,9 @@ textarea
 .selector--input
   border: 1px solid rgb(118, 118, 118) !important
   background-color: white !important
+
+.error
+  color: red
 
 @media (max-width: 816px)
   .row--title

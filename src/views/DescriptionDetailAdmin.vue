@@ -109,37 +109,86 @@
     <div class="row">
       <div class="field">
         <div class="tag">Descripción catálogo</div>
-        <textarea v-model="description.description" type="textarea" />
+        <textarea
+          v-model="description.description"
+          type="textarea"
+          @input="$v.description.description.$touch"
+        />
+        <div class="error" v-if="!$v.description.description.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field field--small">
         <div class="tag">Aspecto físico</div>
-        <input v-model="description.physicalAspect" type="text" />
+        <input
+          v-model="description.physicalAspect"
+          type="text"
+          @input="$v.description.physicalAspect.$touch"
+        />
+        <div class="error" v-if="!$v.description.physicalAspect.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Olor</div>
-        <input v-model="description.smell" type="text" />
+        <input
+          v-model="description.smell"
+          type="text"
+          @input="$v.description.smell.$touch"
+        />
+        <div class="error" v-if="!$v.description.smell.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Color</div>
-        <input v-model="description.color" type="text" />
+        <input
+          v-model="description.color"
+          type="text"
+          @input="$v.description.color.$touch"
+        />
+        <div class="error" v-if="!$v.description.color.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field field--small">
         <div class="tag">Gravedad específica</div>
-        <input v-model="description.gravity" type="text" />
+        <input
+          v-model="description.gravity"
+          type="text"
+          @input="$v.description.gravity.$touch"
+        />
+        <div class="error" v-if="!$v.description.gravity.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Viscosidad</div>
-        <input v-model="description.viscosity" type="text" />
+        <input
+          v-model="description.viscosity"
+          type="text"
+          @input="$v.description.viscosity.$touch"
+        />
+        <div class="error" v-if="!$v.description.viscosity.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Solubilidad en agua</div>
-        <input v-model="description.solubility" type="text" />
+        <input
+          v-model="description.solubility"
+          type="text"
+          @input="$v.description.solubility.$touch"
+        />
+        <div class="error" v-if="!$v.description.solubility.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
@@ -158,22 +207,50 @@
       </div>
       <div class="field field--small">
         <div class="tag">Densidad</div>
-        <input v-model="description.density" type="text" />
+        <input
+          v-model="description.density"
+          type="text"
+          @input="$v.description.density.$touch"
+        />
+        <div class="error" v-if="!$v.description.density.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Principio activo</div>
-        <input v-model="description.activeComponent" type="text" />
+        <input
+          v-model="description.activeComponent"
+          type="text"
+          @input="$v.description.activeComponent.$touch"
+        />
+        <div class="error" v-if="!$v.description.activeComponent.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field field--small">
         <div class="tag">Peso específico</div>
-        <input v-model.number="description.weight" type="number" />
+        <input
+          v-model.number="description.weight"
+          type="number"
+          @input="$v.description.weight.$touch"
+        />
+        <div class="error" v-if="!$v.description.weight.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Índice de refracción</div>
-        <input v-model="description.refractionIndex" type="text" />
+        <input
+          v-model="description.refractionIndex"
+          type="text"
+          @input="$v.description.refractionIndex.$touch"
+        />
+        <div class="error" v-if="!$v.description.refractionIndex.required">
+          El campo es requerido
+        </div>
       </div>
       <div class="field field--small">
         <div class="tag">Toxico</div>
@@ -192,35 +269,70 @@
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 1</div>
-        <textarea v-model="description.paragraph1" type="textarea" />
+        <textarea
+          v-model="description.paragraph1"
+          type="textarea"
+          @input="$v.description.paragraph1.$touch"
+        />
+        <div class="error" v-if="!$v.description.paragraph1.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 2</div>
-        <textarea v-model="description.paragraph2" type="textarea" />
+        <textarea
+          v-model="description.paragraph2"
+          type="textarea"
+          @input="$v.description.paragraph2.$touch"
+        />
+        <div class="error" v-if="!$v.description.paragraph2.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 3</div>
-        <textarea v-model="description.paragraph3" type="textarea" />
+        <textarea
+          v-model="description.paragraph3"
+          type="textarea"
+          @input="$v.description.paragraph3.$touch"
+        />
+        <div class="error" v-if="!$v.description.paragraph3.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Párrafo 4</div>
-        <textarea v-model="description.paragraph4" type="textarea" />
+        <textarea
+          v-model="description.paragraph4"
+          type="textarea"
+          @input="$v.description.paragraph4.$touch"
+        />
+        <div class="error" v-if="!$v.description.paragraph4.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="field">
         <div class="tag">Título de pasos</div>
-        <input v-model="description.stepTitle" type="text" />
+        <input
+          v-model="description.stepTitle"
+          type="text"
+          @input="$v.description.stepTitle.$touch"
+        />
+        <div class="error" v-if="!$v.description.stepTitle.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
@@ -258,12 +370,21 @@
     <div class="row">
       <div class="field">
         <div class="tag">Título de promoción</div>
-        <input v-model="description.promoTitle" type="text" />
+        <input
+          v-model="description.promoTitle"
+          type="text"
+          @input="$v.description.promoTitle.$touch"
+        />
+        <div class="error" v-if="!$v.description.promoTitle.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
     <!-- The line below is so large to avoid break line in HTML render -->
-    <div class="btn btn--save" @click="executeActionDescription">{{ currentAction == "Crear" ? "Crear" : "Guardar" }}</div>
+    <div class="btn btn--save" @click="executeActionDescription">
+      {{ currentAction == "Crear" ? "Crear" : "Guardar" }}
+    </div>
     <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
         <div class="title__menu">{{ modalMessage }}</div>
@@ -273,14 +394,16 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { required } from 'vuelidate/lib/validators';
 import CustomSelector from '../components/ui/CustomSelector.vue';
 import util from '../util/index';
 
 export default {
+  mixins: [validationMixin],
   data() {
     return {
       currentAction: '',
-      aja: '',
       description: {
         description: '',
         physicalAspect: '',
@@ -311,6 +434,68 @@ export default {
       deleteUrl: '',
       descriptionId: 0,
     };
+  },
+
+  validations: {
+    description: {
+      description: {
+        required,
+      },
+      physicalAspect: {
+        required,
+      },
+      smell: {
+        required,
+      },
+      color: {
+        required,
+      },
+      gravity: {
+        required,
+      },
+      viscosity: {
+        required,
+      },
+      solubility: {
+        required,
+      },
+      flammable: {
+        required,
+      },
+      density: {
+        required,
+      },
+      activeComponent: {
+        required,
+      },
+      weight: {
+        required,
+      },
+      refractionIndex: {
+        required,
+      },
+      isToxic: {
+        required,
+      },
+      paragraph1: {
+        required,
+      },
+      paragraph2: {
+        required,
+      },
+      paragraph3: {
+        required,
+      },
+      paragraph4: {
+        required,
+      },
+      stepTitle: {
+        required,
+      },
+      promoTitle: {
+        required,
+      },
+    },
   },
 
   async beforeMount() {
@@ -380,6 +565,10 @@ export default {
     async executeActionDescription() {
       const { modal } = this.$refs;
       try {
+        if (this.$v.$invalid) {
+          // eslint-disable-next-line no-throw-literal
+          throw 'There are fields required';
+        }
         let description;
         const jwt = localStorage.getItem('jwt');
         const jsonJWT = util.parseJwt(jwt);
@@ -440,7 +629,7 @@ export default {
         }, 500);
         // check if any image has changed and sends it to back
       } catch (error) {
-        this.modalMessage = 'Error en servidor, vuelva a intentar';
+        this.modalMessage = 'Error, vuelva a intentar';
         modal.triggerModal();
         console.log(error);
       }
@@ -476,7 +665,7 @@ export default {
   display: flex
   justify-content: space-between
   margin-bottom: 25px
-  flex-wrap: wrap;
+  flex-wrap: wrap
 
 input
   width: 100%
@@ -566,6 +755,9 @@ textarea
   border: 1px solid rgb(118, 118, 118) !important
   background-color: white !important
 
+.error
+  color: red
+
 @media (max-width: 816px)
   .row--title
     text-align: center
@@ -575,5 +767,4 @@ textarea
 
   .btn--save
     margin-right: auto
-
 </style>
