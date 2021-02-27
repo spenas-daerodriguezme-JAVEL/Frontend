@@ -1,6 +1,6 @@
 <template>
   <div class="checkout">
-    <div class="section">Hola Cristhian</div>
+    <div class="section name--section">Hola Cristhian</div>
 
     <selector-list :options="options">
       <div slot="Información de contacto">
@@ -146,6 +146,8 @@ h1
 @media (max-width: 820px)
   .center--responsive
     align-items: center
+  .name--section
+    padding: 30px
 
 @media (max-width: 550px)
   .row

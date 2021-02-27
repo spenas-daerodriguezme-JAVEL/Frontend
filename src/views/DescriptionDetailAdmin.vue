@@ -147,7 +147,7 @@
       <div class="field field--small">
         <div class="tag">Inflamable</div>
         <selector
-          :value.sync="description.flammable"
+          v-model="description.flammable"
           :options="[
             { label: 'Si', value: 'Si' },
             { label: 'No', value: 'No' },
@@ -178,7 +178,7 @@
       <div class="field field--small">
         <div class="tag">Toxico</div>
         <selector
-          :value.sync="description.isToxic"
+          v-model="description.isToxic"
           :options="[
             { label: 'Si', value: 'Si' },
             { label: 'No', value: 'No' },
@@ -273,53 +273,54 @@
 </template>
 
 <script>
-import CustomSelector from "../components/ui/CustomSelector.vue";
-import util from "../util/index";
+import CustomSelector from '../components/ui/CustomSelector.vue';
+import util from '../util/index';
 
 export default {
   data() {
     return {
-      currentAction: "",
+      currentAction: '',
+      aja: '',
       description: {
-        description: "",
-        physicalAspect: "",
-        smell: "",
-        color: "",
-        gravity: "",
-        viscosity: "",
-        solubility: "",
-        flammable: "",
-        density: "",
-        activeComponent: "",
-        weight: "",
-        refractionIndex: "",
-        isToxic: "",
-        paragraph1: "",
-        paragraph2: "",
-        paragraph3: "",
-        paragraph4: "",
-        stepTitle: "",
-        steps: [""],
-        promoTitle: "",
-        images: ["", "", "", "", ""],
+        description: '',
+        physicalAspect: '',
+        smell: '',
+        color: '',
+        gravity: '',
+        viscosity: '',
+        solubility: '',
+        flammable: '',
+        density: '',
+        activeComponent: '',
+        weight: '',
+        refractionIndex: '',
+        isToxic: '',
+        paragraph1: '',
+        paragraph2: '',
+        paragraph3: '',
+        paragraph4: '',
+        stepTitle: '',
+        steps: [''],
+        promoTitle: '',
+        images: ['', '', '', '', ''],
       },
-      url: "/admin",
-      title: "",
-      modalMessage: "",
+      url: '/admin',
+      title: '',
+      modalMessage: '',
       isEdit: false,
-      deleteUrl: "",
+      deleteUrl: '',
       descriptionId: 0,
     };
   },
 
   async beforeMount() {
     this.currentAction = this.$route.meta.actionType;
-    if (this.currentAction === "Editar") {
+    if (this.currentAction === 'Editar') {
       this.isEdit = true;
       await this.loadDescription();
-      this.title = "Editar descripción";
-    } else if (this.currentAction === "Crear") {
-      this.title = "Crear nueva descripción";
+      this.title = 'Editar descripción';
+    } else if (this.currentAction === 'Crear') {
+      this.title = 'Crear nueva descripción';
     }
   },
   methods: {
@@ -335,31 +336,29 @@ export default {
 
         reader.onload = function (e) {
           self.$refs[`preview_${index}`].src = e.target.result;
-          self.$refs[`preview_${index}`].style = "display: inline-block";
+          self.$refs[`preview_${index}`].style = 'display: inline-block';
         };
 
         reader.readAsDataURL(item.files[0]);
       }
     },
     addStep(index) {
-      this.description.steps.splice(index + 1, 0, "");
+      this.description.steps.splice(index + 1, 0, '');
     },
     removeStep(index) {
       this.description.steps.splice(index, 1);
     },
     setInitialImages(imagesArray) {
-      const thumbnails = imagesArray.filter((element) =>
-        element.includes("thumbnail")
-      );
+      const thumbnails = imagesArray.filter((element) => element.includes('thumbnail'));
       for (let index = 1; index <= thumbnails.length; index++) {
         const self = this;
         self.$refs[`preview_${index}`].src = thumbnails[index - 1];
-        self.$refs[`preview_${index}`].style = "display: inline-block";
+        self.$refs[`preview_${index}`].style = 'display: inline-block';
       }
     },
     async loadDescription() {
       this.descriptionId = this.$route.params.id;
-      const jwt = localStorage.getItem("jwt");
+      const jwt = localStorage.getItem('jwt');
       const jsonJWT = util.parseJwt(jwt);
       // eslint-disable-next-line no-underscore-dangle
       const userId = jsonJWT._id;
@@ -369,9 +368,9 @@ export default {
         {
           headers: {
             id: userId,
-            "x-auth-token": localStorage.getItem("jwt"),
+            'x-auth-token': localStorage.getItem('jwt'),
           },
-        }
+        },
       );
       const descriptionData = description.data;
       this.description = descriptionData;
@@ -382,32 +381,32 @@ export default {
       const { modal } = this.$refs;
       try {
         let description;
-        const jwt = localStorage.getItem("jwt");
+        const jwt = localStorage.getItem('jwt');
         const jsonJWT = util.parseJwt(jwt);
         // eslint-disable-next-line no-underscore-dangle
         const userId = jsonJWT._id;
         this.currentAction = this.$route.meta.actionType;
-        if (this.currentAction === "Editar") {
+        if (this.currentAction === 'Editar') {
           description = await this.$http.put(
             `/api/description/${this.descriptionId}`,
             this.description,
             {
               headers: {
                 id: userId,
-                "x-auth-token": localStorage.getItem("jwt"),
+                'x-auth-token': localStorage.getItem('jwt'),
               },
-            }
+            },
           );
-        } else if (this.currentAction === "Crear") {
+        } else if (this.currentAction === 'Crear') {
           description = await this.$http.post(
-            "/api/description/",
+            '/api/description/',
             this.description,
             {
               headers: {
                 id: userId,
-                "x-auth-token": localStorage.getItem("jwt"),
+                'x-auth-token': localStorage.getItem('jwt'),
               },
-            }
+            },
           );
           this.descriptionId = description._id;
         }
@@ -419,30 +418,29 @@ export default {
           const item = this.$refs[`image_${index}`];
           if (item.files.length !== 0) {
             positions.push(index);
-            console.log("guarde");
-            formData.append("image", item.files[0]);
+            formData.append('image', item.files[0]);
             flag = true;
             // console.log(self.$refs[`preview_${index}`].src);
           }
         }
         if (flag) {
-          formData.append("positions", positions);
-          formData.append("id", this.descriptionId);
-          const response = await this.$http.post("/imagenes", formData);
+          formData.append('positions', positions);
+          formData.append('id', this.descriptionId);
+          const response = await this.$http.post('/imagenes', formData);
           if (description.status === 200 && response.status === 200) {
-            this.modalMessage = "Operación exitosa";
+            this.modalMessage = 'Operación exitosa';
           }
         } else if (description.status === 200) {
-          this.modalMessage = "Operación exitosa";
+          this.modalMessage = 'Operación exitosa';
         }
 
         modal.triggerModal();
         setTimeout(() => {
-          this.$router.replace("/admin");
+          this.$router.replace('/admin');
         }, 500);
         // check if any image has changed and sends it to back
       } catch (error) {
-        this.modalMessage = "Error en servidor, vuelva a intentar";
+        this.modalMessage = 'Error en servidor, vuelva a intentar';
         modal.triggerModal();
         console.log(error);
       }
@@ -574,7 +572,7 @@ textarea
 
   .row + .row
     justify-content: center
-  
+
   .btn--save
     margin-right: auto
 

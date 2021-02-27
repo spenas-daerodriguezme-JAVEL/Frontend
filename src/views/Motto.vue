@@ -7,14 +7,13 @@
       </div>
       <div class="box40 frcenter-h motto-main">
         <div class="title-res">
-          DECLARACIÓN DE 
+          DECLARACIÓN DE
           MISIÓN
         </div>
 
         - Estos son los principios que rigen el cumplimiento de nuestra misión día a día
       </div>
     </div>
-
 
      <div class="shipping">
       <div
@@ -73,14 +72,14 @@
         <b>SEGURIDAD</b>
 
       Nos preocupamos por la salud, la integridad y la seguridad de nuestros clientes. Por eso, los capacitamos continuamente sobre las indicaciones de peligro y los consejos de prudencia que deben cumplir siempre para evitar accidentes
-      
+
       </div>
 
       <div class="column-text">
         <b>INNOVACIÓN</b>
 
         Invertimos todos nuestros recursos en proyectos innovadores que simplifiquen los procesos de compra y recepción de productos a nuestros clientes
-      
+
         <b>INVERSIONISTAS</b>
 
         Respondemos íntegramente con todas nuestras responsabilidades para que aquellos que se relacionen con nosotros crezcan y perduren
@@ -100,7 +99,7 @@
     </div>
     <div v-if="products && products.length > 0">
       <div class="title">
-        PRODUCTOS INTELIGENTES.
+        PRODUCTOS.
       </div>
 
       <div class="slideshow">
@@ -111,7 +110,7 @@
             </div>
             <div class="image-box__item__desc">
               <div class="imb-title">
-                {{ product.name }}.  
+                {{ product.name }}.
                 {{ product.capacity }}.
               </div>
               <div class="imb-price">
@@ -119,8 +118,8 @@
               </div>
             </div>
             <div class="buy__container">
-              <button class="buy__item" 
-                @click.stop="sendToCart(product)" 
+              <button class="buy__item"
+                @click.stop="sendToCart(product)"
                 :disabled="product.quantity <= 0"
               >
                 Comprar
@@ -136,22 +135,22 @@
 </template>
 
 <script>
-import util from '../util/index';
 import { mapMutations } from 'vuex';
+import util from '../util/index';
 
 export default {
   data() {
     return {
       products: [],
     };
-  },  
+  },
   async created() {
     try {
       const response = await this.$http.get('/api/product/carousel');
       console.log(response);
       this.products = response.data;
     } catch (error) {
-      this.products = []
+      this.products = [];
       console.log(error);
     }
   },
@@ -168,8 +167,8 @@ export default {
       if (images.length < 2) {
         return require('../assets/productos/QUITA MANCHAS.jpg');
       }
-      
-      return  images[1];
+
+      return images[1];
     },
     showDetail(productId) {
       this.$router.push({ name: 'ProductDetail', params: { id: productId } });
@@ -217,11 +216,8 @@ export default {
     font-weight: bold
     white-space: pre-line
 
-
-
-
-@keyframes slideshow 
-  100%    
+@keyframes slideshow
+  100%
     transform: translateX(-50%)
 
 .title
@@ -230,7 +226,6 @@ export default {
   text-align: center
   @extend %title
   font-size: 50px
-
 
 .motto-main
   padding: 30px
@@ -294,7 +289,7 @@ export default {
   color: white
   font-weight: bold
   font-size: 16px
-  cursor: pointer    
+  cursor: pointer
   border: 1px solid white
   transition: transform .2s;
 
@@ -304,11 +299,10 @@ export default {
   &:active
     background: white
     color: black
-  
+
   &:disabled
     background: gray
     transform: scale(1);
-
 
 @media (max-width: 800px)
   .box40, .box60
@@ -317,10 +311,10 @@ export default {
 
   .title-res
     font-size: 45px
-  
+
   .images-box
     width: 600%
-    .image-box__item__desc    
+    .image-box__item__desc
       flex-direction: column
       font-size: 15px
 
@@ -338,8 +332,8 @@ export default {
 
     .rigid-container__img
       height: 50vh
-  
-  @keyframes slideshow 
-    100%    
+
+  @keyframes slideshow
+    100%
       transform: translateX(-83.33%)
 </style>

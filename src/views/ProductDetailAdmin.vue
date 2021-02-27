@@ -16,7 +16,7 @@
          </h1>
        </div>
       <div class="row">
-        <div class="field">
+        <div class="field field--small">
           <div class="tag">Nombre del producto</div>
           <input v-model="product.name" type="text" />
         </div>
@@ -28,7 +28,7 @@
           <!-- <input v-model="product.businessLine" type="text" /> -->
           <Autocomplete :suggestions="businessLine" @selectedValue="updateValue"></Autocomplete>
         </div>
-        <div class="flex">
+        <div class="field field--small">
           <div class="tag">Presentación disponible</div>
           <div class="field--controls">
             <input v-model="product.capacity" type="text" />
@@ -41,7 +41,7 @@
       </div>
 
       <div class="row">
-        <div class="field">
+        <div class="field field--small">
           <div class="tag">Id Descripcion</div>
           <input v-model="product.properties" type="text" />
         </div>
@@ -49,14 +49,14 @@
           <div class="tag">Precio</div>
           <input v-model="product.price" type="text" />
         </div>
-        <div class="field">
+        <div class="field field--small">
           <div class="tag">SKU</div>
           <input v-model="product.SKU" type="text" />
         </div>
       </div>
 
       <div class="row">
-        <div class="field">
+        <div class="field  field--small">
           <div class="tag">¿Mostrar en catálogo?</div>
           <select
             v-model="product.isActive"
@@ -66,11 +66,11 @@
           <option value='false'>No</option>
           </select>
         </div>
-        <div class="field">
+        <div class="field  field--small">
           <div class="tag">Cantidad</div>
           <input v-model="product.quantity" type="text" />
         </div>
-        <div class="field">
+        <div class="field  field--small">
           <div class="tag">Posición de catálogo</div>
           <input v-model="product.position" type="text" />
         </div>
@@ -198,106 +198,123 @@ export default {
 @import ../stylesheets/global.sass
 
 .flex
-	width: 70%
-	+flex(0, 0)
-	flex-direction: column
-	align-items: flex-start
+  width: 70%
+  +flex(0, 0)
+  flex-direction: column
+  align-items: flex-start
 
 .edit-product
-	max-width: 900px
-	padding: 0 10px
-	margin: 30px auto
+  max-width: 900px
+  padding: 0 10px
+  margin: 30px auto
 
 .tag
-	background: black
-	color: white
-	padding: 7px 15px
-	@extend %title
+  background: black
+  color: white
+  padding: 7px 15px
+  @extend %title
 
 .row
-	display: flex
-	justify-content: space-between
-	margin-bottom: 25px
+  display: flex
+  justify-content: space-between
+  margin-bottom: 25px
+  flex-wrap: wrap;
 
 input
-	width: 100%
-	height: 30px
-	padding: 0 5px
+  width: 100%
+  height: 30px
+  padding: 0 5px
 
-	&[type="textarea"]
-		height: 200px
+  &[type="textarea"]
+    height: 200px
 
 textarea
-	width: 100%
-	height: 150px
+  width: 100%
+  height: 150px
 
 .field
-	width: 100%
-	display: flex
-	flex-direction: column
-	align-items: flex-start
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
 
 .field--small
-	width: 30%
+  width: 30%
+  min-width: 300px
+  margin-bottom: 10px
 
 .field--controls
-	+flex(0, 0)
-	width: 100%
-	margin-bottom: 2px
+  +flex(0, 0)
+  width: 100%
+  margin-bottom: 2px
 
 .field__control
-	+flex(1, 1)
-	+squared(34px)
-	padding: 5px
-	box-sizing: border-box
-	background: black
-	transition: 0.2s
-	cursor: pointer
-	border: 1px solid black
+  +flex(1, 1)
+  +squared(34px)
+  padding: 5px
+  box-sizing: border-box
+  background: black
+  transition: 0.2s
+  cursor: pointer
+  border: 1px solid black
 
-	&:hover
-		background: white
+  &:hover
+    background: white
 
-		svg
-			fill: black
+    svg
+      fill: black
 
-	&:first-of-type
-		border-right: 1px solid white
+  &:first-of-type
+    border-right: 1px solid white
 
-	svg
-		width: 100%
-		height: 100%
-		fill: white
+  svg
+    width: 100%
+    height: 100%
+    fill: white
 
 .image__preview
-	+squared(280px)
-	border: 1px dashed black
-	position: relative
-	cursor: pointer
+  +squared(280px)
+  border: 1px dashed black
+  position: relative
+  cursor: pointer
 
-	&:hover > svg
-		+squared(58px)
+  &:hover > svg
+    +squared(58px)
 
-	svg
-		z-index: -1
-		+squared(50px)
-		@extend %absolute-centered
-		fill: black
-		transition: 0.3s
+  svg
+    z-index: -1
+    +squared(50px)
+    @extend %absolute-centered
+    fill: black
+    transition: 0.3s
 
-	img
-		z-index: 5
-		display: none
-		@extend %image-cover
+  img
+    z-index: 5
+    display: none
+    @extend %image-cover
 
 .btn--save
-	+flex(1, 1)
-	width: 150px
-	height: 20px
-	margin-left: auto
+  +flex(1, 1)
+  width: 150px
+  height: 20px
+  margin-left: auto
+  margin-bottom: 20px
 
 .danger-btn
   background-color: red
   border-color: red
 
+.selector--input
+  border: 1px solid rgb(118, 118, 118) !important
+  background-color: white !important
+
+@media (max-width: 816px)
+  .row--title
+    text-align: center
+
+  .row + .row
+    justify-content: center
+
+  .btn--save
+    margin-right: auto
 </style>

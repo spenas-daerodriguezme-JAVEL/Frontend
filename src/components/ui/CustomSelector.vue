@@ -67,46 +67,42 @@ export default {
     placeholder: {
       type: String,
       default: 'Selecciona una opción',
-    }
+    },
   },
   data() {
     return {
       search: '',
       opensUp: false,
       isActive: false,
-    }
+    };
   },
   computed: {
     showValue() {
       if (this.value === '') return this.placeholder;
-
-      const res = this.options.find(opt => opt.value === this.value);
-      if (res) return res.label
-      else this.$emit('select', '');
-      // return this.options.find(opt => opt.value === this.value).label;
+      const res = this.options.find((opt) => opt.value === this.value);
+      if (res) return res.label;
+      this.$emit('select', '');
+      return this.options.find((opt) => opt.value === this.value).label;
     },
     queryItems() {
-      return this.options.filter(option => {
-        return option.label
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase()
-          .includes(
-            this.search
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .toLowerCase()
-          )
-      })
-    }
+      return this.options.filter((option) => option.label
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .includes(
+          this.search
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase(),
+        ));
+    },
   },
   methods: {
     open() {
       this.isActive = true;
 
       setTimeout(() => {
-
-        const dropdown = this.$refs.dropdown;
+        const { dropdown } = this.$refs;
         const bounds = dropdown.getBoundingClientRect();
 
         this.opensUp = bounds.bottom > window.innerHeight;
@@ -124,9 +120,9 @@ export default {
       this.$emit('select', option.value);
       this.isActive = false;
       event.stopPropagation();
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

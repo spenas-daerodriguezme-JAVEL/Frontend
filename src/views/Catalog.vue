@@ -141,7 +141,7 @@ export default {
   },
   async created() {
     if (this.$route.params.busLine) {
-      this.selected = this.$route.params.busLine;      
+      this.selected = this.$route.params.busLine;
     }
     try {
       const priceLimits = await this.$http.get(
@@ -161,13 +161,13 @@ export default {
       this.isLoading = true;
       const { data } = await this.$http.get(
         `/api/product/search/${searchTerm}`,
-      );      
+      );
       for (let index = 0; index < data.products.length; index++) {
         this.$set(this.products, index, data.products[index]);
       }
       this.pages = data.pages;
       this.isLoading = false;
-    } else {      
+    } else {
       this.filter();
     }
 
@@ -195,7 +195,7 @@ export default {
     async filter() {
       this.isLoading = true;
       const businessLine = this.selected !== '' ? `businessline/${this.selected}` : '';
-      
+
       const isPriceRangeDefault = this.ranges.maxValue === 0 || (this.ranges.minValue === 0 && this.ranges.maxValue === this.MAX_VALUE);
       const price = isPriceRangeDefault
         ? ''
@@ -217,13 +217,12 @@ export default {
           }${price}${page}`,
         ));
       }
-      
-      for (let index = 0; index < data.products.length; index++) {        
+
+      for (let index = 0; index < data.products.length; index++) {
         this.$set(this.products, index, data.products[index]);
       }
       this.pages = data.pages;
       this.isLoading = false;
-      
     },
   },
   watch: {
@@ -236,7 +235,7 @@ export default {
           const equals = oldValue.minValue === newValue.minValue && oldValue.maxValue === newValue.maxValue;
           if (!equals) {
             this.searchTerm = '';
-            this.filter();            
+            this.filter();
           }
         },
         800,
@@ -255,7 +254,7 @@ export default {
     window.onresize = _.debounce(() => {
       self.resizedWindow = !self.resizedWindow;
     }, 350);
-    
+
     TweenLite.from('.title', 1.3, {
       opacity: 0,
       yPercent: -20,
