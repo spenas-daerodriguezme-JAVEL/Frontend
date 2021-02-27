@@ -1,6 +1,6 @@
 <template>
   <div class="checkout">
-    <div class="section">Hola {{ userName }}</div>
+    <div class="section name--section">Hola {{ userName }}</div>
 
     <selector-list
       :options="options">
@@ -57,7 +57,7 @@ export default {
         'x-auth-token': localStorage.getItem('jwt'),
       },
     });
-    
+
     this.userName = userInfo.data.name;
   },
   components: {
@@ -169,6 +169,9 @@ h1
 @media (max-width: 820px)
   .center--responsive
     align-items: center
+
+  .name--section
+    padding: 30px
 
 @media (max-width: 550px)
   .row

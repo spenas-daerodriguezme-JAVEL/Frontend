@@ -49,83 +49,83 @@ import ModalMessage from '../../components/ui/ModalMessage.vue';
 
 const { URI } = process.env;
 export default {
-    data() {
-        return {
-            URI,
-            deletion: -1,
-            activeModal: false,
-            products: [
-                // {name: 'producto A', position: 2},
-                // {name: 'producto B', position: 1},
-                // {name: 'producto C', position: 0},
-                // {name: 'producto D', position: 3},
-                // {name: 'producto E', position: 4},
-                // {name: 'producto F', position: 5},
-            ],
-        };
+  data() {
+    return {
+      URI,
+      deletion: -1,
+      activeModal: false,
+      products: [
+        // {name: 'producto A', position: 2},
+        // {name: 'producto B', position: 1},
+        // {name: 'producto C', position: 0},
+        // {name: 'producto D', position: 3},
+        // {name: 'producto E', position: 4},
+        // {name: 'producto F', position: 5},
+      ],
+    };
+  },
+  async mounted() {
+    await this.getProducts();
+    const obj = new Sortable(document.querySelector('#sort_1'), null);
+    obj.success = (results) => {
+      this.products.forEach((product, index) => {
+        if (product.position != results[index]) this.changePosition(product.id, results[index]);
+        // product.position = results[index]
+        this.$set(this.products[index], 'position', results[index]);
+      });
+    };
+  },
+  methods: {
+    async changePosition(id, position) {
+      try {
+        const res = await VAPI.put(`change_position/${id}`, {
+          position,
+        });
+      } catch (e) {
+        console.error('Error al guardar la nueva posicion');
+      }
     },
-    async mounted() {
-        await this.getProducts();
-        const obj = new Sortable(document.querySelector('#sort_1'), null);
-        obj.success = (results) => {
-            this.products.forEach((product, index) => {
-                if (product.position != results[index]) this.changePosition(product.id, results[index]);
-                // product.position = results[index]
-                this.$set(this.products[index], 'position', results[index]);
-            });
-        };
+    async deleteItem(id) {
+      try {
+        const res = await VAPI.delete(`products/${id}`);
+      } catch (e) {
+        console.error('Error al eliminar item');
+      }
     },
-    methods: {
-        async changePosition(id, position) {
-            try {
-                const res = await VAPI.put(`change_position/${id}`, {
-                    position,
-                });
-            } catch (e) {
-                console.error('Error al guardar la nueva posicion');
-            }
-        },
-        async deleteItem(id) {
-            try {
-                const res = await VAPI.delete(`products/${id}`);
-            } catch (e) {
-                console.error('Error al eliminar item');
-            }
-        },
-        editItem(id) {
-            this.$router.push({ name: 'ProductEdit', params: { id } });
-        },
-        activateModal(id) {
-            this.deletion = id;
-            this.activeModal = true;
-        },
-        confirmDelete(response) {
-            if (response) {
-                this.$nextTick(() => {
-                    this.deleteItem(this.products[this.deletion]._id.$oid);
-                    this.products.splice(this.deletion, 1);
-                    location.reload();
-                });
-            }
-        },
-        toNewProduct() {
-            this.$router.push({ name: 'ProductNew' });
-        },
-        async getProducts() {
-            try {
-                const res = await VAPI.get('products');
-                this.products = _.sortBy(res.data, [function (o) { return o.position; }]);
-            } catch (e) {
-                console.error('Error al cargar todos los productos');
-            }
-        },
+    editItem(id) {
+      this.$router.push({ name: 'ProductEdit', params: { id } });
     },
-    filters: {
-        toMoney: util.toMoney,
+    activateModal(id) {
+      this.deletion = id;
+      this.activeModal = true;
     },
-    components: {
-        ModalMessage,
+    confirmDelete(response) {
+      if (response) {
+        this.$nextTick(() => {
+          this.deleteItem(this.products[this.deletion]._id.$oid);
+          this.products.splice(this.deletion, 1);
+          location.reload();
+        });
+      }
     },
+    toNewProduct() {
+      this.$router.push({ name: 'ProductNew' });
+    },
+    async getProducts() {
+      try {
+        const res = await VAPI.get('products');
+        this.products = _.sortBy(res.data, [function (o) { return o.position; }]);
+      } catch (e) {
+        console.error('Error al cargar todos los productos');
+      }
+    },
+  },
+  filters: {
+    toMoney: util.toMoney,
+  },
+  components: {
+    ModalMessage,
+  },
 };
 </script>
 

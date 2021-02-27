@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-// TODO: Improve the reading of data from environment variables
 const { URI } = process.env;
-
 const VAPI = axios.create({
-  // baseURL: 'https://thechemicalsciencecompany.com:3000',
-  baseURL: 'http://localhost:3000',
+  baseURL: URI,
   timeout: 60000,
 });
 

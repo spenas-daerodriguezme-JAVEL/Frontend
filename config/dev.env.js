@@ -1,8 +1,7 @@
-
 const merge = require('webpack-merge');
 const prodEnv = require('./prod.env');
 
 module.exports = merge(prodEnv, {
-    NODE_ENV: '"development"',
-    URI: '"http://localhost:3000/"',
+  NODE_ENV: '"development"',
+  URI: '"http://localhost:3000/"',
 });

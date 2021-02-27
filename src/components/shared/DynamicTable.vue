@@ -118,6 +118,8 @@ input
 
 .btn--paginator
   margin: 15px 20px
+  @media (max-width: 800px)
+    margin: 8px
 
 .center--info
   vertical-align: middle
