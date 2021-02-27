@@ -83,7 +83,7 @@
       </div>
       <!-- <button @click="getUserIdFromJWT">Decodificar</button> -->
     </div>
-    <modal-info useSlot autoSize ref="modal">
+    <modal-info useSlot autoSize ref="modal" duration="5000">
       <div class="modal__message">
         <div class="title__menu">{{this.modalText}}</div>
       </div>
@@ -101,6 +101,8 @@ import InputBase from '../components/InputBase.vue';
 import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
 import { STATES } from '../colombia';
+
+const MAX_VALUE_PER_TRANSACTION = 10000000;
 
 export default {
   data() {
@@ -200,12 +202,20 @@ export default {
         return false;
       }
       const order = this.getOrderObject();
+
+      if (order.totalPrice > MAX_VALUE_PER_TRANSACTION) {
+        const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
+        this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
+        this.$refs.modal.triggerModal();
+        return false;
+      }
       this.$v.$touch();
       if (this.$v.$anyError) {
         this.modalText = 'Uno o más campos en la factura no son válidos';
         this.$refs.modal.triggerModal();
         return false;
       }
+
       try {
         const { data } = await this.$http.post('/api/order/createOrder', order);
         const { createdOrder } = data;
@@ -222,8 +232,17 @@ export default {
           });
         }, 1500);
       } catch (error) {
-        this.modalText = 'Algo salió mal. Intenta nuevamente';
-        this.$refs.modal.triggerModal();
+        if (error.response.status === 406) {
+          const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
+          this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
+          this.$refs.modal.triggerModal();  
+        } else if ( error.response.status === 409 ) {
+          this.modalText = `No podemos procesar tu compra hoy, contáctanos o inténtalo de nuevo mañana.`;
+          this.$refs.modal.triggerModal();  
+        } else {
+          this.modalText = 'Algo salió mal. Intenta nuevamente';
+          this.$refs.modal.triggerModal();
+        }
       }
 
       return undefined;
