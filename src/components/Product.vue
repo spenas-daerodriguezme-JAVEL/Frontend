@@ -254,6 +254,7 @@ export default {
 
 .product__description
     margin-top: 20px
+    margin-bottom: 1em
     width: 100%
     height: 170px
 
@@ -318,4 +319,13 @@ export default {
       background-color: white
       color: black
       transition: .1s
+
+  .product--large
+    flex-wrap: wrap
+
+    > *
+      width: 100%
+    
+    .img-aux
+      min-width: 100%
 </style>
