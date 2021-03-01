@@ -20,6 +20,10 @@
           <div class="tag">Nombre del producto</div>
           <input v-model="product.name" type="text" />
         </div>
+        <div class="field field--small">
+          <div class="tag">SKU</div>
+          <input v-model="product.SKU" type="text" />
+        </div>
       </div>
 
       <div class="row">
@@ -49,9 +53,9 @@
           <div class="tag">Precio</div>
           <input v-model="product.price" type="text" />
         </div>
-        <div class="field field--small">
-          <div class="tag">SKU</div>
-          <input v-model="product.SKU" type="text" />
+        <div class="field  field--small">
+          <div class="tag">Cantidad</div>
+          <input v-model="product.quantity" type="text" />
         </div>
       </div>
 
@@ -65,14 +69,20 @@
           <option value='true'>Si</option>
           <option value='false'>No</option>
           </select>
-        </div>
-        <div class="field  field--small">
-          <div class="tag">Cantidad</div>
-          <input v-model="product.quantity" type="text" />
-        </div>
+        </div>        
         <div class="field  field--small">
           <div class="tag">Posición de catálogo</div>
           <input v-model="product.position" type="text" />
+        </div>
+        <div class="field  field--small">
+          <div class="tag">¿Mostrar en carrusel?</div>
+          <select
+            v-model="product.isInCarousel"
+            class='input-base input--medium'
+          >
+          <option value='true'>Si</option>
+          <option value='false'>No</option>
+          </select>
         </div>
       </div>
 
@@ -108,6 +118,7 @@ export default {
         quantity: 0,
         position: 1,
         properties: '',
+        isInCarousel: false,
       },
       url: '/admin',
       title: '',
@@ -307,6 +318,9 @@ textarea
 .selector--input
   border: 1px solid rgb(118, 118, 118) !important
   background-color: white !important
+
+a.btn.btn--save.danger-btn
+    height: auto
 
 @media (max-width: 816px)
   .row--title
