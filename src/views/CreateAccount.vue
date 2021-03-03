@@ -61,7 +61,6 @@
 
         <div class="frow">
           <input-base
-            :hasError="!passwordMatch"
             :label="'Teléfono'"
             class="input--medium"
             type="text"
@@ -193,7 +192,6 @@ export default {
   mounted() {
     const title = this.$refs.title1;
     const welcome = this.$refs.title2;
-    console.log(this.$refs);
 
     const tl = new TimelineLite();
 
