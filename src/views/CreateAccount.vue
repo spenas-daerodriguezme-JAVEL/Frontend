@@ -143,23 +143,11 @@ import InputBase from '../components/InputBase.vue';
 import { STATES } from '../colombia';
 import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
+import { EventBus } from '../components/shared/event-bus';
 
 export default {
   data() {
-    return {
-      /* account: {
-        name: 'Daniel',
-        lastName: 'Rodiruge',
-        email: 'dlsxsp@gmail.com',
-        password: 'Daniel96',
-        passwordConfirmation: 'Daniel96',
-        state: 'Amazonas',
-        city: 'Leticia',
-        address: 'asdasda',
-        telephone: '12353445',
-        identificationNumber: '10435423',
-        identificationType: 'CC',
-      }, */
+    return {      
       account: {
         name: '',
         lastName: '',
@@ -238,23 +226,21 @@ export default {
         const data = _.omit(this.account, ['passwordConfirmation']);
 
         const res = await VAPI.post('/api/users', data);
-        console.log('=====********======= Data ======******=======');
-        console.log(res.data);
+        
         localStorage.setItem('id', res.data._id);
         localStorage.setItem('name', res.data.name);
-        localStorage.setItem('id', res.data.email);
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('jwt', res.data.token);
 
         if (res.status === 200) {
-          console.log('=====********======******=======');
-          console.log('Entered into if');
+          EventBus.$emit('changed-logged-status', 'logged-in');
           modal.triggerModal();
           this.userTaken = false;
           this.formErrors = '';
 
           setTimeout(() => {
             this.$router.push({
-              name: 'Landing',
+              name: 'Catalog',
             });
           }, 3000);
         }

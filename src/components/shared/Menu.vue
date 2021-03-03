@@ -210,7 +210,9 @@ export default {
       }
     } else {
       const index = this.menuData.findIndex((item) => item.showName === 'Ingresar');
-      this.menuData[index].showName = 'Cuenta';
+      if (index >= 0) {        
+        this.menuData[index].showName = 'Cuenta';
+      }
     }
   },
   methods: {
@@ -222,9 +224,14 @@ export default {
     },
 
     listenMenuLogged() {
-      EventBus.$on('changed-logged-status', (newStatus) => {
-        console.log(newStatus);
+      EventBus.$on('changed-logged-status', (newStatus) => {        
         this.changeMenu(newStatus);
+        if (newStatus === 'logged-in') {
+          const index = this.menuData.findIndex((item) => item.showName === 'Ingresar');
+          if (index >= 0) {        
+            this.menuData[index].showName = 'Cuenta';
+          }
+        }
       });
     },
 
