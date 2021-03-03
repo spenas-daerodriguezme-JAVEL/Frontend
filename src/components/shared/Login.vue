@@ -122,6 +122,9 @@ export default {
     },
     updateLinks() {
       const JWT = localStorage.getItem('jwt');
+      
+      if (!JWT) return ;
+
       const tokens = JWT.split('.');
       const JwtPayload = JSON.parse(atob(tokens[1]));
       if (JwtPayload.isAdmin === true) {

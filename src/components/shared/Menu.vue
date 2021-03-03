@@ -205,7 +205,9 @@ export default {
     const jwt = localStorage.getItem('jwt');
     if (!jwt) {
       const index = this.menuData.findIndex((item) => item.showName === 'Cuenta');
-      this.menuData[index].showName = 'Ingresar';
+      if (index >= 0) {        
+        this.menuData[index].showName = 'Ingresar';
+      }
     } else {
       const index = this.menuData.findIndex((item) => item.showName === 'Ingresar');
       this.menuData[index].showName = 'Cuenta';
