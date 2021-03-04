@@ -26,6 +26,10 @@
             El campo es requerido
           </div>
         </div>
+        <div class="field field--small">
+          <div class="tag">SKU</div>
+          <input v-model="product.SKU" type="text" />
+        </div>
       </div>
 
       <div class="row">
@@ -140,6 +144,16 @@
             El campo es requerido
           </div>
         </div>
+        <div class="field  field--small">
+          <div class="tag">¿Mostrar en carrusel?</div>
+          <select
+            v-model="product.isInCarousel"
+            class='input-base input--medium'
+          >
+          <option value='true'>Si</option>
+          <option value='false'>No</option>
+          </select>
+        </div>
       </div>
 
       <div class="btn btn--save" @click="executeActionProduct">
@@ -176,6 +190,7 @@ export default {
         quantity: 0,
         position: 1,
         properties: '',
+        isInCarousel: false,
       },
       url: '/admin',
       title: '',
@@ -418,6 +433,8 @@ textarea
 
 .error
   color: red
+a.btn.btn--save.danger-btn
+    height: auto
 
 @media (max-width: 816px)
   .row--title
