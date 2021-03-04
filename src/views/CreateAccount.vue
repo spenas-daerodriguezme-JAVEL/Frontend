@@ -126,9 +126,9 @@
       </div>
     </div>
 
-    <modal-info useSlot autoSize ref="modal">
+    <modal-info useSlot autoSize ref="modal" :duration="3000">
       <div class="modal__message">
-        <div class="title__menu">Registro exitoso</div>
+        <div class="title__menu">{{ modalMsg }}</div>
       </div>
     </modal-info>
   </div>
@@ -165,6 +165,7 @@ export default {
       stateOptions: [],
       idTypeOptions: [],
       isTermsAndConditionsAccepted: false,
+      modalMsg: '',
     };
   },
   computed: {
@@ -219,8 +220,8 @@ export default {
   },
   methods: {
     async register() {
+      const { modal } = this.$refs;
       try {
-        const { modal } = this.$refs;
         const data = _.omit(this.account, ['passwordConfirmation']);
 
         const res = await VAPI.post('/api/users', data);
@@ -232,6 +233,7 @@ export default {
 
         if (res.status === 200) {
           EventBus.$emit('changed-logged-status', 'logged-in');
+          this.modalMsg = "Registro exitoso";
           modal.triggerModal();
           this.userTaken = false;
           this.formErrors = '';
@@ -243,7 +245,20 @@ export default {
           }, 3000);
         }
       } catch (error) {
-        console.error(error);
+        if (error.response.status === 400) {
+          this.modalMsg = "Uno o más campos no son válidos";
+        } else if (error.response.status === 406) {
+          const { data } = error.response;
+          if (data.key === "email") {
+            this.modalMsg = "El correo suministrado ya se encuentra en uso";
+          } else {
+            this.modalMsg = "El documento suministrado ya se encuentra en uso";
+          }
+        } else {
+          this.modalMsg = "Hubo un problema. Intenta nuevamente o contactanos.";
+          console.error(error);
+        }
+        modal.triggerModal();
       }
     },
   },
