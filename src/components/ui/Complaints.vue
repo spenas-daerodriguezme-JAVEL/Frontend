@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>¿Cuál es el objeto de su petición, queja / reclamo o recurso? ¿Cuáles son los hechos en que fundamenta su petición, queja / reclamo o recurso? ¿Cuál es su sugerencia? ¿Cuál es su felicitación?</p>
-     <textarea style="width:1000px;height:300px" v-model="complaintText"> </textarea>
+     <textarea style="width:100%;height:300px" v-model="complaintText"> </textarea>
      <div style="display: inline-block;">
 
      <div class="text--counter">Contador de caracteres {{textLength}}/2000</div>

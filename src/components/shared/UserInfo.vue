@@ -5,6 +5,9 @@
       <a class="btn" @click="$router.go(-1)" style="max-width: 100px; margin: 2%; margin-bottom: 0px;">Volver</a>
     </div>
     <div class="frow">
+      Desde aquí podrá modificar la información asociada a su cuenta, tal como el correo al que desea que lo contactemos o sus datos de envío. Para que sus datos queden registrados seleccione el botón guardar una vez haya realizado los cambios deseados.
+    </div>
+    <div class="frow">
       <input-base :label="'Nombre'" class="input--medium" v-model="user.name"></input-base>
       <input-base :label="'Apellido'" class="input--medium" v-model="user.lastName"></input-base>
     </div>
@@ -75,7 +78,7 @@ export default {
   computed: {
     isView() {
       return this.$route.meta.actionType === 'Visualizar';
-    }
+    },
   },
   async beforeMount() {
     this.idTypeOptions = util.pairLabelValue(
@@ -97,7 +100,6 @@ export default {
   },
 
   methods: {
-    
 
     async updateUser() {
       const { modal } = this.$refs;
