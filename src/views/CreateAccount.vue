@@ -71,7 +71,7 @@
 
         <div class="frow">
           <custom-selector
-            label="Estado"
+            label="Departamento"
             class="input-base input--medium"
             v-model="account.state"
             :options="stateOptions"
@@ -91,9 +91,11 @@
           Las contraseñas no coinciden
         </div>
 
-        <div class="text--error text--right" style="margin-top: 10px;" v-if="userTaken">
+        <div class="text--error text--left" style="margin-top: 10px;" v-if="userTaken">
           <b>Existen errores en el formulario:</b>
-          {{ formErrors }}
+          <ul>
+            <li v-for="(error, index) in formErrors" :key="index">{{ error }}</li>
+          </ul>
         </div>
 
         <div class="frow">
@@ -129,9 +131,9 @@
       </div>
     </div>
 
-    <modal-info useSlot autoSize ref="modal">
+    <modal-info useSlot autoSize ref="modal" :duration="3000">
       <div class="modal__message">
-        <div class="title__menu">Registro exitoso</div>
+        <div class="title__menu">{{ modalMsg }}</div>
       </div>
     </modal-info>
   </div>
@@ -168,6 +170,7 @@ export default {
       stateOptions: [],
       idTypeOptions: [],
       isTermsAndConditionsAccepted: false,
+      modalMsg: '',
     };
   },
   computed: {
@@ -218,8 +221,19 @@ export default {
   },
   methods: {
     async register() {
+      const { modal } = this.$refs;
+
+      this.formErrors = this.validateInfo();
+      if (this.formErrors.length > 0) {
+        this.userTaken = true;
+        this.modalMsg = 'Existen errores en el formulario';
+        modal.triggerModal();
+        return;
+      }
+      if (!this.passwordMatch) {
+        return;
+      }
       try {
-        const { modal } = this.$refs;
         const data = _.omit(this.account, ['passwordConfirmation']);
 
         const res = await VAPI.post('/api/users', data);
@@ -231,6 +245,7 @@ export default {
 
         if (res.status === 200) {
           EventBus.$emit('changed-logged-status', 'logged-in');
+          this.modalMsg = 'Registro exitoso';
           modal.triggerModal();
           this.userTaken = false;
           this.formErrors = '';
@@ -242,8 +257,62 @@ export default {
           }, 3000);
         }
       } catch (error) {
-        console.error(error);
+        if (error.response.status === 400) {
+          this.modalMsg = 'Uno o más campos no son válidos';
+        } else if (error.response.status === 406) {
+          const { data } = error.response;
+          if (data.key === 'email') {
+            this.modalMsg = 'El correo suministrado ya se encuentra en uso';
+          } else {
+            this.modalMsg = 'El documento suministrado ya se encuentra en uso';
+          }
+        } else {
+          this.modalMsg = 'Hubo un problema. Intenta nuevamente o contactanos.';
+          console.error(error);
+        }
+        modal.triggerModal();
       }
+    },
+    validateInfo() {
+      const errors = [];
+      if (this.account.name.length < 2 || this.account.name.length > 50) {
+        errors.push('El nombre debe ser de mínimo 2 caracteres y máximo 50 caracteres');
+      }
+      if (this.account.lastName.length < 2 || this.account.lastName.length > 50) {
+        errors.push('El apellido debe ser de mínimo 2 caracteres y máximo 50 caracteres');
+      }
+      if (this.account.email.length < 5 || this.account.email.length > 255) {
+        errors.push('El correo debe ser de mínimo 5 caracteres y máximo 255 caracteres');
+      }
+      const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!regexEmail.test(String(this.account.email).toLocaleLowerCase())) {
+        errors.push('El correo ingresado no es válido');
+      }
+      if (this.account.password.length < 5 || this.account.password.length > 255) {
+        errors.push('La contraseña debe ser de mínimo 5 caracteres y máximo 255 caracteres');
+      }
+      if (this.account.telephone.length < 7) {
+        errors.push('El teléfono debe ser de mínimo 7 números');
+      }
+      if (!this.account.identificationType) {
+        errors.push('El tipo de documento es obligatorio');
+      }
+      if (this.account.identificationNumber.length < 7) {
+        errors.push('El número de documento debe ser de mínimo 7 números');
+      }
+      if (isNaN(this.account.identificationNumber)) {
+        errors.push('El número de documento solo puede contener números');
+      }
+      if (!this.account.state) {
+        errors.push('El estado es obligatorio');
+      }
+      if (!this.account.city) {
+        errors.push('La ciudad es obligatoria');
+      }
+      if (!this.account.address) {
+        errors.push('La dirrección es obligatoria');
+      }
+      return errors;
     },
   },
 };
