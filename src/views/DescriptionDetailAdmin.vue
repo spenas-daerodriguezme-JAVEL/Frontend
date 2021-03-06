@@ -1,10 +1,8 @@
 <template>
   <div class="product edit-product">
     <div class="row">
-      <a class="btn" @click="$router.go(-1)" style="max-width: 100px">Volver</a>
-      <a class="btn btn--save danger-btn" v-if="isEdit" :href="deleteUrl"
-        >Eliminar descripción</a
-      >
+      <a class="btn" @click="$router.go(-1)" style="max-width: 100px;">Volver</a>
+      <a class="btn btn--save danger-btn" v-if="isEdit" :href="deleteUrl">Eliminar descripción</a>
     </div>
     <div class="row row--title">
       <h1>
@@ -23,7 +21,7 @@
           <img src ref="preview_1" />
         </div>
         <input
-          style="display: none"
+          style="display: none;"
           @change="uploadFile(1)"
           ref="image_1"
           type="file"
@@ -41,7 +39,7 @@
           <img src ref="preview_2" />
         </div>
         <input
-          style="display: none"
+          style="display: none;"
           @change="uploadFile(2)"
           ref="image_2"
           type="file"
@@ -59,7 +57,7 @@
           <img src ref="preview_3" />
         </div>
         <input
-          style="display: none"
+          style="display: none;"
           @change="uploadFile(3)"
           ref="image_3"
           type="file"
@@ -79,7 +77,7 @@
           <img src ref="preview_4" />
         </div>
         <input
-          style="display: none"
+          style="display: none;"
           @change="uploadFile(4)"
           ref="image_4"
           type="file"
@@ -97,7 +95,7 @@
           <img src ref="preview_5" />
         </div>
         <input
-          style="display: none"
+          style="display: none;"
           @change="uploadFile(5)"
           ref="image_5"
           type="file"
@@ -134,22 +132,14 @@
       </div>
       <div class="field field--small">
         <div class="tag">Olor</div>
-        <input
-          v-model="description.smell"
-          type="text"
-          @input="$v.description.smell.$touch"
-        />
+        <input v-model="description.smell" type="text" @input="$v.description.smell.$touch" />
         <div class="error" v-if="!$v.description.smell.required">
           El campo es requerido
         </div>
       </div>
       <div class="field field--small">
         <div class="tag">Color</div>
-        <input
-          v-model="description.color"
-          type="text"
-          @input="$v.description.color.$touch"
-        />
+        <input v-model="description.color" type="text" @input="$v.description.color.$touch" />
         <div class="error" v-if="!$v.description.color.required">
           El campo es requerido
         </div>
@@ -159,11 +149,7 @@
     <div class="row">
       <div class="field field--small">
         <div class="tag">Gravedad específica</div>
-        <input
-          v-model="description.gravity"
-          type="text"
-          @input="$v.description.gravity.$touch"
-        />
+        <input v-model="description.gravity" type="text" @input="$v.description.gravity.$touch" />
         <div class="error" v-if="!$v.description.gravity.required">
           El campo es requerido
         </div>
@@ -207,11 +193,7 @@
       </div>
       <div class="field field--small">
         <div class="tag">Densidad</div>
-        <input
-          v-model="description.density"
-          type="text"
-          @input="$v.description.density.$touch"
-        />
+        <input v-model="description.density" type="text" @input="$v.description.density.$touch" />
         <div class="error" v-if="!$v.description.density.required">
           El campo es requerido
         </div>
@@ -339,16 +321,8 @@
     <div class="row">
       <div class="field">
         <div class="tag">Pasos</div>
-        <div
-          class="field--controls"
-          v-for="(step, index) in description.steps"
-          :key="index"
-        >
-          <input
-            @keydown.enter="addStep(index)"
-            v-model="description.steps[index]"
-            type="text"
-          />
+        <div class="field--controls" v-for="(step, index) in description.steps" :key="index">
+          <input @keydown.enter="addStep(index)" v-model="description.steps[index]" type="text" />
           <div class="field__control" @click="addStep(index)">
             <svg class="material-icon" viewBox="0 0 24 24">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
@@ -383,7 +357,7 @@
 
     <!-- The line below is so large to avoid break line in HTML render -->
     <div class="btn btn--save" @click="executeActionDescription">
-      {{ currentAction == "Crear" ? "Crear" : "Guardar" }}
+      {{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}
     </div>
     <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
@@ -548,15 +522,12 @@ export default {
       // eslint-disable-next-line no-underscore-dangle
       const userId = jsonJWT._id;
       this.deleteUrl = `/delete/description/${this.descriptionId}`;
-      const description = await this.$http.get(
-        `/api/description/${this.descriptionId}`,
-        {
-          headers: {
-            id: userId,
-            'x-auth-token': localStorage.getItem('jwt'),
-          },
+      const description = await this.$http.get(`/api/description/${this.descriptionId}`, {
+        headers: {
+          id: userId,
+          'x-auth-token': localStorage.getItem('jwt'),
         },
-      );
+      });
       const descriptionData = description.data;
       this.description = descriptionData;
       this.setInitialImages(descriptionData.images);
@@ -587,16 +558,12 @@ export default {
             },
           );
         } else if (this.currentAction === 'Crear') {
-          description = await this.$http.post(
-            '/api/description/',
-            this.description,
-            {
-              headers: {
-                id: userId,
-                'x-auth-token': localStorage.getItem('jwt'),
-              },
+          description = await this.$http.post('/api/description/', this.description, {
+            headers: {
+              id: userId,
+              'x-auth-token': localStorage.getItem('jwt'),
             },
-          );
+          });
           this.descriptionId = description._id;
         }
 

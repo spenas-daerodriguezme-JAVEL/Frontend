@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <div class="row">
-      <div class="w-30 fix__products center--responsive" style="padding: 30px" ref="column">
+      <div class="w-30 fix__products center--responsive" style="padding: 30px;" ref="column">
         <h1 ref="title1" class="title--responsive">Bienvenido</h1>
       </div>
 
@@ -9,11 +9,7 @@
         <h1 ref="title2">Crea tu cuenta</h1>
 
         <div class="frow">
-          <input-base
-            v-model="account.name"
-            label="Nombre" 
-            class="input--medium"
-          ></input-base>
+          <input-base v-model="account.name" label="Nombre" class="input--medium"></input-base>
           <input-base
             v-model="account.lastName"
             label="Apellido"
@@ -91,37 +87,44 @@
           ></custom-selector>
         </div>
 
-        <div class="text--error text--right" v-if="!passwordMatch">Las contraseñas no coinciden</div>
+        <div class="text--error text--right" v-if="!passwordMatch">
+          Las contraseñas no coinciden
+        </div>
 
-        <div class="text--error text--right" style="margin-top: 10px" v-if="userTaken">
+        <div class="text--error text--right" style="margin-top: 10px;" v-if="userTaken">
           <b>Existen errores en el formulario:</b>
           {{ formErrors }}
         </div>
 
         <div class="frow">
-          <div style="margin-left: 20px">
-            <input type="checkbox" name="termsAndConditions" v-model="isTermsAndConditionsAccepted">
-            <label for="termsAndConditions">Al marcar este campo aceptas
-              <router-link
-                :to="{ name: 'TermsConditions' }"
-                target="_blank"
-              >
+          <div style="margin-left: 20px;">
+            <input
+              type="checkbox"
+              name="termsAndConditions"
+              v-model="isTermsAndConditionsAccepted"
+            />
+            <label for="termsAndConditions"
+              >Al marcar este campo aceptas
+              <router-link :to="{ name: 'TermsConditions' }" target="_blank">
                 los terminos y condiciones
-              </router-link> y
-              <router-link
-                :to="{ name: 'TermsConditions' }"
-                target="_blank"
-              >
-                la politica de tratamiento de datos
-              </router-link>. 
+              </router-link>
+              y
+              <router-link :to="{ name: 'TermsConditions' }" target="_blank">
+                la politica de tratamiento de datos </router-link
+              >.
             </label>
           </div>
         </div>
 
         <div class="frow">
-          <div class="btn" @click="register" 
-            style="max-width: 100px; margin-left: 20px"
-            v-if="isTermsAndConditionsAccepted" >Regístrate</div>
+          <div
+            class="btn"
+            @click="register"
+            style="max-width: 100px; margin-left: 20px;"
+            v-if="isTermsAndConditionsAccepted"
+          >
+            Regístrate
+          </div>
         </div>
       </div>
     </div>
@@ -146,7 +149,7 @@ import { EventBus } from '../components/shared/event-bus';
 
 export default {
   data() {
-    return {      
+    return {
       account: {
         name: '',
         lastName: '',
@@ -182,12 +185,8 @@ export default {
     },
   },
   beforeMount() {
-    this.stateOptions = util.pairLabelValue(
-      STATES.map((state) => state.departamento)
-    );
-    this.idTypeOptions = util.pairLabelValue(
-      ID_TYPES.map((idType) => idType.type)
-    );
+    this.stateOptions = util.pairLabelValue(STATES.map((state) => state.departamento));
+    this.idTypeOptions = util.pairLabelValue(ID_TYPES.map((idType) => idType.type));
   },
   mounted() {
     const title = this.$refs.title1;
@@ -224,7 +223,7 @@ export default {
         const data = _.omit(this.account, ['passwordConfirmation']);
 
         const res = await VAPI.post('/api/users', data);
-        
+
         localStorage.setItem('id', res.data._id);
         localStorage.setItem('name', res.data.name);
         localStorage.setItem('email', res.data.email);
@@ -314,7 +313,6 @@ h1
   .w-30, .w-70
     height: auto
     width: 100%
-
 </style>
 
 <style lang="scss" scoped>
