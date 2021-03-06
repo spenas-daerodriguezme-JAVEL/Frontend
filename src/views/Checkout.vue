@@ -7,21 +7,33 @@
         <!-- <form ref="form" action="https://checkout.wompi.co/p/" method="GET"> -->
         <form ref="form" action="https://checkout.wompi.co/p/" method="GET">
           <!-- OBLIGATORIOS -->
-          <input type="hidden" name="public-key" value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B" />
+          <input
+            type="hidden"
+            name="public-key"
+            value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B"
+          />
           <input type="hidden" name="currency" value="COP" />
           <input type="hidden" name="amount-in-cents" :value="totalPriceInCents" />
           <input type="hidden" name="reference" :value="reference" />
           <!-- OPCIONALES -->
-          <input type="hidden" name="redirect-url" value="https://aguadejavel.com/transaction-state" />
+          <input
+            type="hidden"
+            name="redirect-url"
+            value="https://thechemicalsciencecompany.com/transaction-state"
+          />
         </form>
 
         <div class="frow">
-          <input-base :label="'Nombre'"
-            class="input--medium" :class="{ 'error': $v.name.$error }"
+          <input-base
+            :label="'Nombre'"
+            class="input--medium"
+            :class="{ error: $v.name.$error }"
             v-model.trim="$v.name.$model"
           ></input-base>
-          <input-base :label="'Apellido'"
-            class="input--medium" :class="{ 'error': $v.lastName.$error }"
+          <input-base
+            :label="'Apellido'"
+            class="input--medium"
+            :class="{ error: $v.lastName.$error }"
             v-model="$v.lastName.$model"
           ></input-base>
         </div>
@@ -30,27 +42,35 @@
           <custom-selector
             label="Tipo de Documento"
             class="input-base input--small"
-            :class="{ 'error': $v.idType.$error }"
+            :class="{ error: $v.idType.$error }"
             v-model="$v.idType.$model"
             :options="idTypeOptions"
           ></custom-selector>
-          <input-base :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
-            class="input--medium" :class="{ 'error': $v.idNumber.$error }"
+          <input-base
+            :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
+            class="input--medium"
+            :class="{ error: $v.idNumber.$error }"
             v-model="$v.idNumber.$model"
           ></input-base>
         </div>
 
         <div class="frow">
-          <input-base :label="'Correo electrónico'"
-            class="input--medium" :class="{ 'error': $v.email.$error }"
+          <input-base
+            :label="'Correo electrónico'"
+            class="input--medium"
+            :class="{ error: $v.email.$error }"
             v-model="$v.email.$model"
           ></input-base>
-          <input-base :label="'Teléfono'"
-            class="input--medium" :class="{ 'error': $v.phone.$error }"
+          <input-base
+            :label="'Teléfono'"
+            class="input--medium"
+            :class="{ error: $v.phone.$error }"
             v-model="$v.phone.$model"
           ></input-base>
-          <input-base :label="'Dirección'"
-            class="input--medium" :class="{ 'error': $v.address.$error }"
+          <input-base
+            :label="'Dirección'"
+            class="input--medium"
+            :class="{ error: $v.address.$error }"
             v-model="$v.address.$model"
           ></input-base>
         </div>
@@ -59,7 +79,7 @@
           <custom-selector
             label="Estado"
             class="input-base input--medium"
-            :class="{ 'error': $v.state.$error }"
+            :class="{ error: $v.state.$error }"
             v-model="$v.state.$model"
             :options="stateOptions"
           ></custom-selector>
@@ -67,7 +87,7 @@
           <custom-selector
             label="Ciudad"
             class="input-base input--medium"
-            :class="{ 'error': $v.city.$error }"
+            :class="{ error: $v.city.$error }"
             v-model="$v.city.$model"
             :options="cityOptions"
           ></custom-selector>
@@ -75,17 +95,14 @@
       </div>
 
       <div class="checkout__bill_info fix__products">
-        <h2 style="padding-left: 30px">Orden de compra</h2>
-        <cart
-          :details="true"
-          :createOrder="createOrder"
-        ></cart>
+        <h2 style="padding-left: 30px;">Orden de compra</h2>
+        <cart :details="true" :createOrder="createOrder"></cart>
       </div>
       <!-- <button @click="getUserIdFromJWT">Decodificar</button> -->
     </div>
     <modal-info useSlot autoSize ref="modal" duration="5000">
       <div class="modal__message">
-        <div class="title__menu">{{this.modalText}}</div>
+        <div class="title__menu">{{ this.modalText }}</div>
       </div>
     </modal-info>
   </div>
@@ -135,12 +152,8 @@ export default {
     },
   },
   beforeMount() {
-    this.idTypeOptions = util.pairLabelValue(
-      ID_TYPES.map((idType) => idType.type),
-    );
-    this.stateOptions = util.pairLabelValue(
-      STATES.map((state) => state.departamento),
-    );
+    this.idTypeOptions = util.pairLabelValue(ID_TYPES.map((idType) => idType.type));
+    this.stateOptions = util.pairLabelValue(STATES.map((state) => state.departamento));
 
     const userId = this.getUserIdFromJWT();
     if (userId) {
@@ -152,7 +165,8 @@ export default {
           this.idType = data.identificationType;
           this.idNumber = data.identificationNumber;
           this.phone = data.telephone;
-        }).catch((error) => {
+        })
+        .catch((error) => {
           console.error('---------- Something wrong while get user data -----------');
           console.error(error);
         });
@@ -186,7 +200,7 @@ export default {
         const { data } = await this.$http.get('/api/users/me', {
           headers: {
             id: userId,
-            'x-auth': localStorage.getItem('jwt'),
+            'x-auth-token': localStorage.getItem('jwt'),
           },
         });
         return data;
@@ -235,10 +249,10 @@ export default {
         if (error.response.status === 406) {
           const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
           this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
-          this.$refs.modal.triggerModal();  
-        } else if ( error.response.status === 409 ) {
-          this.modalText = `No podemos procesar tu compra hoy, contáctanos o inténtalo de nuevo mañana.`;
-          this.$refs.modal.triggerModal();  
+          this.$refs.modal.triggerModal();
+        } else if (error.response.status === 409) {
+          this.modalText = 'No podemos procesar tu compra hoy, contáctanos o inténtalo de nuevo mañana.';
+          this.$refs.modal.triggerModal();
         } else {
           this.modalText = 'Algo salió mal. Intenta nuevamente';
           this.$refs.modal.triggerModal();
@@ -350,5 +364,4 @@ h1
 
   .checkout__personal__data
     flex-grow: 1
-
 </style>
