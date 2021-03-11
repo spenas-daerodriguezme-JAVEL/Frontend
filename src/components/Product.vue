@@ -17,8 +17,12 @@
           v-show="activeImage == index && index != 0"
           :src="image ? image : ''"
         />
-        <div class="buy__item">
-          <div class="buy__item--inner" @click.stop="sendToCart">Comprar</div>
+        <div class="buy__item"
+          :class="{ 'buy__item--disable': product.quantity === 0 }"
+        >
+          <div class="buy__item--inner" @click.stop="sendToCart">
+            {{ product.quantity === 0 ? 'Agotado' : 'Comprar'}}  
+          </div>
         </div>
       </div>
       <div class="product__description">
@@ -107,6 +111,9 @@ export default {
       'addToCart',
     ]),
     sendToCart() {
+      if (this.product.quantity === 0) {
+        return ;
+      }
       const copy = util.deepCopy(this.data);
       copy.preview = util.getImageFromProduct(this.data.properties.images, 1);
       this.addToCart(copy);
@@ -273,6 +280,7 @@ export default {
     transition: .3s
     border: 1px solid white
 
+
 .buy__item--inner
     padding: 13px 18px
     position: relative
@@ -292,7 +300,20 @@ export default {
     &:hover
         &:after
             width: 100%
+
         color: black
+
+.buy__item--disable
+    background: gray
+
+    .buy__item--inner
+      cursor: not-allowed
+
+      &:after
+        background: gray
+
+      &:hover
+        color: white
 
 .selector--product
     font-size: 16px
