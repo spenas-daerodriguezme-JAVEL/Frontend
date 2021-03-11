@@ -309,6 +309,7 @@ export default {
   @include squared(35px);
   position: absolute;
   right: 35px;
+  cursor: pointer;
 }
 
 .menu__shopping-bag__count {
@@ -450,5 +451,23 @@ export default {
   .menu {
     padding-right: 10px;
   }
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 359px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+
+  .menu__shopping-bag--mobile {
+    right: 0.5em;
+    height: 25px;
+
+    .menu__shopping-bag__count{
+      right: 7px;
+      top: 5px;
+    }
+  }
+
 }
 </style>
