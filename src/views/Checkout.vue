@@ -22,7 +22,7 @@
             value="https://thechemicalsciencecompany.com/transaction-state"
           />
         </form>
-
+        <LoadingAnimation v-show="isCreatingOrder" />
         <div class="frow">
           <input-base
             :label="'Nombre'"
@@ -118,6 +118,7 @@ import InputBase from '../components/InputBase.vue';
 import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
 import { STATES } from '../colombia';
+import Loading from './Loading.vue';
 
 const MAX_VALUE_PER_TRANSACTION = 10000000;
 
@@ -138,6 +139,7 @@ export default {
       stateOptions: [],
       reference: '',
       totalPriceInCents: 0,
+      isCreatingOrder: false,
     };
   },
   computed: {
@@ -184,6 +186,7 @@ export default {
   components: {
     InputBase,
     Cart,
+    LoadingAnimation: Loading,
   },
   methods: {
     getUserIdFromJWT() {
@@ -229,7 +232,7 @@ export default {
         this.$refs.modal.triggerModal();
         return false;
       }
-
+      this.isCreatingOrder = true;
       try {
         const { data } = await this.$http.post('/api/order/createOrder', order);
         const { createdOrder } = data;
@@ -258,7 +261,7 @@ export default {
           this.$refs.modal.triggerModal();
         }
       }
-
+      this.isCreatingOrder = false;
       return undefined;
     },
     getProductsAndQuantities() {

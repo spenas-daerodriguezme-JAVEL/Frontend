@@ -8,6 +8,8 @@
       <div class="w-70 pad" ref="column2">
         <h1 ref="title2">Crea tu cuenta</h1>
 
+        <LoadingAnimation v-show="isCreatingAccount"/>
+
         <div class="frow">
           <input-base v-model="account.name" label="Nombre" class="input--medium"></input-base>
           <input-base
@@ -148,6 +150,7 @@ import { STATES } from '../colombia';
 import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
 import { EventBus } from '../components/shared/event-bus';
+import Loading from './Loading.vue';
 
 export default {
   data() {
@@ -171,6 +174,7 @@ export default {
       idTypeOptions: [],
       isTermsAndConditionsAccepted: false,
       modalMsg: '',
+      isCreatingAccount: false,
     };
   },
   computed: {
@@ -218,6 +222,7 @@ export default {
   components: {
     InputBase,
     Cart,
+    LoadingAnimation: Loading,
   },
   methods: {
     async register() {
@@ -233,6 +238,7 @@ export default {
       if (!this.passwordMatch) {
         return;
       }
+      this.isCreatingAccount = true;
       try {
         const data = _.omit(this.account, ['passwordConfirmation']);
 
@@ -272,6 +278,7 @@ export default {
         }
         modal.triggerModal();
       }
+      this.isCreatingAccount = false;
     },
     validateInfo() {
       const errors = [];
