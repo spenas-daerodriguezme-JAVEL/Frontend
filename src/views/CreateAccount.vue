@@ -126,8 +126,7 @@
             @click="register"
             style="max-width: 100px; margin-left: 20px;"
             v-if="isTermsAndConditionsAccepted"
-          >
-            Regístrate
+          >Regístrate
           </div>
         </div>
       </div>
@@ -144,8 +143,6 @@
 <script>
 import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
 import VAPI from '../http_common';
-import Cart from '../components/shared/Cart.vue';
-import InputBase from '../components/InputBase.vue';
 import { STATES } from '../colombia';
 import util from '../util/index';
 import { ID_TYPES } from '../idTypes';
@@ -220,8 +217,6 @@ export default {
     });
   },
   components: {
-    InputBase,
-    Cart,
     LoadingAnimation: Loading,
   },
   methods: {
