@@ -105,6 +105,7 @@
         <div class="title__menu">{{ this.modalText }}</div>
       </div>
     </modal-info>
+    <Loading v-show="isLoading" />
   </div>
 </template>
 
@@ -113,6 +114,7 @@ import { validationMixin } from 'vuelidate';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
 
+import Loading from '@views/Loading.vue';
 import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
 import util from '../util/index';
@@ -138,6 +140,7 @@ export default {
       stateOptions: [],
       reference: '',
       totalPriceInCents: 0,
+      isLoading: false,
     };
   },
   computed: {
@@ -184,6 +187,7 @@ export default {
   components: {
     InputBase,
     Cart,
+    Loading,
   },
   methods: {
     getUserIdFromJWT() {
@@ -210,6 +214,7 @@ export default {
     },
     // This method creates the order, waits the reference and save it in state
     async createOrder(termsAndConditions) {
+      this.isLoading = true;
       if (!termsAndConditions) {
         this.modalText = 'No se han aceptado los terminos y condiciones';
         this.$refs.modal.triggerModal();
@@ -218,6 +223,7 @@ export default {
       const order = this.getOrderObject();
 
       if (order.totalPrice > MAX_VALUE_PER_TRANSACTION) {
+        this.isLoading = false;
         const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
         this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
         this.$refs.modal.triggerModal();
@@ -225,6 +231,7 @@ export default {
       }
       this.$v.$touch();
       if (this.$v.$anyError) {
+        this.isLoading = false;
         this.modalText = 'Uno o más campos en la factura no son válidos';
         this.$refs.modal.triggerModal();
         return false;
@@ -239,6 +246,7 @@ export default {
         this.$refs.modal.triggerModal();
 
         setTimeout(() => {
+          this.isLoading = false;
           this.$refs.form.submit();
           this.$store.commit('resetCart');
           this.$router.push({
@@ -247,13 +255,16 @@ export default {
         }, 1500);
       } catch (error) {
         if (error.response.status === 406) {
+          this.isLoading = false;
           const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
           this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
           this.$refs.modal.triggerModal();
         } else if (error.response.status === 409) {
+          this.isLoading = false;
           this.modalText = 'No podemos procesar tu compra hoy, contáctanos o inténtalo de nuevo mañana.';
           this.$refs.modal.triggerModal();
         } else {
+          this.isLoading = false;
           this.modalText = 'Algo salió mal. Intenta nuevamente';
           this.$refs.modal.triggerModal();
         }

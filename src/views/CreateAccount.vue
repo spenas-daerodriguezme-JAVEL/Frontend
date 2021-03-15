@@ -136,11 +136,13 @@
         <div class="title__menu">{{ modalMsg }}</div>
       </div>
     </modal-info>
+    <Loading v-show="isLoading" />
   </div>
 </template>
 
 <script>
 import { TweenMax, Power2, TimelineLite } from 'gsap/TweenMax';
+import Loading from '@views/Loading.vue';
 import VAPI from '../http_common';
 import Cart from '../components/shared/Cart.vue';
 import InputBase from '../components/InputBase.vue';
@@ -171,6 +173,7 @@ export default {
       idTypeOptions: [],
       isTermsAndConditionsAccepted: false,
       modalMsg: '',
+      isLoading: false,
     };
   },
   computed: {
@@ -218,13 +221,16 @@ export default {
   components: {
     InputBase,
     Cart,
+    Loading,
   },
   methods: {
     async register() {
+      this.isLoading = true;
       const { modal } = this.$refs;
 
       this.formErrors = this.validateInfo();
       if (this.formErrors.length > 0) {
+        this.isLoading = false;
         this.userTaken = true;
         this.modalMsg = 'Existen errores en el formulario';
         modal.triggerModal();
@@ -251,12 +257,14 @@ export default {
           this.formErrors = '';
 
           setTimeout(() => {
+            this.isLoading = false;
             this.$router.push({
               name: 'Catalog',
             });
-          }, 3000);
+          }, 1500);
         }
       } catch (error) {
+        this.isLoading = false;
         if (error.response.status === 400) {
           this.modalMsg = 'Uno o más campos no son válidos';
         } else if (error.response.status === 406) {
