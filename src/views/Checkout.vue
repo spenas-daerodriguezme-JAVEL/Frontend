@@ -10,7 +10,7 @@
           <input
             type="hidden"
             name="public-key"
-            value="pub_test_U9aQp24LvCo0otYqsyy66sErjZN7Gd7B"
+            value="pub_test_voqe1Abp9bkU25uQw317JRB38JsZWZM6"
           />
           <input type="hidden" name="currency" value="COP" />
           <input type="hidden" name="amount-in-cents" :value="totalPriceInCents" />

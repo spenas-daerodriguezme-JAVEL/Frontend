@@ -92,9 +92,9 @@ function parseJwt(token) {
  */
 function getImageFromProduct(productImages, imgPosition) {
   if (productImages.length < imgPosition) {
-    return require('../assets/productos/QUITA MANCHAS.jpg');
+    return '../assets/productos/QUITA MANCHAS.jpg';
   }
-  
+
   return productImages[imgPosition];
 }
 

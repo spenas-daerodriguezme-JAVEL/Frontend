@@ -1,7 +1,5 @@
 <template>
-  <div class="product" :class="{'product--large': isDouble}"
-    @click="showDetail(data._id)"
-  >
+  <div class="product" :class="{ 'product--large': isDouble }" @click="showDetail(data._id)">
     <div v-if="isDouble" class="img-aux">
       <!-- <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt=""> -->
       <img :src="product.images[1]" />
@@ -17,11 +15,9 @@
           v-show="activeImage == index && index != 0"
           :src="image ? image : ''"
         />
-        <div class="buy__item"
-          :class="{ 'buy__item--disable': product.quantity === 0 }"
-        >
+        <div class="buy__item" :class="{ 'buy__item--disable': product.quantity === 0 }">
           <div class="buy__item--inner" @click.stop="sendToCart">
-            {{ product.quantity === 0 ? 'Agotado' : 'Comprar'}}  
+            {{ product.quantity === 0 ? 'Agotado' : 'Comprar' }}
           </div>
         </div>
       </div>
@@ -29,14 +25,12 @@
         <div class="product__heading">
           <div class="product__title">
             <div>
-            {{ product.name }}
+              {{ product.name }}
             </div>
           </div>
           <div class="product__price">{{ product.price | toMoney }}</div>
         </div>
-         <div>
-              <b>Capacidad:</b> {{ product.capacity }}
-        </div>
+        <div><b>Capacidad:</b> {{ product.capacity }}</div>
         {{ product.properties.description | trimText(100) }}
       </div>
     </div>
@@ -107,12 +101,10 @@ export default {
     // );
   },
   methods: {
-    ...mapMutations([
-      'addToCart',
-    ]),
+    ...mapMutations(['addToCart']),
     sendToCart() {
       if (this.product.quantity === 0) {
-        return ;
+        return;
       }
       const copy = util.deepCopy(this.data);
       copy.preview = util.getImageFromProduct(this.data.properties.images, 1);
@@ -120,10 +112,12 @@ export default {
     },
     getBlock(limits, mouse) {
       for (let i = 0; i < limits.length; i++) {
-        if (limits[i].top < mouse.clientY + window.scrollY
-                    && limits[i].bottom > mouse.clientY + window.scrollY
-                    && limits[i].left < mouse.clientX
-                    && limits[i].right > mouse.clientX) {
+        if (
+          limits[i].top < mouse.clientY + window.scrollY
+          && limits[i].bottom > mouse.clientY + window.scrollY
+          && limits[i].left < mouse.clientX
+          && limits[i].right > mouse.clientX
+        ) {
           return i + 1;
         }
       }
@@ -131,14 +125,20 @@ export default {
       return -1;
     },
     setInitialProperties() {
-      this.product = this.data;      
-      this.product.images = [
-        util.getImageFromProduct(this.product.properties.images, 0),
-        util.getImageFromProduct(this.product.properties.images, 1)
-      ]
+      this.product = this.data;
       if (this.product.properties === null) {
         this.product.properties = {};
         this.product.properties.description = '';
+        this.product.images = [
+          '../../static/test_images/ld1.jpg',
+          '../../static/test_images/ld2.jpg',
+          '../../static/test_images/ld3.jpg',
+        ];
+      } else {
+        this.product.images = [
+          util.getImageFromProduct(this.product.properties.images, 0),
+          util.getImageFromProduct(this.product.properties.images, 1),
+        ];
       }
     },
 
@@ -280,7 +280,6 @@ export default {
     transition: .3s
     border: 1px solid white
 
-
 .buy__item--inner
     padding: 13px 18px
     position: relative
@@ -346,7 +345,7 @@ export default {
 
     > *
       width: 100%
-    
+
     .img-aux
       min-width: 100%
 </style>
