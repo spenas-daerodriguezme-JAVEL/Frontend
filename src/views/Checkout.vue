@@ -100,7 +100,7 @@
       </div>
       <!-- <button @click="getUserIdFromJWT">Decodificar</button> -->
     </div>
-    <modal-info useSlot autoSize ref="modal" duration="5000">
+    <modal-info useSlot autoSize ref="modal" :duration="5000">
       <div class="modal__message">
         <div class="title__menu">{{ this.modalText }}</div>
       </div>

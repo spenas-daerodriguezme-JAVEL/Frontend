@@ -121,13 +121,11 @@
         </div>
 
         <div class="frow">
-          <div
-            class="btn"
+          <div class="btn"
             @click="register"
             style="max-width: 100px; margin-left: 20px;"
             v-if="isTermsAndConditionsAccepted"
-          >Regístrate
-          </div>
+          > Regístrate </div>
         </div>
       </div>
     </div>
