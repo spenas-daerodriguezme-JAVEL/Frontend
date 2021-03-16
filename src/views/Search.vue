@@ -1,19 +1,11 @@
 <template>
   <div class="search">
     <div class="search__wrapper">
-      <div
-        @click="triggerSearch"
-        class="search__trigger">Buscar</div>
+      <div @click="triggerSearch" class="search__trigger">Buscar</div>
       <transition name="trfade">
-        <div
-          v-show="showPlaceholder"
-          @click="removePlaceholder"
-          class="search__placeholder">
+        <div v-show="showPlaceholder" @click="removePlaceholder" class="search__placeholder">
           <transition-group name="trfade" tag="div" class="search__placeholder-letter">
-            <span
-              v-for="(letter, idx) in message"
-              :key="letter + idx"
-            >{{ letter }}</span>
+            <span v-for="(letter, idx) in message" :key="letter + idx">{{ letter }}</span>
           </transition-group>
         </div>
       </transition>
@@ -23,7 +15,7 @@
         type="text"
         v-model="search"
         @keypress.enter="triggerSearch"
-      >
+      />
     </div>
   </div>
 </template>
@@ -55,14 +47,13 @@ export default {
       }, effectTime * caretMultiplier * 2);
     };
 
-    message.split('')
-      .forEach((letter, idx) => {
-        const timer = setTimeout(() => {
-          this.message.push(letter);
-        }, effectTime * idx);
+    message.split('').forEach((letter, idx) => {
+      const timer = setTimeout(() => {
+        this.message.push(letter);
+      }, effectTime * idx);
 
-        this.typerTimers.push(timer);
-      });
+      this.typerTimers.push(timer);
+    });
 
     this.typerTimers.push(
       setTimeout(() => {
@@ -86,7 +77,7 @@ export default {
         this.$router.push({
           name: 'Catalog',
           query: {
-            searchTerm: UTIL.removeAccents(this.search),
+            searchTerm: this.search,
           },
         });
       }
@@ -96,7 +87,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .search {
   @include flex();
   height: calc(100vh - #{$menu-height});
@@ -112,7 +102,7 @@ export default {
   width: 100%;
   height: 50px;
   border: 0;
-  border-bottom: 2px solid rgba($color-black-soft, .1);
+  border-bottom: 2px solid rgba($color-black-soft, 0.1);
   font-size: 29px;
   padding: 0 10px;
   font-family: 'Avenir';
@@ -152,12 +142,11 @@ export default {
 
 @media (max-width: 800px) {
   .search__input {
-  font-size: 15px;
+    font-size: 15px;
   }
   .search__trigger {
-  right: 0px;
-  padding: 5px 15px;
+    right: 0px;
+    padding: 5px 15px;
+  }
 }
-}
-
 </style>

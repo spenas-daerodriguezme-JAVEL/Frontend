@@ -2,12 +2,8 @@
   <div id="app">
     <div class="product edit-product">
       <div class="row">
-        <a class="btn" @click="$router.go(-1)" style="max-width: 100px"
-          >Volver</a
-        >
-        <a class="btn btn--save danger-btn" v-if="isEdit" :href="deleteUrl"
-          >Eliminar producto</a
-        >
+        <a class="btn" @click="$router.go(-1)" style="max-width: 100px;">Volver</a>
+        <a class="btn btn--save danger-btn" v-if="isEdit" :href="deleteUrl">Eliminar producto</a>
       </div>
       <div class="row">
         <h1>
@@ -17,11 +13,7 @@
       <div class="row">
         <div class="field field--small">
           <div class="tag">Nombre del producto</div>
-          <input
-            v-model="product.name"
-            type="text"
-            @input="$v.product.name.$touch"
-          />
+          <input v-model="product.name" type="text" @input="$v.product.name.$touch" />
           <div class="error" v-if="!$v.product.name.required">
             El campo es requerido
           </div>
@@ -39,6 +31,7 @@
           <Autocomplete
             :suggestions="businessLine"
             @selectedValue="updateValue"
+            :currentSelected="product.businessLine"
             @input="$v.product.businessLine.$touch"
           ></Autocomplete>
           <div class="error" v-if="!$v.product.businessLine.required">
@@ -48,14 +41,10 @@
         <div class="field field--small">
           <div class="tag">Presentación disponible</div>
           <div class="field--controls">
-            <input
-              v-model="product.capacity"
-              type="text"
-              @input="$v.product.capacity.$touch"
-            />
-          <div class="error" v-if="!$v.product.capacity.required">
-            El campo es requerido
-          </div>
+            <input v-model="product.capacity" type="text" @input="$v.product.capacity.$touch" />
+            <div class="error" v-if="!$v.product.capacity.required">
+              El campo es requerido
+            </div>
           </div>
         </div>
         <div class="field field--small">
@@ -74,33 +63,21 @@
       <div class="row">
         <div class="field field--small">
           <div class="tag">Id Descripcion</div>
-          <input
-            v-model="product.properties"
-            type="text"
-            @input="$v.product.properties.$touch"
-          />
+          <input v-model="product.properties" type="text" @input="$v.product.properties.$touch" />
           <div class="error" v-if="!$v.product.properties.required">
             El campo es requerido
           </div>
         </div>
         <div class="field field--small">
           <div class="tag">Precio</div>
-          <input
-            v-model="product.price"
-            type="text"
-            @input="$v.product.price.$touch"
-          />
+          <input v-model="product.price" type="text" @input="$v.product.price.$touch" />
           <div class="error" v-if="!$v.product.price.required">
             El campo es requerido
           </div>
         </div>
         <div class="field field--small">
           <div class="tag">SKU</div>
-          <input
-            v-model="product.SKU"
-            type="text"
-            @input="$v.product.SKU.$touch"
-          />
+          <input v-model="product.SKU" type="text" @input="$v.product.SKU.$touch" />
           <div class="error" v-if="!$v.product.SKU.required">
             El campo es requerido
           </div>
@@ -124,40 +101,29 @@
         </div>
         <div class="field field--small">
           <div class="tag">Cantidad</div>
-          <input
-            v-model="product.quantity"
-            @input="$v.product.quantity.$touch"
-            type="text"
-          />
+          <input v-model="product.quantity" @input="$v.product.quantity.$touch" type="text" />
           <div class="error" v-if="!$v.product.quantity.required">
             El campo es requerido
           </div>
         </div>
         <div class="field field--small">
           <div class="tag">Posición de catálogo</div>
-          <input
-            v-model="product.position"
-            type="text"
-            @input="$v.product.position.$touch"
-          />
+          <input v-model="product.position" type="text" @input="$v.product.position.$touch" />
           <div class="error" v-if="!$v.product.position.required">
             El campo es requerido
           </div>
         </div>
-        <div class="field  field--small">
+        <div class="field field--small">
           <div class="tag">¿Mostrar en carrusel?</div>
-          <select
-            v-model="product.isInCarousel"
-            class='input-base input--medium'
-          >
-          <option value='true'>Si</option>
-          <option value='false'>No</option>
+          <select v-model="product.isInCarousel" class="input-base input--medium">
+            <option value="true">Si</option>
+            <option value="false">No</option>
           </select>
         </div>
       </div>
 
       <div class="btn btn--save" @click="executeActionProduct">
-        {{ currentAction == "Crear" ? "Crear" : "Guardar" }}
+        {{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}
       </div>
     </div>
     <modal-info useSlot autoSize ref="modal">
@@ -276,16 +242,12 @@ export default {
         if (this.currentAction === 'Editar') {
           const parameter = this.$route.params.id;
           console.log(this.product);
-          updateProduct = await this.$http.put(
-            `/api/product/${parameter}`,
-            this.product,
-            {
-              headers: {
-                id: userId,
-                'x-auth-token': localStorage.getItem('jwt'),
-              },
+          updateProduct = await this.$http.put(`/api/product/${parameter}`, this.product, {
+            headers: {
+              id: userId,
+              'x-auth-token': localStorage.getItem('jwt'),
             },
-          );
+          });
         } else if (this.currentAction === 'Crear') {
           updateProduct = await this.$http.post('/api/product/', this.product, {
             headers: {
