@@ -91,8 +91,8 @@ function parseJwt(token) {
  * @param {*} imgPosition Position of the image in array of images
  */
 function getImageFromProduct(productImages, imgPosition) {
-  if (productImages.length < imgPosition) {
-    return '../assets/productos/QUITA MANCHAS.jpg';
+  if (productImages.length <= imgPosition) {
+    return require('../assets/productos/SELLADOR.jpg');
   }
 
   return productImages[imgPosition];
