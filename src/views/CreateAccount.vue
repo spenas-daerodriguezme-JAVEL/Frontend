@@ -124,7 +124,7 @@
           <div class="btn"
             @click="register"
             style="max-width: 100px; margin-left: 20px;"
-            v-if="isTermsAndConditionsAccepted"
+            :class="{ 'btn--disable': !isTermsAndConditionsAccepted }"
           > Regístrate </div>
         </div>
       </div>
@@ -135,7 +135,7 @@
         <div class="title__menu">{{ modalMsg }}</div>
       </div>
     </modal-info>
-    <Loading v-show="isLoading" />
+    
   </div>
 </template>
 
@@ -220,12 +220,15 @@ export default {
   },
   methods: {
     async register() {
-      this.isLoading = true;
+      if (!this.isTermsAndConditionsAccepted) {
+        return ;
+      }
+      this.isCreatingAccount = true;
       const { modal } = this.$refs;
 
       this.formErrors = this.validateInfo();
       if (this.formErrors.length > 0) {
-        this.isLoading = false;
+        this.isCreatingAccount = false;
         this.userTaken = true;
         this.modalMsg = 'Existen errores en el formulario';
         modal.triggerModal();
@@ -234,7 +237,6 @@ export default {
       if (!this.passwordMatch) {
         return;
       }
-      this.isCreatingAccount = true;
       try {
         const data = _.omit(this.account, ['passwordConfirmation']);
 
@@ -253,14 +255,14 @@ export default {
           this.formErrors = '';
 
           setTimeout(() => {
-            this.isLoading = false;
+            this.isCreatingAccount = false;
             this.$router.push({
               name: 'Catalog',
             });
           }, 1500);
         }
       } catch (error) {
-        this.isLoading = false;
+        this.isCreatingAccount = false;
         if (error.response.status === 400) {
           this.modalMsg = 'Uno o más campos no son válidos';
         } else if (error.response.status === 406) {
@@ -276,7 +278,6 @@ export default {
         }
         modal.triggerModal();
       }
-      this.isCreatingAccount = false;
     },
     validateInfo() {
       const errors = [];
@@ -375,6 +376,16 @@ h1
 .input--small
   margin: 2%
   flex: 1 0 160px
+
+.btn--disable
+    background: gray !important
+    cursor: not-allowed !important
+    
+    &:after
+      background: gray !important
+
+    &:hover
+      color: white !important
 
 @media (max-width: 820px)
   .center--responsive
