@@ -218,6 +218,7 @@ export default {
         ));
       }
 
+      this.products = [];
       for (let index = 0; index < data.products.length; index++) {
         this.$set(this.products, index, data.products[index]);
       }
