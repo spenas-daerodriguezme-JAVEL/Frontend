@@ -134,6 +134,12 @@ export default {
           '../../static/test_images/ld2.jpg',
           '../../static/test_images/ld3.jpg',
         ];
+      } else if (this.product.properties.images.length <= 0) {
+        this.product.images = [
+          '../../static/test_images/ld1.jpg',
+          '../../static/test_images/ld2.jpg',
+          '../../static/test_images/ld3.jpg',
+        ];
       } else {
         this.product.images = [
           util.getImageFromProduct(this.product.properties.images, 0),
