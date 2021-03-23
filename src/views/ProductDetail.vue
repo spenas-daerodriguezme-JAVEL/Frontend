@@ -18,13 +18,16 @@
             class="image__holder"
           /> -->
 
-          <div class="btn-buy">
-            <div class="btn-buy__item btn-buy--left">
+          <div class="btn-buy" :class="{ 'btn-buy--disable': product.quantity === 0 }">
+            <div class="btn-buy__item btn-buy--left"
+              :class="{ 'buy__item--disable': product.quantity === 0 }"
+            >
               {{ product.price | toMoney }}
             </div>
             <div @click="sendToCart"
               class="btn-buy__item btn-buy--right"
-            > Comprar
+              :class="{ 'buy__item--disable': product.quantity === 0 }"
+            > {{ product.quantity === 0 ? 'Agotado' : 'Comprar' }}
             </div>
           </div>
         </div>
@@ -49,8 +52,9 @@
         </div>
       </div>
 
-      <div class="btn-sticky" @click="sendToCart">
-        Comprar
+      <div class="btn-sticky" @click="sendToCart"
+        :class="{ 'buy__item--disable': product.quantity === 0 }"
+      > {{ product.quantity === 0 ? 'Agotado' : 'Comprar' }}
       </div>
 
       <div class="gallery">
@@ -175,6 +179,9 @@ export default {
   methods: {
     sendToCart() {
       const copy = util.deepCopy(this.product);
+      if (this.product.quantity === 0) {
+        return ;
+      }
       copy.preview = '../../static/test_images/ld1.jpg';
       this.$store.commit('addToCart', copy);
     },
@@ -383,6 +390,21 @@ img.image__holder
     color: black
     border: 1px solid black
     background-position: left
+
+.buy__item--disable
+    background: gray
+    cursor: not-allowed
+    background-size: 100%
+    color: white !important
+    border: 0px solid black
+
+    &:after
+      background: gray
+
+    &:hover
+      color: white
+      border: 0px solid black
+
 
 // Loader
 
