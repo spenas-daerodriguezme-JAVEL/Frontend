@@ -105,7 +105,6 @@
         <div class="title__menu">{{ this.modalText }}</div>
       </div>
     </modal-info>
-    <Loading v-show="isLoading" />
   </div>
 </template>
 
@@ -177,7 +176,6 @@ export default {
   },
   mounted() {
     const { title } = this.$refs;
-    console.log(this.$refs);
 
     TweenMax.from(title, 1.5, {
       x: 100,

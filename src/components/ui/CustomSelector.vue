@@ -8,9 +8,10 @@
       @click="close"
       class="wrapper"></div>
 
-    <div class="label">{{ label }}</div>
+    <div class="label" v-if="label">{{ label }}</div>
     <div
-      class="input">{{ showValue }}</div>
+      class="input"
+      :class="{ 'input--without_label': !label }">{{ showValue }}</div>
     <div class="control"><i class="fa fa-caret-down"></i></div>
 
     <!-- Dropdown -->
@@ -130,7 +131,7 @@ export default {
 .selector {
   border: 1px solid rgb(214, 222, 235);
   min-width: 180px;
-  height: 60px;
+  height: auto;
   position: relative;
   box-sizing: border-box;
   transition: .2s;
@@ -141,13 +142,16 @@ export default {
 
   .input {
     box-sizing: border-box;
-    padding: 25px 30px 0;
+    padding: 30px 25px 0;
     width: 100%;
     height: 100%;
     border: 0;
     cursor: pointer;
     font-style: oblique;
     font-size: 16px;
+  }
+  .input--without_label {
+    padding: 15px 20px 10px;
   }
   .error {
     border: 1px solid red;
