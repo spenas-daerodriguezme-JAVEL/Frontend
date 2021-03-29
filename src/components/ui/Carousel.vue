@@ -16,15 +16,14 @@
                         'carousel__description--hcenter': image.position.hcenter
                     }"
                     :style="{ 'top': image.position.top, 'left': image.position.left, 'right': image.position.right }">
-                    <div class="text--bold text--fs38">{{ image.title }}</div>
+                    <div class="text--bold text--fs44">{{ image.title }}</div>
                     <br/>
                     <div
                         style="margin-bottom: 10px;"
                         class="text--fs25">{{ image.subtitle }}</div>
                     <router-link
                       :to="{name: 'Catalog', params: { busLine: image.busLine }}"
-                    >
-                      Ver en el catálogo
+                    >Ver en el catálogo
                     </router-link>
                     <!-- <a :href="catalogPath">Ver en el catálogo</a> -->
                 </div>
@@ -139,14 +138,17 @@ export default {
 
 .carousel__description {
     position: absolute;
-    font-size: 18px;
+    font-size: 20px;
     text-align: center;
     line-height: 23px;
     white-space: pre-line;
+    padding: 2em;
+    background-color: rgba(255,255,255,0.25);
+    border-radius: 10px;
 
     a {
         text-decoration: none;
-        padding-top: 50px;
+        padding-top: 30px;
         color: inherit;
 
         &:hover {

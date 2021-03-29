@@ -3,7 +3,7 @@
 
     <div class="rigid-container">
       <div class="box60 image-holder rigid-container__img">
-        <img src="../assets/placeholders/philosophy.jpg" alt="">
+        <img src="https://storage.googleapis.com/thechemcie/Declaracion_de_mision_imagen_1.webp" alt="misión 1">
       </div>
       <div class="box40 frcenter-h motto-main">
         <div class="title-res">
@@ -56,8 +56,8 @@
       </div>
     </div>
 
-    <div class="image-holder" style="height: 80vh; margin: 50px 0">
-      <img src="../assets/productos/DIFUSOR.jpg" alt="">
+    <div class="image-holder image__2">
+      <img src="https://storage.googleapis.com/thechemcie/Declaracion_de_mision_imagen_2.webp" alt="misión 2">
     </div>
 
     <div class="fluid-container">
@@ -85,8 +85,10 @@
         Respondemos íntegramente con todas nuestras responsabilidades para que aquellos que se relacionen con nosotros crezcan y perduren
       </div>
     </div>
-
-    <div class="fluid-container images-container">
+    <div class="image-holder" style="height: 80vh; margin: 50px 0">
+      <img src="https://storage.googleapis.com/thechemcie/Delaracion_de_mision_imagen_3.webp" alt="misión 3">
+    </div>
+    <!-- <div class="fluid-container images-container">
       <div class="column-image image-holder">
         <img src="../assets/productos/fwdneuvosavancesyfotos/CLORO.jpg" alt="">
       </div>
@@ -96,7 +98,7 @@
       <div class="column-image image-holder">
         <img src="../assets/productos/fwdneuvosavancesyfotos/DESINFECTANTE.jpg" alt="">
       </div>
-    </div>
+    </div> -->
     <div v-if="products && products.length > 0">
       <div class="title">
         PRODUCTOS.
@@ -304,6 +306,10 @@ export default {
     background: gray
     transform: scale(1);
 
+.image__2
+  height: 80vh
+  margin: 50px 0
+
 @media (max-width: 800px)
   .box40, .box60
     width: auto
@@ -332,6 +338,9 @@ export default {
 
     .rigid-container__img
       height: 50vh
+
+  .image__2
+    height: 60vh
 
   @keyframes slideshow
     100%

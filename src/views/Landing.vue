@@ -17,34 +17,34 @@ export default {
     return {
       images: [
         {
-          src: "../../static/fotoslanding/IMG_1214.jpg",
+          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20agroqu%C3%ADmicos.webp",
           position: {
-            top: "8%",
+            top: "10%",
             left: "10%",
           },
-          title: "Jabones y detergentes",
-          busLine: "Jabones y detergentes ",
+          title: "Agroquímicos",
+          busLine: "Agroquímicos",
         },
         {
-          src: "../../static/fotoslanding/IMG_1237.JPG",
+          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20fragancias.webp",
           position: {
-            top: "20%",
+            top: "10%",
             right: "10%",
           },
           title: "Fragancias",
-          busLine: "Perfumes y preparados de tocador",
+          busLine: "Fragancias",
         },
         {
-          src: "../../static/fotoslanding/IMG_1279.jpg",
+          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20industrial.webp",
           position: {
-            center: true,
+            top: "10%",
+            hcenter: true,
           },
-          title: "Perfumes y preparados de tocador",
-          textColor: "white",
-          busLine: "Perfumes y preparados de tocador",
+          title: "Industriales",          
+          busLine: "Industriales",
         },
         {
-          src: "../../static/fotoslanding/IMG_1282.JPG",
+          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20perfumer%C3%ADa.webp",
           position: {
             top: "10%",
             hcenter: true,
@@ -53,17 +53,17 @@ export default {
             x: "50%",
             y: "20%",
           },
-          title: "Quita manchas",
-          busLine: 'Jabones y detergentes ',
+          title: "Perfumería",
+          busLine: 'Perfumería',
         },
         {
-          src: "../../static/fotoslanding/IMG_1283.jpg",
+          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20dom%C3%A9stica.webp",
           position: {
             top: "10%",
             hcenter: true,
           },
-          title: "Preparados para limpiar y pulir",
-          busLine: "Preparados para limpiar y pulir",
+          title: "Domésticos",
+          busLine: "Domésticos",
         },
       ],
     };
