@@ -1,7 +1,7 @@
 <template>
   <div class="landing">
     <div class="carousel__wrapper">
-      <carousel :images="images"></carousel>
+      <carousel :images="images" :auto="true"></carousel>
     </div>
   </div>
 </template>
