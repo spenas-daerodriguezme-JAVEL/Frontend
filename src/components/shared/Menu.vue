@@ -2,7 +2,7 @@
   <div class="menu__container">
     <div class="menu" v-if="!isMobile">
       <router-link tag="a" class="menu__logo" :to="{name : 'Landing'}">
-        <img src="../../assets/aguadejavel_logo.png" alt />
+        <img src="../../assets/logotest.png" alt />
       </router-link>
 
       <div class="menu__content">
@@ -36,7 +36,7 @@
       </div>
       <div class="menu__logo">
       <router-link tag="a" class="menu__logo" :to="{name : 'Landing'}">
-        <img src="../../assets/aguadejavel_logo.png" alt="Agua de Javel" />
+        <img src="../../assets/logotest.png" alt="Agua de Javel" />
       </router-link>
       </div>
       <router-link
@@ -334,8 +334,11 @@ export default {
 }
 
 .menu__logo {
+  margin-left: 2px;
   img {
-    height: 55px;
+    margin: auto;
+    height: auto;
+    width: 300px;
   }
 }
 
@@ -451,6 +454,13 @@ export default {
   .menu {
     padding-right: 10px;
   }
+  .menu__logo {
+    img {
+      margin: auto;
+      height: auto;
+      width: 240px;
+    }
+  }
 }
 
 @media only screen 
@@ -464,8 +474,15 @@ export default {
     height: 25px;
 
     .menu__shopping-bag__count{
-      right: 7px;
+      right: 14px;
       top: 5px;
+    }
+  }
+  .menu__logo {
+    img {
+      margin: auto;
+      height: auto;
+      width: 210px;
     }
   }
 
