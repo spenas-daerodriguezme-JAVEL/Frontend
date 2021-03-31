@@ -107,7 +107,7 @@ export default {
         return;
       }
       const copy = util.deepCopy(this.data);
-      copy.preview = util.getImageFromProduct(this.data.properties.images, 1);
+      copy.preview = util.getImageFromProduct(this.data.properties.images, 1, this.data.businessLine);
       this.addToCart(copy);
     },
     getBlock(limits, mouse) {
@@ -130,20 +130,18 @@ export default {
         this.product.properties = {};
         this.product.properties.description = '';
         this.product.images = [
-          '../../static/test_images/ld1.jpg',
-          '../../static/test_images/ld2.jpg',
-          '../../static/test_images/ld3.jpg',
+          util.getImageFromProduct([], 1, this.product.businessLine),
+          util.getImageFromProduct([], 1, this.product.businessLine),
         ];
       } else if (this.product.properties.images.length <= 0) {
         this.product.images = [
-          '../../static/test_images/ld1.jpg',
-          '../../static/test_images/ld2.jpg',
-          '../../static/test_images/ld3.jpg',
+          util.getImageFromProduct([], 1, this.product.businessLine),
+          util.getImageFromProduct([], 1, this.product.businessLine),
         ];
       } else {
         this.product.images = [
-          util.getImageFromProduct(this.product.properties.images, 0),
-          util.getImageFromProduct(this.product.properties.images, 1),
+          util.getImageFromProduct(this.product.properties.images, 0, this.product.businessLine),
+          util.getImageFromProduct(this.product.properties.images, 1, this.product.businessLine),
         ];
       }
     },

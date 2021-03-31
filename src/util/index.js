@@ -85,14 +85,20 @@ function parseJwt(token) {
 }
 /**
  * This function returns the url of the image specify in imgPosition. If that
- * image doesn't exist return a image by default. Each image has a two positions in array
+ * image doesn't exist return a image by default based on the businessLine. Each image has a two positions in array
  * normal and thumbnail. Positions are adjacent.
  * @param {*} productImages Array of images of Product to display
  * @param {*} imgPosition Position of the image in array of images
+ * @param {*} businessLine BusinessLine of the product
  */
-function getImageFromProduct(productImages, imgPosition) {
+function getImageFromProduct(productImages, imgPosition, businessLine) {
   if (productImages.length <= imgPosition) {
-    return require('../assets/productos/SELLADOR.jpg');
+    if (businessLine === 'Fragancias') return 'https://storage.googleapis.com/thechemcie/Fragancia%20gen%C3%A9rica%20perfumes.webp';
+    else if (businessLine === 'Domésticos') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20difusores.webp';
+    else if (businessLine === 'Industriales') return 'https://storage.googleapis.com/thechemcie/Im%C3%A1gen%20gen%C3%A9rica%20cat%C3%A1logo%20industrial.webp';
+    else if (businessLine === 'Agroquímicos') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20humidificador.webp';
+    else return require('../assets/logotest.png');
+    
   }
 
   return productImages[imgPosition];

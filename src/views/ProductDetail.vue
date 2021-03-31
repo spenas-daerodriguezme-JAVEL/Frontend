@@ -165,6 +165,10 @@ export default {
       const response = await VAPI.get(`/api/product/${this.product_id}`);
       this.product = response.data;
       this.isLoading = false;
+      if (this.product.properties.images.length === 0) {
+        const defImg = util.getImageFromProduct([], 1, this.product.businessLine);
+        this.images.fill(defImg);
+      }
       for (let index = 0; index < this.product.properties.images.length; index++) {
         this.images.splice(index, 1, this.images[index]);
         this.images.splice(index, 1, this.product.properties.images[index]);
@@ -182,7 +186,7 @@ export default {
       if (this.product.quantity === 0) {
         return ;
       }
-      copy.preview = '../../static/test_images/ld1.jpg';
+      copy.preview = this.images[0];
       this.$store.commit('addToCart', copy);
     },
   },

@@ -54,7 +54,7 @@ export default {
             y: "20%",
           },
           title: "Perfumería",
-          busLine: 'Perfumería',
+          busLine: 'Fragancias',
         },
         {
           src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20dom%C3%A9stica.webp",
