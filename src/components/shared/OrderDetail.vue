@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <a class="btn" @click="$router.go(-1)" style="max-width: 100px">Volver</a>
+      <a class="btn" @click="$router.go(-1)" style="max-width: 100px;">Volver</a>
     </div>
     <div class="row">
       <div class="double-column">
@@ -21,11 +21,8 @@
           </thead>
           <tbody>
             <tr v-for="(product, index) in products" :key="index">
-              <td>                
-                <img                  
-                  :src=" product.images.length !== 0 ? product.images[1] : defaultImage"
-                  width="150px"
-                />
+              <td>
+                <img :src="getImage(product)" width="150px" />
                 <!-- <img
                   src="../../assets/productos/QUITAOXIDO.jpg"
                   width="150px"
@@ -81,8 +78,8 @@
 </template>
 
 <script>
-import VAPI from "../../http_common";
-import util from "../../util/index";
+import VAPI from '../../http_common';
+import util from '../../util/index';
 
 export default {
   data() {
@@ -90,28 +87,28 @@ export default {
       products: [],
       userInfo: {},
       publicId: 0,
-      orderDate: "",
-      orderStatus: "",
+      orderDate: '',
+      orderStatus: '',
       orderPrice: 0,
       states: {
-        PENDING: "Pendiente",
-        DECLINED: "Rechazado",
-        APPROVED: "Aprobado",
+        PENDING: 'Pendiente',
+        DECLINED: 'Rechazado',
+        APPROVED: 'Aprobado',
       },
-      routerUrl: "",
-      defaultImage: require('../../assets/productos/QUITAOXIDO.jpg'),
+      routerUrl: '',
+      defaultImage: '',
     };
   },
   async created() {
     const parameter = this.$route.params.id;
-    const jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem('jwt');
     const jsonJWT = util.parseJwt(jwt);
     // eslint-disable-next-line no-underscore-dangle
     const userId = jsonJWT._id;
     const order = await VAPI.get(`/api/order/byId/${parameter}`, {
       headers: {
         id: userId,
-        "x-auth-token": localStorage.getItem("jwt"),
+        'x-auth-token': localStorage.getItem('jwt'),
       },
     });
     console.log(order);
@@ -123,9 +120,9 @@ export default {
     this.orderPrice = order.data.price;
 
     if (this.$route.meta.isAdmin) {
-      this.routerUrl = "/admin";
+      this.routerUrl = '/admin';
     } else {
-      this.routerUrl = "/my-account";
+      this.routerUrl = '/my-account';
     }
   },
 
@@ -140,10 +137,16 @@ export default {
     },
   },
   methods: {
+    getImage(product) {
+      return product.images.length !== 0
+        ? product.images[1]
+        : util.getImageFromProduct([], 1, product.businessLine);
+    },
+
     formatPrice(price) {
       const needFormat = price / 1000 >= 1;
       if (needFormat) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       }
       return price;
     },
@@ -151,7 +154,7 @@ export default {
 };
 </script>
 
-<style lang='sass' scoped>
+<style lang="sass" scoped>
 @import '../../stylesheets/global.sass'
 .container
   margin: 0px 38px
