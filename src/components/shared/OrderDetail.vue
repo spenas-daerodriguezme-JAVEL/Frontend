@@ -9,7 +9,7 @@
         <div><b>Fecha:</b> {{ orderDate }}</div>
         <div><b>Estado:</b> {{ states[orderStatus] }}</div>
 
-        <table>
+        <table class="made-overflow">
           <thead>
             <tr>
               <th></th>
@@ -22,7 +22,7 @@
           <tbody>
             <tr v-for="(product, index) in products" :key="index">
               <td>
-                <img :src="getImage(product)" width="150px" />
+                <img :src="getImage(product)" width="150px" class="table-img" />
                 <!-- <img
                   src="../../assets/productos/QUITAOXIDO.jpg"
                   width="150px"
@@ -156,6 +156,12 @@ export default {
 
 <style lang="sass" scoped>
 @import '../../stylesheets/global.sass'
+
+html
+  overflow: visible
+.made-overflow
+  overflow: visible
+
 .container
   margin: 0px 38px
 
@@ -202,4 +208,9 @@ export default {
 
 .blank-space
   min-height: 40px
+
+.table-img
+  width: 150px
+  @media (max-width: 600px)
+    width: 50px
 </style>

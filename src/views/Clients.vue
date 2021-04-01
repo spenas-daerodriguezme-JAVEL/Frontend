@@ -2,14 +2,16 @@
   <div class="clientes">
     <div class="title">¿QUÉ HAGO CON LOS ENVASES PLÁSTICOS?</div>
     <div class="title-zone">
-      <div class="subheading">Cree una cuenta, acumule nuestros envases y preserve las especies marinas</div>
+      <div class="subheading">
+        Cree una cuenta, acumule nuestros envases y preserve las especies marinas
+      </div>
 
-      <br><br>
+      <br /><br />
       <i>¡Es muy fácil!</i>
-      <br>
+      <br />
       <b>Siga estos 4 pasos</b>
-      <br>
-      <br>
+      <br />
+      <br />
     </div>
 
     <div class="fluid-container">
@@ -19,7 +21,9 @@
       </div>
       <div class="step__item">
         <div class="step__image step__image--circular">2</div>
-        <div class="step__content">REÚNA LOS ENVASES PLÁSTICOS DE aguadejavel.com S.A.S</div>
+        <div class="step__content">
+          REÚNA LOS ENVASES PLÁSTICOS DE The Chemical Science Company S.A.S
+        </div>
       </div>
       <div class="step__item">
         <div class="step__image step__image--circular">3</div>
@@ -31,43 +35,44 @@
       </div>
     </div>
 
-  
-
-    <div class="title" style="margin-top: 100px">RECOMENDACIONES PARA DEVOLVER
-      ENVASE PLÁSTICO
+    <div class="title" style="margin-top: 100px;">
+      RECOMENDACIONES PARA DEVOLVER ENVASE PLÁSTICO
     </div>
     <div class="title-zone">
       <div class="subheading">
-      Regrese los envases plásticos siguiendo estas indicaciones:
-
+        Regrese los envases plásticos siguiendo estas indicaciones:
       </div>
     </div>
 
-    <div class="fluid-container" style="margin-bottom: 100px">
+    <div class="fluid-container" style="margin-bottom: 100px;">
       <div class="step__item">
         <div class="step__image">1</div>
         <div class="step__content">LAVE EL ENVASE POR DENTRO Y POR FUERA CON DETERGENTE</div>
       </div>
       <div class="step__item">
         <div class="step__image">2</div>
-        <div class="step__content">AGREGUE SUAVIZANTE PARA ROPA ADENTRO DEL ENVASE Y ENJUAGUE CON AGUA</div>
+        <div class="step__content">
+          AGREGUE SUAVIZANTE PARA ROPA ADENTRO DEL ENVASE Y ENJUAGUE CON AGUA
+        </div>
       </div>
       <div class="step__item">
         <div class="step__image">3</div>
-        <div class="step__content">SEQUE EL ENVASE A LA SOMBRA, PROTEGIDO DEL SOL, LA LLUVIA, EL POLVO Y LA HUMEDAD</div>
+        <div class="step__content">
+          SEQUE EL ENVASE A LA SOMBRA, PROTEGIDO DEL SOL, LA LLUVIA, EL POLVO Y LA HUMEDAD
+        </div>
       </div>
       <div class="step__item">
         <div class="step__image">4</div>
-        <div class="step__content">GUARDE LOS ENVASES PLÁSTICOS EN UNA BOLSA LIMPIA Y CONTÁCTENOS</div>
+        <div class="step__content">
+          GUARDE LOS ENVASES PLÁSTICOS EN UNA BOLSA LIMPIA Y CONTÁCTENOS
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style lang="sass" scoped>
