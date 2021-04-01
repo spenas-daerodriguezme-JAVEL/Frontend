@@ -1,7 +1,7 @@
 <template>
   <div class="landing">
     <div class="carousel__wrapper">
-      <carousel :images="images" :auto="true"></carousel>
+      <carousel :images="images" :auto="false"></carousel>
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@ export default {
           position: {
             top: "10%",
             left: "10%",
+            mobile: true,
           },
           title: "Agroquímicos",
           busLine: "Agroquímicos",
@@ -37,8 +38,9 @@ export default {
         {
           src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20industrial.webp",
           position: {
-            top: "10%",
-            hcenter: true,
+            top: "70%",
+            left: "20%",
+            mobile: true,
           },
           title: "Industriales",          
           busLine: "Industriales",

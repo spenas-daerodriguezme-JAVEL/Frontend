@@ -97,7 +97,7 @@ function getImageFromProduct(productImages, imgPosition, businessLine) {
     else if (businessLine === 'Domésticos') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20difusores.webp';
     else if (businessLine === 'Industriales') return 'https://storage.googleapis.com/thechemcie/Im%C3%A1gen%20gen%C3%A9rica%20cat%C3%A1logo%20industrial.webp';
     else if (businessLine === 'Agroquímicos') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20humidificador.webp';
-    else return require('../assets/logotest.png');
+    else return require('../assets/logo-mobile.png');
     
   }
 

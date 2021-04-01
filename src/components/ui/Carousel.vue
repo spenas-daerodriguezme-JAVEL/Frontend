@@ -13,7 +13,8 @@
                     :class="{
                         'carousel__description--white-text': image.textColor,
                         'carousel__description--centered': image.position.center,
-                        'carousel__description--hcenter': image.position.hcenter
+                        'carousel__description--hcenter': image.position.hcenter,
+                        'carousel__description--mobile': image.position.mobile,
                     }"
                     :style="{ 'top': image.position.top, 'left': image.position.left, 'right': image.position.right }">
                     <div class="text--bold text--fs44">{{ image.title }}</div>
@@ -143,8 +144,6 @@ export default {
     line-height: 23px;
     white-space: pre-line;
     padding: 2em;
-    background-color: rgba(255,255,255,0.25);
-    border-radius: 10px;
 
     a {
         text-decoration: none;
@@ -198,11 +197,21 @@ $control-distance: 20px;
     .text--bold {
         line-height: 33px;
     }
+    .carousel__description--mobile {
+      top: 20% !important;
+      left: 50% !important;
+      transform: translateX(-50%);
+    }
 }
 
 @media (max-width: 600px) {
     .text--fs25 {
         display: none;
+    }
+    .carousel__description--mobile {
+      top: 20% !important;
+      left: 50% !important;
+      transform: translateX(-50%);
     }
 }
 
