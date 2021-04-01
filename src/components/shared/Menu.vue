@@ -2,7 +2,7 @@
   <div class="menu__container">
     <div class="menu" v-if="!isMobile">
       <router-link tag="a" class="menu__logo" :to="{name : 'Landing'}">
-        <img src="../../assets/logotest.png" alt />
+        <img src="../../assets/logoFinal.png" alt />
       </router-link>
 
       <div class="menu__content">
@@ -36,7 +36,7 @@
       </div>
       <div class="menu__logo">
       <router-link tag="a" class="menu__logo" :to="{name : 'Landing'}">
-        <img src="../../assets/logotest.png" alt="Agua de Javel" />
+        <img src="../../assets/logo-mobile.png" alt="Agua de Javel" />
       </router-link>
       </div>
       <router-link
@@ -335,10 +335,10 @@ export default {
 
 .menu__logo {
   margin-left: 2px;
+  margin-bottom: 15px;
   img {
     margin: auto;
-    height: auto;
-    width: 300px;
+    height: 86px;
   }
 }
 
@@ -456,9 +456,8 @@ export default {
   }
   .menu__logo {
     img {
-      margin: auto;
-      height: auto;
-      width: 240px;
+      margin-top: 14px;
+      height: 48px;
     }
   }
 }
@@ -480,9 +479,8 @@ export default {
   }
   .menu__logo {
     img {
-      margin: auto;
-      height: auto;
-      width: 210px;
+      margin-top: 14px;
+      height: 48px;
     }
   }
 
