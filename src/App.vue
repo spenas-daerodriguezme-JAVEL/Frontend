@@ -1,8 +1,8 @@
 <template>
-        <div id="app">
-                <router-view/>
-                <!-- <ChatBubble/> -->
-        </div>
+  <div id="app">
+    <router-view />
+    <!-- <ChatBubble/> -->
+  </div>
 </template>
 
 <script>
@@ -44,7 +44,6 @@ html, body
         font-family: $body-font
         width: 100%
         height: 100%
-        overflow-x: hidden
 
 .hlp__image-cover
         img
@@ -63,5 +62,4 @@ html, body
 .title--third
         max-width: 700px
         margin: 0 auto
-
 </style>

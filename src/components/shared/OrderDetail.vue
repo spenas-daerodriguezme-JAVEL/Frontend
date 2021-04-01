@@ -157,10 +157,8 @@ export default {
 <style lang="sass" scoped>
 @import '../../stylesheets/global.sass'
 
-html
-  overflow: visible
-.made-overflow
-  overflow: visible
+.content
+  overflow-x: visible
 
 .container
   margin: 0px 38px
@@ -212,5 +210,10 @@ html
 .table-img
   width: 150px
   @media (max-width: 600px)
-    width: 50px
+    width: 90px
+</style>
+<style scoped>
+body {
+  overflow-x: visible !important;
+}
 </style>
