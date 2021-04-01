@@ -94,11 +94,10 @@ function parseJwt(token) {
 function getImageFromProduct(productImages, imgPosition, businessLine) {
   if (productImages.length <= imgPosition) {
     if (businessLine === 'Fragancias') return 'https://storage.googleapis.com/thechemcie/Fragancia%20gen%C3%A9rica%20perfumes.webp';
-    else if (businessLine === 'Domésticos') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20difusores.webp';
-    else if (businessLine === 'Industriales') return 'https://storage.googleapis.com/thechemcie/Im%C3%A1gen%20gen%C3%A9rica%20cat%C3%A1logo%20industrial.webp';
-    else if (businessLine === 'Agroquímicos') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20humidificador.webp';
-    else return require('../assets/logotest.png');
-    
+    if (businessLine === 'Doméstica') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20difusores.webp';
+    if (businessLine === 'Industrial') return 'https://storage.googleapis.com/thechemcie/Im%C3%A1gen%20gen%C3%A9rica%20cat%C3%A1logo%20industrial.webp';
+    if (businessLine === 'Perfumería') return 'https://storage.googleapis.com/thechemcie/Imagen%20gen%C3%A9rica%20humidificador.webp';
+    return require('../assets/logotest.png');
   }
 
   return productImages[imgPosition];
