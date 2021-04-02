@@ -1,108 +1,107 @@
 <template>
-    <div class="catalog">
-        <div class="title">BIENVENIDOS AL FUTURO</div>
-        <div class="filter-container">
-            <div class="filter-box">
-                Línea de producto
-                <CustomSelector
-                    placeholder="Selecciona"
-                    v-model="selected"
-                    :options="options"
-                    v-if="!isLoadingBusLineList"
-                />
-            </div>
-            <div class="filter-box">
-                Tú pones los límites
-                <b>FILTRAR</b>
-                <div class="price-range" v-if="areRangesLoaded">
-                    <RangeSlider v-model="ranges" />
-                </div>
-            </div>
-            <div class="filter-box" id="search-container">
-                ¡Déjanos ayudarte!
-                <router-link class="rt-link" :to="{ name: 'Search' }">
-                    <b>BUSCAR</b>
-                </router-link>
-            </div>
+  <div class="catalog">
+    <div class="title">NUESTROS PRODUCTOS</div>
+    <div class="filter-container">
+      <div class="filter-box">
+        Línea de producto
+        <CustomSelector
+          placeholder="Selecciona"
+          v-model="selected"
+          :options="options"
+          v-if="!isLoadingBusLineList"
+        />
+      </div>
+      <div class="filter-box">
+        Tú pones los límites
+        <b>FILTRAR</b>
+        <div class="price-range" v-if="areRangesLoaded">
+          <RangeSlider v-model="ranges" />
+        </div>
+      </div>
+      <div class="filter-box" id="search-container">
+        ¡Déjanos ayudarte!
+        <router-link class="rt-link" :to="{ name: 'Search' }">
+          <b>BUSCAR</b>
+        </router-link>
+      </div>
+    </div>
+
+    <pagination style="padding: 30px 50px;" v-model="currentPage" :pages="pages">
+      <LoadingAnimation v-show="isLoading" />
+      <div>
+        <div v-if="productList.length == 0" class="no-results">
+          No se han encontrado resultados
         </div>
 
-        <pagination
-            style="padding: 30px 50px;"
-            v-model="currentPage"
-            :pages="pages"
-        >
-            <LoadingAnimation v-show="isLoading" />
-            <div>
-                <div v-if="productList.length == 0" class="no-results">
-                    No se han encontrado resultados
-                </div>
+        <div class="catalog-box">
+          <product-base
+            v-for="(product, index) in productInterval(1, 3)"
+            :key="index + 1"
+            :resize="resizedWindow"
+            :data="product"
+          />
+        </div>
 
-                <div class="catalog-box">
-                    <product-base
-                        v-for="(product, index) in productInterval(1, 3)"
-                        :key="index + 1"
-                        :resize="resizedWindow"
-                        :data="product"
-                    />
-                </div>
+        <div class="catalog-box">
+          <product-base
+            v-for="(product, index) in productInterval(4, 4)"
+            :key="index + 2"
+            :is-double="true"
+            :resize="resizedWindow"
+            :data="product"
+          />
+        </div>
 
-                <div class="catalog-box">
-                    <product-base
-                        v-for="(product, index) in productInterval(4, 4)"
-                        :key="index + 2"
-                        :is-double="true"
-                        :resize="resizedWindow"
-                        :data="product"
-                    />
-                </div>
+        <div class="catalog-box">
+          <product-base
+            v-for="(product, index) in productInterval(5, 5)"
+            :key="index + 3"
+            :resize="resizedWindow"
+            :data="product"
+          />
 
-                <div class="catalog-box">
-                    <product-base
-                        v-for="(product, index) in productInterval(5, 5)"
-                        :key="index + 3"
-                        :resize="resizedWindow"
-                        :data="product"
-                    />
-
-                    <div class="item">
-                        <div
-                            class="anounce"
-                            v-if="products[5] && products[5].properties !== null
-                            && products[5].properties.promoTitle != ''"
-                        >
-                            {{ products[5].properties.promoTitle }}
-                        </div>
-                    </div>
-
-                    <product-base
-                        v-for="(product, index) in productInterval(6, 6)"
-                        :key="index + 4"
-                        :resize="resizedWindow"
-                        :data="product"
-                    />
-                </div>
-
-                <div class="catalog-box">
-                    <product-base
-                        v-for="(product, index) in productInterval(7, 7)"
-                        :key="index + 5"
-                        :is-double="true"
-                        :resize="resizedWindow"
-                        :data="product"
-                    />
-                </div>
-
-                <div class="catalog-box">
-                    <product-base
-                        v-for="(product, index) in productInterval(8, 10)"
-                        :key="index + 6"
-                        :resize="resizedWindow"
-                        :data="product"
-                    />
-                </div>
+          <div class="item">
+            <div
+              class="anounce"
+              v-if="
+                products[5] &&
+                products[5].properties !== null &&
+                products[5].properties.promoTitle != ''
+              "
+            >
+              {{ products[5].properties.promoTitle }}
             </div>
-        </pagination>
-    </div>
+          </div>
+
+          <product-base
+            v-for="(product, index) in productInterval(6, 6)"
+            :key="index + 4"
+            :resize="resizedWindow"
+            :data="product"
+          />
+        </div>
+
+        <div class="catalog-box">
+          <product-base
+            v-for="(product, index) in productInterval(7, 7)"
+            :key="index + 5"
+            :is-double="true"
+            :resize="resizedWindow"
+            :data="product"
+          />
+        </div>
+
+        <div class="catalog-box">
+          <product-base
+            v-for="(product, index) in productInterval(8, 10)"
+            :key="index + 6"
+            :resize="resizedWindow"
+            :data="product"
+          />
+        </div>
+      </div>
+    </pagination>
+  </div>
 </template>
 
 <script>
@@ -144,9 +143,7 @@ export default {
       this.selected = this.$route.params.busLine;
     }
     try {
-      const priceLimits = await this.$http.get(
-        '/api/product/extreme-values',
-      );
+      const priceLimits = await this.$http.get('/api/product/extreme-values');
       this.ranges.maxValue = priceLimits.data.maxValue;
       this.MAX_VALUE = priceLimits.data.maxValue;
     } catch (error) {
@@ -159,9 +156,7 @@ export default {
     if (searchTerm) {
       this.searchTerm = searchTerm;
       this.isLoading = true;
-      const { data } = await this.$http.get(
-        `/api/product/search/${searchTerm}`,
-      );
+      const { data } = await this.$http.get(`/api/product/search/${searchTerm}`);
       for (let index = 0; index < data.products.length; index++) {
         this.$set(this.products, index, data.products[index]);
       }
@@ -173,9 +168,7 @@ export default {
 
     try {
       this.isLoadingBusLineList = true;
-      const { data } = await this.$http.get(
-        '/api/product/businesslinelist',
-      );
+      const { data } = await this.$http.get('/api/product/businesslinelist');
       this.options = data.businessLines.map((option) => ({
         value: option,
         label: option,
@@ -196,7 +189,8 @@ export default {
       this.isLoading = true;
       const businessLine = this.selected !== '' ? `businessline/${this.selected}` : '';
 
-      const isPriceRangeDefault = this.ranges.maxValue === 0 || (this.ranges.minValue === 0 && this.ranges.maxValue === this.MAX_VALUE);
+      const isPriceRangeDefault = this.ranges.maxValue === 0
+        || (this.ranges.minValue === 0 && this.ranges.maxValue === this.MAX_VALUE);
       const price = isPriceRangeDefault
         ? ''
         : `price/${this.ranges.minValue}-${this.ranges.maxValue}`;
@@ -207,14 +201,10 @@ export default {
       let data;
 
       if (this.searchTerm) {
-        ({ data } = await this.$http.get(
-          `/api/product/search/${this.searchTerm}${page}`,
-        ));
+        ({ data } = await this.$http.get(`/api/product/search/${this.searchTerm}${page}`));
       } else {
         ({ data } = await this.$http.get(
-          `/api/product/${businessLine}${
-            isMultipleSearch ? '/' : ''
-          }${price}${page}`,
+          `/api/product/${businessLine}${isMultipleSearch ? '/' : ''}${price}${page}`,
         ));
       }
 

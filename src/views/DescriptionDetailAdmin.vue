@@ -236,15 +236,10 @@
       </div>
       <div class="field field--small">
         <div class="tag">Toxico</div>
-        <selector
-          v-model="description.isToxic"
-          :options="[
-            { label: 'Si', value: 'Si' },
-            { label: 'No', value: 'No' },
-          ]"
-          :default-option="' - '"
-          class="selector--input"
-        ></selector>
+        <input v-model="description.isToxic" type="text" @input="$v.description.isToxic.$touch" />
+        <div class="error" v-if="!$v.description.isToxic.required">
+          El campo es requerido
+        </div>
       </div>
     </div>
 
@@ -528,6 +523,7 @@ export default {
           'x-auth-token': localStorage.getItem('jwt'),
         },
       });
+      console.log('description.data :>> ', description.data);
       const descriptionData = description.data;
       this.description = descriptionData;
       this.setInitialImages(descriptionData.images);
@@ -538,7 +534,7 @@ export default {
       try {
         if (this.$v.$invalid) {
           // eslint-disable-next-line no-throw-literal
-          throw 'There are fields required';
+          throw 'Hay campos requeridos sin llenar';
         }
         let description;
         const jwt = localStorage.getItem('jwt');
@@ -596,7 +592,7 @@ export default {
         }, 500);
         // check if any image has changed and sends it to back
       } catch (error) {
-        this.modalMessage = 'Error, vuelva a intentar';
+        this.modalMessage = error;
         modal.triggerModal();
         console.log(error);
       }

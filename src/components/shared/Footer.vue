@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="subtitle">VISITANOS EN NUESTRO PUNTO DE VENTA</div>
+    <div class="subtitle">VISÍTANOS EN NUESTRO PUNTO DE VENTA</div>
     <div class="title">CR 55 # 5A - 04 LOC 100</div>
     <div class="links">
       <router-link

@@ -47,17 +47,6 @@
             </div>
           </div>
         </div>
-        <div class="field field--small">
-          <div class="tag">Unidad de medida</div>
-          <input
-            v-model="product.measurementUnit"
-            type="text"
-            @input="$v.product.measurementUnit.$touch"
-          />
-          <div class="error" v-if="!$v.product.measurementUnit.required">
-            El campo es requerido
-          </div>
-        </div>
       </div>
 
       <div class="row">
@@ -72,13 +61,6 @@
           <div class="tag">Precio</div>
           <input v-model="product.price" type="text" @input="$v.product.price.$touch" />
           <div class="error" v-if="!$v.product.price.required">
-            El campo es requerido
-          </div>
-        </div>
-        <div class="field field--small">
-          <div class="tag">SKU</div>
-          <input v-model="product.SKU" type="text" @input="$v.product.SKU.$touch" />
-          <div class="error" v-if="!$v.product.SKU.required">
             El campo es requerido
           </div>
         </div>
@@ -149,7 +131,6 @@ export default {
         name: '',
         businessLine: '',
         capacity: '',
-        measurementUnit: '',
         price: '',
         SKU: '',
         isActive: true,
@@ -178,9 +159,7 @@ export default {
       capacity: {
         required,
       },
-      measurementUnit: {
-        required,
-      },
+
       price: {
         required,
       },
@@ -230,7 +209,8 @@ export default {
     async executeActionProduct() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        return undefined;
+        // eslint-disable-next-line no-throw-literal
+        throw 'Hay campos faltantes';
       }
       const { modal } = this.$refs;
       const jwt = localStorage.getItem('jwt');
@@ -264,7 +244,7 @@ export default {
         }
         modal.triggerModal();
       } catch (error) {
-        this.modalMessage = 'Error en servidor, vuelva a intentar';
+        this.modalMessage = error;
         modal.triggerModal();
         console.log(error);
       }
