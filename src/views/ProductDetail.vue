@@ -18,16 +18,16 @@
             class="image__holder"
           /> -->
 
-          <div class="btn-buy" :class="{ 'btn-buy--disable': product.quantity === 0 }">
+          <div class="btn-buy" :class="{ 'btn-buy--disable': outOfStock }">
             <div class="btn-buy__item btn-buy--left"
-              :class="{ 'buy__item--disable': product.quantity === 0 }"
+              :class="{ 'buy__item--disable': outOfStock }"
             >
               {{ product.price | toMoney }}
             </div>
             <div @click="sendToCart"
               class="btn-buy__item btn-buy--right"
-              :class="{ 'buy__item--disable': product.quantity === 0 }"
-            > {{ product.quantity === 0 ? 'Agotado' : 'Comprar' }}
+              :class="{ 'buy__item--disable': outOfStock }"
+            > {{ outOfStock ? 'Agotado' : 'Comprar' }}
             </div>
           </div>
         </div>
@@ -53,8 +53,8 @@
       </div>
 
       <div class="btn-sticky" @click="sendToCart"
-        :class="{ 'buy__item--disable': product.quantity === 0 }"
-      > {{ product.quantity === 0 ? 'Agotado' : 'Comprar' }}
+        :class="{ 'buy__item--disable': outOfStock }"
+      > {{ outOfStock ? 'Agotado' : 'Comprar' }}
       </div>
 
       <div class="gallery">
@@ -178,11 +178,15 @@ export default {
       console.log(error);
     }
   },
-
+  computed: {
+    outOfStock() {
+      return this.product.quantity <= 0;
+    }
+  },
   methods: {
     sendToCart() {
       const copy = util.deepCopy(this.product);
-      if (this.product.quantity === 0) {
+      if (this.outOfStock) {
         return ;
       }
       copy.preview = this.images[0];
