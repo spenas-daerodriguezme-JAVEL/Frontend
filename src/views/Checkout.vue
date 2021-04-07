@@ -102,7 +102,7 @@
     </div>
     <modal-info useSlot autoSize ref="modal" :duration="5000">
       <div class="modal__message">
-        <div class="title__menu">{{ this.modalText }}</div>
+        <div class="title__menu modal-text">{{ this.modalText }}</div>
       </div>
     </modal-info>
   </div>
@@ -254,8 +254,18 @@ export default {
       } catch (error) {
         if (error.response.status === 406) {
           this.isLoading = false;
-          const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
-          this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
+          console.log(error.response);
+          if (error.response.data.name_error === 'max_value') {
+            const limitMoneyFormat = util.toMoney(MAX_VALUE_PER_TRANSACTION);
+            this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
+          } else {
+            let text = 'Cantidad excesiva de:\n';
+            error.response.data.products.forEach( product => {
+              text += ` - ${product.name} ${product.cap}\n`
+            })
+            text += 'Elimina los productos del carro y vuelve a intentarlo'
+            this.modalText = text;
+          }
           this.$refs.modal.triggerModal();
         } else if (error.response.status === 409) {
           this.isLoading = false;
@@ -366,6 +376,10 @@ h1
   &.error
     border: 1px solid red
     box-shadow: 0px 0px 2px red;
+
+.modal-text
+  white-space: pre-wrap
+  text-align: left
 
 @media (max-width: 800px)
   .row
