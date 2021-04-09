@@ -108,7 +108,7 @@
         <div class="images-box">
           <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
             <div class="image-box__item__img">
-              <img :src="getImage(product.properties.images)" alt="product">
+              <img :src="getImage(product)" alt="product">
             </div>
             <div class="image-box__item__desc">
               <div class="imb-title">
@@ -165,12 +165,8 @@ export default {
       copy.preview = this.getImage(product.properties.images);
       this.addToCart(copy);
     },
-    getImage(images) {
-      if (images.length < 2) {
-        return require('../assets/productos/QUITA MANCHAS.jpg');
-      }
-
-      return images[1];
+    getImage(product) {
+      return util.getImageFromProduct(product.properties.images, 1, product.businessLine);
     },
     showDetail(productId) {
       this.$router.push({ name: 'ProductDetail', params: { id: productId } });
