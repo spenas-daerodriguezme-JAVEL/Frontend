@@ -2,21 +2,19 @@
 <template>
   <div class="checkout">
     <div class="row">
-     <div class="w-30 fix__products center--responsive"
-      style="padding: 30px" ref="column">
+      <div class="w-30 fix__products center--responsive" style="padding: 30px;" ref="column">
         <h1 ref="title1" class="title--responsive">Resumen de transacción</h1>
       </div>
 
       <div class="w-70 pad" ref="column2">
         <div class="container">
-         <img :src="imageSource" alt="" srcset="" class="state-image">
-         <!-- <img src="../assets/pending.png" alt="" srcset="" class="state-image"> -->
-         <!-- <img src="../assets/error.png" alt="" srcset="" class="state-image"> -->
-         <!-- <img src="../assets/approve.jpg" alt="" srcset="" class="state-image"> -->
-       <h1>{{title}}</h1>
-       <h2>{{subtitle}}</h2>
+          <img :src="imageSource" alt="" srcset="" class="state-image" />
+          <!-- <img src="../assets/pending.png" alt="" srcset="" class="state-image"> -->
+          <!-- <img src="../assets/error.png" alt="" srcset="" class="state-image"> -->
+          <!-- <img src="../assets/approve.jpg" alt="" srcset="" class="state-image"> -->
+          <h1>{{ title }}</h1>
+          <h2>{{ subtitle }}</h2>
         </div>
-
       </div>
     </div>
   </div>
@@ -41,7 +39,7 @@ export default {
   async mounted() {
     const wompiId = this.$route.query.id;
     try {
-      const requestData = await VAPI.get(`https://sandbox.wompi.co/v1/transactions/${wompiId}`);
+      const requestData = await VAPI.get(`https://production.wompi.co/v1/transactions/${wompiId}`);
       const transactionStatus = requestData.data.data.status;
 
       switch (transactionStatus) {
@@ -69,10 +67,8 @@ export default {
       // this.$router.push('notfound');
     }
   },
-  methods: {
-  },
-  components: {
-  },
+  methods: {},
+  components: {},
 };
 </script>
 
@@ -162,5 +158,4 @@ h1
   .w-30, .w-70
     height: auto
     width: 100%
-
 </style>
