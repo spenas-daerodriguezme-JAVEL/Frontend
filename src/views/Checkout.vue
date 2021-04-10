@@ -4,13 +4,12 @@
       <div class="checkout__personal__data pad">
         <h1 ref="title">Facturación electrónica</h1>
 
-        <!-- <form ref="form" action="https://checkout.wompi.co/p/" method="GET"> -->
         <form ref="form" action="https://checkout.wompi.co/p/" method="GET">
           <!-- OBLIGATORIOS -->
           <input
             type="hidden"
             name="public-key"
-            value="pub_test_voqe1Abp9bkU25uQw317JRB38JsZWZM6"
+            value="pub_prod_oD7li4ok9xptIvnrtm2uoRvk3IzfUS4i"
           />
           <input type="hidden" name="currency" value="COP" />
           <input type="hidden" name="amount-in-cents" :value="totalPriceInCents" />
