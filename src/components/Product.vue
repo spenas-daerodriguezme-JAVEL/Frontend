@@ -15,9 +15,9 @@
           v-show="activeImage == index && index != 0"
           :src="image ? image : ''"
         />
-        <div class="buy__item" :class="{ 'buy__item--disable': product.quantity === 0 }">
+        <div class="buy__item" :class="{ 'buy__item--disable': outOfStock}">
           <div class="buy__item--inner" @click.stop="sendToCart">
-            {{ product.quantity === 0 ? 'Agotado' : 'Comprar' }}
+            {{ outOfStock ? 'Agotado' : 'Comprar' }}
           </div>
         </div>
       </div>
@@ -100,10 +100,15 @@ export default {
     //   }
     // );
   },
+  computed: {
+    outOfStock() {
+      return this.product.quantity <= 0;
+    }
+  },
   methods: {
     ...mapMutations(['addToCart']),
     sendToCart() {
-      if (this.product.quantity === 0) {
+      if (this.outOfStock) {
         return;
       }
       const copy = util.deepCopy(this.data);

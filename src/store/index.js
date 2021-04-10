@@ -42,6 +42,7 @@ export const store = new Vuex.Store({
     addToCart: (state, product) => {
       let isProductInCart = state.cartProducts.some(element => element._id === product._id);
       if (!isProductInCart) {
+        product.maxQuantity = product.quantity;
         product.quantity = 1;
         state.cartProducts.push(product);
       }
@@ -56,8 +57,11 @@ export const store = new Vuex.Store({
       state.cartProducts = [];
     },
     addProductUnit: (state, product) => {
+      console.log(product);
       let index = state.cartProducts.findIndex((element) => element.SKU === product.SKU);
-      state.cartProducts[index].quantity += 1;
+      if (product.quantity < state.cartProducts[index].maxQuantity) {
+        state.cartProducts[index].quantity += 1;
+      }
     },
     subProductUnit: (state, product) => {
       let index = state.cartProducts.findIndex((element) => element.SKU === product.SKU);
