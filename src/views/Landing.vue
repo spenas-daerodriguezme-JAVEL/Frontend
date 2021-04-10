@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Carousel from "../components/ui/Carousel.vue";
+import Carousel from '../components/ui/Carousel.vue';
 
 export default {
   components: {
@@ -17,55 +17,55 @@ export default {
     return {
       images: [
         {
-          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20agroqu%C3%ADmicos.webp",
+          src: 'https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20agroqu%C3%ADmicos.webp',
           position: {
-            top: "10%",
-            left: "10%",
+            top: '10%',
+            left: '10%',
             mobile: true,
           },
-          title: "Agroquímicos",
-          busLine: "Agroquímicos",
+          title: 'Agroquímicos',
+          busLine: 'Agroquímicos',
         },
         {
-          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20fragancias.webp",
+          src: 'https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20fragancias.webp',
           position: {
-            top: "10%",
-            right: "10%",
+            top: '10%',
+            right: '10%',
           },
-          title: "Fragancias",
-          busLine: "Fragancias",
-        },
-        {
-          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20industrial.webp",
-          position: {
-            top: "70%",
-            left: "20%",
-            mobile: true,
-          },
-          title: "Industriales",          
-          busLine: "Industriales",
-        },
-        {
-          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20perfumer%C3%ADa.webp",
-          position: {
-            top: "10%",
-            hcenter: true,
-          },
-          imagePosition: {
-            x: "50%",
-            y: "20%",
-          },
-          title: "Perfumería",
+          title: 'Fragancias',
           busLine: 'Fragancias',
         },
         {
-          src: "https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20dom%C3%A9stica.webp",
+          src: 'https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20industrial.webp',
           position: {
-            top: "10%",
+            top: '70%',
+            left: '20%',
+            mobile: true,
+          },
+          title: 'Industriales',
+          busLine: 'Industriales',
+        },
+        {
+          src: 'https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20perfumer%C3%ADa.webp',
+          position: {
+            top: '10%',
             hcenter: true,
           },
-          title: "Domésticos",
-          busLine: "Domésticos",
+          imagePosition: {
+            x: '50%',
+            y: '20%',
+          },
+          title: 'Perfumería',
+          busLine: 'Fragancias',
+        },
+        {
+          src: 'https://storage.googleapis.com/thechemcie/Landing%20divisi%C3%B3n%20dom%C3%A9stica.webp',
+          position: {
+            top: '10%',
+            hcenter: true,
+          },
+          title: 'Domésticos',
+          busLine: 'Domésticos',
         },
       ],
     };
@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     go() {
-      this.$router.push("");
+      this.$router.push('');
     },
   },
 };

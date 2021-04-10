@@ -22,7 +22,7 @@
       <div class="step__item">
         <div class="step__image step__image--circular">2</div>
         <div class="step__content">
-          REÚNA LOS ENVASES PLÁSTICOS DE The Chemical Science Company S.A.S
+          REÚNA LOS ENVASES PLÁSTICOS DE THE CHEMICAL SCIENCE COMPANY S.A.S
         </div>
       </div>
       <div class="step__item">
@@ -34,8 +34,7 @@
         <div class="step__content">COMUNÍQUESE CON NOSOTROS Y RECOGEMOS LOS ENVASES</div>
       </div>
     </div>
-
-    <div class="title" style="margin-top: 100px;">
+    <div class="title" style="margin-top: 30px;">
       RECOMENDACIONES PARA DEVOLVER ENVASE PLÁSTICO
     </div>
     <div class="title-zone">

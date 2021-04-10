@@ -1,6 +1,6 @@
 <template>
   <div class="catalog">
-    <div class="title">NUESTROS PRODUCTOS</div>
+    <div class="title" style="margin-top: 60px">NUESTROS PRODUCTOS</div>
     <div class="filter-container">
       <div class="filter-box">
         Línea de producto

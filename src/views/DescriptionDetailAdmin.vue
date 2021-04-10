@@ -351,8 +351,10 @@
     </div>
 
     <!-- The line below is so large to avoid break line in HTML render -->
-    <div class="btn btn--save" @click="executeActionDescription">
-      {{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}
+    <div class="row">
+      <a class="btn btn--save" style="max-width: 100px;" @click="executeActionDescription">{{
+        currentAction == 'Crear' ? 'Crear' : 'Guardar'
+      }}</a>
     </div>
     <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">
@@ -707,8 +709,8 @@ textarea
   +flex(1, 1)
   width: 150px
   height: 20px
+  justify-content: center
   margin-left: auto
-  margin-bottom: 20px
 
 .danger-btn
   background-color: red

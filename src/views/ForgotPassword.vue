@@ -22,8 +22,7 @@
 
         <div class="frow help__container">
           <div class="help__info">
-            ¿Olvidaste tu contraseña? Por favor ingresa tu correo electrónico.
-            Recibirás un enlace para crear una nueva contraseña mediante tu correo.
+            ¿Olvidaste tu contraseña? Por favor ingresa tu correo electrónico. Recibirás un enlace para crear una nueva contraseña mediante tu correo.
           </div>
           <div class="btn"
             style="max-width: 200px; margin-left: 5px"

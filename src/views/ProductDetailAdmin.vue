@@ -27,7 +27,6 @@
       <div class="row">
         <div class="field field--small">
           <div class="tag">Línea de negocio</div>
-          <!-- <input v-model="product.businessLine" type="text" /> -->
           <Autocomplete
             :suggestions="businessLine"
             @selectedValue="updateValue"
@@ -104,9 +103,7 @@
         </div>
       </div>
 
-      <div class="btn btn--save" @click="executeActionProduct">
-        {{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}
-      </div>
+      <div class="btn btn--save" @click="executeActionProduct">{{ currentAction == 'Crear' ? 'Crear' : 'Guardar' }}</div>
     </div>
     <modal-info useSlot autoSize ref="modal">
       <div class="modal__message">

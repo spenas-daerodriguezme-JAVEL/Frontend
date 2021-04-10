@@ -38,7 +38,7 @@
 
       <router-link
         tag="li"
-        :to="{ name: 'Contact' }"
+        :to="{ name: 'TermsConditions' }"
         @click="
           isActive = false;
           selectedMenu = '';
@@ -200,7 +200,7 @@ export default {};
   @extend %title-aux
   letter-spacing: 3px
   font-size: 21px
-  height: 60px
+  height: 40px
   text-align: center
 
 .links

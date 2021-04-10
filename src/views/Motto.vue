@@ -11,7 +11,7 @@
           MISIÓN
         </div>
 
-        - Estos son los principios que rigen el cumplimiento de nuestra misión día a día
+        Estos son los principios que rigen el cumplimiento de nuestra misión día a día
       </div>
     </div>
 
@@ -27,7 +27,7 @@
 
         Garantizamos la satisfacción de nuestros clientes, porque, nos preocupamos por desarrollar nuevas fórmulas, técnicas y tecnologías que cumplan con los estándares más altos de la industria química
 
-        <b>CENTROS DE SERVICIO AL CLIENTE</b>
+        <b>PUNTO DE VENTA</b>
 
         Nos anticipamos a nuestros clientes con el fin de resolver sus inquietudes y asesorarlos correctamente
 
@@ -36,7 +36,7 @@
       <div class="column-text">
         <b>COLABORADORES</b>
 
-        estamos comprometidos con la inclusión y la diversidad. Por eso, nos tratamos con respeto y dignidad.
+        Estamos comprometidos con la inclusión y la diversidad. Por eso, nos tratamos con respeto y dignidad.
 
         <b>CLIENTES</b>
 
