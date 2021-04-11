@@ -68,14 +68,16 @@
           <router-link
             :to="{ name: 'TermsConditions' }"
             target="_blank"
+            class="terms--urls"
           >
-            los terminos y condiciones
+            los términos y condiciones
           </router-link> y
           <router-link
             :to="{ name: 'TermsConditions' }"
             target="_blank"
+            class="terms--urls"
           >
-            la politica de tratamiento de datos
+            la política de tratamiento de datos
           </router-link>.
         </label>
       </div>
@@ -150,6 +152,9 @@ export default {
 
 <style lang="sass" scoped>
 @import "../../stylesheets/global.sass"
+
+.terms--urls
+  color: white
 
 .cart
   padding: 15px 30px 0

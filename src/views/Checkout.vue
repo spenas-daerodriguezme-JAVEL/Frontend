@@ -23,6 +23,21 @@
         </form>
         <LoadingAnimation v-show="isCreatingOrder" />
         <div class="frow">
+          <custom-selector
+            label="Tipo de Documento"
+            class="input--medium"
+            :class="{ error: $v.idType.$error }"
+            v-model="$v.idType.$model"
+            :options="idTypeOptions"
+          ></custom-selector>
+          <input-base
+            :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
+            class="input--medium"
+            :class="{ error: $v.idNumber.$error }"
+            v-model="$v.idNumber.$model"
+          ></input-base>
+        </div>
+        <div class="frow" v-if="!isNitSet">
           <input-base
             :label="'Nombre'"
             class="input--medium"
@@ -36,22 +51,15 @@
             v-model="$v.lastName.$model"
           ></input-base>
         </div>
-
-        <div class="frow">
-          <custom-selector
-            label="Tipo de Documento"
-            class="input-base input--small"
-            :class="{ error: $v.idType.$error }"
-            v-model="$v.idType.$model"
-            :options="idTypeOptions"
-          ></custom-selector>
+        <div class="frow" v-else>
           <input-base
-            :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
+            :label="'Razón Social'"
             class="input--medium"
-            :class="{ error: $v.idNumber.$error }"
-            v-model="$v.idNumber.$model"
+            :class="{ error: $v.name.$error }"
+            v-model="$v.name.$model"
           ></input-base>
         </div>
+
 
         <div class="frow">
           <input-base
@@ -131,7 +139,7 @@ export default {
       city: '',
       state: '',
       idType: '',
-      idNumber: '',
+      identificationNumber: '',
       idTypeOptions: [],
       phone: '',
       modalText: '',
@@ -139,7 +147,13 @@ export default {
       reference: '',
       totalPriceInCents: 0,
       isCreatingOrder: false,
+      isNitSet: false,
     };
+  },
+  watch: {
+    idType(val) {
+      (val === 'NIT') ? this.isNitSet = true : this.isNitSet = false;
+    }
   },
   computed: {
     cityOptions() {
@@ -150,6 +164,9 @@ export default {
       }
 
       return [{ value: '', label: '' }];
+    },
+    idNumber() {
+      return String(this.identificationNumber);
     },
   },
   beforeMount() {
@@ -164,7 +181,7 @@ export default {
           this.lastName = data.lastName;
           this.email = data.email;
           this.idType = data.identificationType;
-          this.idNumber = data.identificationNumber;
+          this.identificationNumber = data.identificationNumber;
           this.phone = data.telephone;
         })
         .catch((error) => {
@@ -259,10 +276,10 @@ export default {
             this.modalText = `La orden excede el límite máximo de ${limitMoneyFormat} COP.`;
           } else {
             let text = 'Cantidad excesiva de:\n';
-            error.response.data.products.forEach( product => {
-              text += ` - ${product.name} ${product.cap}\n`
-            })
-            text += 'Elimina los productos del carro y vuelve a intentarlo'
+            error.response.data.products.forEach((product) => {
+              text += ` - ${product.name} ${product.cap}\n`;
+            });
+            text += 'Elimina los productos del carro y vuelve a intentarlo';
             this.modalText = text;
           }
           this.$refs.modal.triggerModal();

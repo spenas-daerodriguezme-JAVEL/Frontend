@@ -17,11 +17,6 @@
       <h1>Información de usuario</h1>
     </div>
     <div class="frow">
-      <input-base :label="'Nombre'" class="input--medium" v-model="user.name"></input-base>
-      <input-base :label="'Apellido'" class="input--medium" v-model="user.lastName"></input-base>
-    </div>
-
-    <div class="frow">
       <custom-selector
         label="Tipo de Documento"
         class="input--medium"
@@ -29,9 +24,28 @@
         :options="idTypeOptions"
       ></custom-selector>
       <input-base
-        :label="'Número de documento'"
+        :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
         class="input--medium"
         v-model="idNumber"
+      ></input-base>
+    </div>
+    <div class="frow" v-if="!isNitSet">
+      <input-base
+        :label="'Nombre'"
+        class="input--medium"
+        v-model="user.name"
+      ></input-base>
+      <input-base
+        :label="'Apellido'"
+        class="input--medium"
+        v-model="user.lastName"
+      ></input-base>
+    </div>
+    <div class="frow" v-else>
+      <input-base
+        :label="'Razón Social'"
+        class="input--medium"
+        v-model="user.name"
       ></input-base>
     </div>
 
@@ -52,9 +66,7 @@
     </div>
 
     <div class="frow" v-if="!isView">
-      <div class="btn" @click="updateUser" style="max-width: 100px; margin-left: 20px;">
-        Guardar
-      </div>
+      <div class="btn" @click="updateUser" style="max-width: 100px; margin-left: 20px;">Guardar</div>
       <a class="btn" href="/change-password" style="max-width: 200px; margin-left: 20px;"
         >Cambiar Contraseña</a
       >
@@ -93,7 +105,13 @@ export default {
       viewClass: '',
       modalMessage: '',
       idTypeOptions: ['CC', 'NIT'],
+      isNitSet: false,
     };
+  },
+  watch: {
+    idType(val) {
+      val === 'NIT' ? (this.isNitSet = true) : (this.isNitSet = false);
+    },
   },
   computed: {
     isView() {
@@ -101,6 +119,9 @@ export default {
     },
     idNumber() {
       return String(this.user.identificationNumber);
+    },
+    idType() {
+      return this.user.identificationType;
     },
   },
   async beforeMount() {

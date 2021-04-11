@@ -218,10 +218,7 @@ export default {};
       text-decoration: underline
 
 .social-media
-  +flex(0, 0)
-  position: absolute
-  left: 40px
-  bottom: 22px
+  margin-top: 50px
 
   svg
     width: 20px

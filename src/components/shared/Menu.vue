@@ -338,7 +338,7 @@ export default {
   margin-bottom: 15px;
   img {
     margin: auto;
-    height: 86px;
+    height: 80px;
   }
 }
 
