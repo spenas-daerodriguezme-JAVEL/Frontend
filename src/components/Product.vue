@@ -1,8 +1,12 @@
 <template>
-  <div class="product" :class="{ 'product--large': isDouble }" @click="showDetail(data._id)">
+  <div
+    class="product"
+    :class="{ 'product--large': isDouble }"
+    @click="showDetail(data._id)"
+  >
     <div v-if="isDouble" class="img-aux">
       <!-- <img :src="data.images.length != 0 ? URI + data.images[1].url : ''" alt=""> -->
-      <img :src="product.images[1]" />
+      <img :src="secondImage" />
     </div>
 
     <div class="wrapper__single">
@@ -15,9 +19,9 @@
           v-show="activeImage == index && index != 0"
           :src="image ? image : ''"
         />
-        <div class="buy__item" :class="{ 'buy__item--disable': outOfStock}">
+        <div class="buy__item" :class="{ 'buy__item--disable': outOfStock }">
           <div class="buy__item--inner" @click.stop="sendToCart">
-            {{ outOfStock ? 'Agotado' : 'Comprar' }}
+            {{ outOfStock ? "Agotado" : "Comprar" }}
           </div>
         </div>
       </div>
@@ -41,7 +45,6 @@
 import { mapMutations } from 'vuex';
 import util from '../util/index';
 import VAPI from '../http_common';
-import CustomSelector from './ui/CustomSelector.vue';
 
 const { URI } = process.env;
 
@@ -103,7 +106,10 @@ export default {
   computed: {
     outOfStock() {
       return this.product.quantity <= 0;
-    }
+    },
+    secondImage() {
+      return this.product.images.length >= 2 ? this.product.images[1] : this.product.images[0];
+    },
   },
   methods: {
     ...mapMutations(['addToCart']),
@@ -112,7 +118,11 @@ export default {
         return;
       }
       const copy = util.deepCopy(this.data);
-      copy.preview = util.getImageFromProduct(this.data.properties.images, 1, this.data.businessLine);
+      copy.preview = util.getImageFromProduct(
+        this.data.properties.images,
+        1,
+        this.data.businessLine,
+      );
       this.addToCart(copy);
     },
     getBlock(limits, mouse) {
@@ -150,7 +160,6 @@ export default {
         ];
       }
     },
-
     setImages() {
       const { display } = this.$refs;
       const rect = display.getBoundingClientRect();
@@ -168,26 +177,25 @@ export default {
         });
       }
       const self = this;
-      display.onmousemove = function (e) {
+      display.onmousemove = (e) => {
         const image = self.getBlock(limits, e);
         self.activeImage = image;
       };
 
-      display.onmouseleave = function () {
+      display.onmouseleave = () => {
         self.activeImage = -1;
       };
     },
     putImages() {
-      const thumbnailImages = [];
-      if (this.data && this.data.properties) {
-        this.data.properties.images.forEach((image) => {
-          const imageName = image.split('/')[4];
-          if (imageName.includes('thumbnail')) {
-            thumbnailImages.push(image);
+      const images = [];
+      if (this.data && this.data.properties && this.data.properties.images) {
+        this.data.properties.images.forEach((imageName) => {
+          if (!imageName.includes('thumbnail')) {
+            images.push(imageName);
           }
         });
-        for (let index = 0; index < thumbnailImages.length; index++) {
-          this.product.images.splice(index, 1, thumbnailImages[index]);
+        for (let index = 0; index < images.length; index++) {
+          this.product.images = images;
         }
       }
     },
@@ -208,9 +216,6 @@ export default {
     toMoney: util.toMoney,
     trimText: util.trimText,
   },
-  components: {
-    CustomSelector,
-  },
 };
 </script>
 
@@ -218,123 +223,123 @@ export default {
 @import "../stylesheets/global.sass"
 
 .wrapper__single
-    width: 100%
+  width: 100%
 
 .product
-    +flex(1, 1)
-    width: 300px
-    flex-direction: column
-    cursor: pointer
+  +flex(1, 1)
+  width: 300px
+  flex-direction: column
+  cursor: pointer
 
 .product--large
-    width: 100%
-    flex-direction: row
-    align-items: flex-start
+  width: 100%
+  flex-direction: row
+  align-items: flex-start
 
-    > *
-        width: 50%
+  > *
+    width: 50%
 
-    .img-aux
-        height: 400px
-
-        img
-            @extend %image-cover
-
-.display
-    width: 100%
+  .img-aux
     height: 400px
-    position: relative
-    overflow: hidden
 
     img
-        position: absolute
-        @extend %image-cover
-        animation: 400ms fadeIn ease-out forwards
+      @extend %image-cover
 
-    &:hover > .buy__item
-        transform: translate(-50%, 0%) !important
+.display
+  width: 100%
+  height: 400px
+  position: relative
+  overflow: hidden
+
+  img
+    position: absolute
+    @extend %image-cover
+    animation: 400ms fadeIn ease-out forwards
+
+  &:hover > .buy__item
+    transform: translate(-50%, 0%) !important
 
 .product__heading
-    +flex(0, 0)
-    @extend %title
-    font-size: 18px
-    margin-bottom: 10px
+  +flex(0, 0)
+  @extend %title
+  font-size: 18px
+  margin-bottom: 10px
 
 .product__title
-    width: 70%
-    white-space: pre-line
-    text-transform: uppercase
+  width: 70%
+  white-space: pre-line
+  text-transform: uppercase
 
 .product__price
-    width: 30%
+  width: 30%
 
 .product__description
-    margin-top: 20px
-    margin-bottom: 1em
-    width: 100%
-    height: 170px
+  margin-top: 20px
+  margin-bottom: 1em
+  width: 100%
+  height: 170px
 
 .buy__item
-    background: black
-    position: absolute
-    bottom: 0
-    left: 50%
-    box-sizing: border-box
-    transform: translate(-50%, 100%)
-    left: 50%
-    color: white
-    font-weight: bold
-    font-size: 18px
-    cursor: pointer
-    transition: .3s
-    border: 1px solid white
+  background: black
+  position: absolute
+  bottom: 0
+  left: 50%
+  box-sizing: border-box
+  transform: translate(-50%, 100%)
+  left: 50%
+  color: white
+  font-weight: bold
+  font-size: 18px
+  cursor: pointer
+  transition: .3s
+  border: 1px solid white
 
 .buy__item--inner
-    padding: 13px 18px
-    position: relative
-    overflow: hidden
+  padding: 13px 18px
+  position: relative
+  overflow: hidden
 
-    &:after
-        content: ''
-        z-index: -1
-        width: 0
-        height: 100%
-        position: absolute
-        background: white
-        top: 0
-        left: 0
-        transition: .3s
+  &:after
+    content: ''
+    z-index: -1
+    width: 0
+    height: 100%
+    position: absolute
+    background: white
+    top: 0
+    left: 0
+    transition: .3s
 
     &:hover
-        &:after
-            width: 100%
+      &:after
+        width: 100%
 
         color: black
 
 .buy__item--disable
-    background: gray
+  background: gray
 
-    .buy__item--inner
-      cursor: not-allowed
+  .buy__item--inner
+    cursor: not-allowed
 
-      &:after
-        background: gray
+    &:after
+      background: gray
 
-      &:hover
-        color: white
+    &:hover
+      color: white
 
 .selector--product
-    font-size: 16px
-    padding-bottom: 23px
-    border: 1.5px solid rgba(black, 0.2)
-    text-transform: none
+  font-size: 16px
+  padding-bottom: 23px
+  border: 1.5px solid rgba(black, 0.2)
+  text-transform: none
 
 @keyframes fadeIn
-    from
-      left: 100%
+  from
+    left: 100%
 
-    to
-      left: 0
+  to
+    left: 0
 
 @media (max-width: 800px)
   .buy__item
