@@ -88,45 +88,37 @@
     <div class="image-holder" style="height: 80vh; margin: 50px 0">
       <img src="https://storage.googleapis.com/thechemcie/Delaracion_de_mision_imagen_3.webp" alt="misión 3">
     </div>
-    <!-- <div class="fluid-container images-container">
-      <div class="column-image image-holder">
-        <img src="../assets/productos/fwdneuvosavancesyfotos/CLORO.jpg" alt="">
-      </div>
-      <div class="column-image image-holder">
-        <img src="../assets/productos/fwdneuvosavancesyfotos/CREOLINA.jpg" alt="">
-      </div>
-      <div class="column-image image-holder">
-        <img src="../assets/productos/fwdneuvosavancesyfotos/DESINFECTANTE.jpg" alt="">
-      </div>
-    </div> -->
+   
     <div v-if="products && products.length > 0">
       <div class="title">
         PRODUCTOS.
       </div>
-
+      
       <div class="slideshow">
         <div class="images-box">
-          <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
-            <div class="image-box__item__img">
-              <img :src="getImage(product)" alt="product">
-            </div>
-            <div class="image-box__item__desc">
-              <div class="imb-title">
-                {{ product.name }}.
-                {{ product.capacity }}.
+          <div class="images-bar" v-for="i in [1,2]" :key="i">
+            <div class="image-box__item" v-for="product in products" :key="product._id" @click="showDetail(product._id)">
+              <div class="image-box__item__img">
+                <img :src="getImage(product)" alt="product">
               </div>
-              <div class="imb-price">
-                {{ product.price | toMoney }}
+              <div class="image-box__item__desc">
+                <div class="imb-title">
+                  {{ product.name }}.
+                  {{ product.capacity }}.
+                </div>
+                <div class="imb-price">
+                  {{ product.price | toMoney }}
+                </div>
               </div>
-            </div>
-            <div class="buy__container">
-              <button class="buy__item"
-                @click.stop="sendToCart(product)"
-                :disabled="product.quantity <= 0"
-              >
-                Comprar
-              </button>
-              <p v-if="product.quantity <= 0">Producto agotado</p>
+              <div class="buy__container">
+                <button class="buy__item"
+                  @click.stop="sendToCart(product)"
+                  :disabled="product.quantity <= 0"
+                >
+                  Comprar
+                </button>
+                <p v-if="product.quantity <= 0">Producto agotado</p>
+              </div>
             </div>
           </div>
         </div>
@@ -141,6 +133,7 @@ import { mapMutations } from 'vuex';
 import util from '../util/index';
 
 export default {
+  name: 'Moto',
   data() {
     return {
       products: [],
@@ -182,19 +175,28 @@ export default {
 @import '../stylesheets/global.sass'
 
 .slideshow
+  width: 100%
   position: relative
   overflow: hidden
   height: 470px
 
 .images-box
-  +flex(0, 0)
-  width: 200%
+  transform: translate3d(0, 0, 0)
+  position: relative
+  overflow: hidden
+  animation: slideshow 30s linear infinite
+  display: flex
+  width: max-content
+  min-width: 200%
   height: 100%
-  position: absolute
-  animation: slideshow 15s linear infinite
 
   &:hover
     animation-play-state: paused
+
+.images-bar
+  +flex(0, 0)
+  width: 50%
+  height: 100%
 
   .image-box__item
     width: 33.333vw
@@ -314,14 +316,13 @@ export default {
   .title-res
     font-size: 45px
 
-  .images-box
-    width: 600%
+  .images-bar
     .image-box__item__desc
       flex-direction: column
       font-size: 15px
 
     .image-box__item
-      width: 500px
+      width: 300px
 
   .slideshow
     height: 480px
@@ -338,7 +339,4 @@ export default {
   .image__2
     height: 60vh
 
-  @keyframes slideshow
-    100%
-      transform: translateX(-83.33%)
 </style>
