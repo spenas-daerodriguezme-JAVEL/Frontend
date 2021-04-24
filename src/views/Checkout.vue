@@ -33,8 +33,8 @@
           <input-base
             :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
             class="input--medium"
-            :class="{ error: $v.idNumber.$error }"
-            v-model="$v.idNumber.$model"
+            :class="{ error: $v.identificationNumber.$error }"
+            v-model="$v.identificationNumber.$model"
           ></input-base>
         </div>
         <div class="frow" v-if="!isNitSet">
@@ -152,8 +152,17 @@ export default {
   },
   watch: {
     idType(val) {
-      (val === 'NIT') ? this.isNitSet = true : this.isNitSet = false;
-    }
+      if (val === 'NIT') {
+        this.isNitSet = true 
+        this.lastName = '-';
+      } else { 
+        this.isNitSet = false;
+        this.lastName = '';
+      }
+    },
+    identificationNumber(val) {
+      this.identificationNumber = String(val);
+    },
   },
   computed: {
     cityOptions() {
@@ -164,9 +173,6 @@ export default {
       }
 
       return [{ value: '', label: '' }];
-    },
-    idNumber() {
-      return String(this.identificationNumber);
     },
   },
   beforeMount() {
@@ -203,6 +209,7 @@ export default {
     Cart,
     LoadingAnimation: Loading,
   },
+
   methods: {
     getUserIdFromJWT() {
       const JWT = localStorage.getItem('jwt');
@@ -246,6 +253,7 @@ export default {
       this.$v.$touch();
       if (this.$v.$anyError) {
         this.isLoading = false;
+        console.log('this.$v :>> ', this.$v);
         this.modalText = 'Uno o más campos en la factura no son válidos';
         this.$refs.modal.triggerModal();
         return false;
@@ -312,7 +320,7 @@ export default {
         lastName: this.lastName,
         email: this.email,
         identificationType: this.idType,
-        identificationNumber: this.idNumber,
+        identificationNumber: this.identificationNumber,
         telephone: this.phone,
         address: this.address,
         city: this.city,
@@ -333,7 +341,7 @@ export default {
     city: { required },
     state: { required },
     idType: { required },
-    idNumber: {
+    identificationNumber: {
       required,
       minLenght: minLength(8),
     },
