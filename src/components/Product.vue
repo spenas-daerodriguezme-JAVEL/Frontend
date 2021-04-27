@@ -136,7 +136,7 @@ export default {
         this.product.properties = {};
         this.product.properties.description = '';
       }
-      if (this.product.properties.images.length === 0) {
+      if (this.product.properties.images === undefined || this.product.properties.images.length === 0) {
         this.product.images = [
           util.getImageFromProduct([], 1, this.product.businessLine),
           util.getImageFromProduct([], 1, this.product.businessLine),
