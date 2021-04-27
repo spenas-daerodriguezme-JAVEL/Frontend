@@ -8,13 +8,13 @@
           placeholder="Selecciona"
           v-model="selected"
           :options="options"
-          v-if="!isLoadingBusLineList"
+          v-show="!isLoadingBusLineList"
         />
       </div>
       <div class="filter-box">
         Tú pones los límites
         <b>FILTRAR</b>
-        <div class="price-range" v-if="areRangesLoaded">
+        <div class="price-range" v-show="areRangesLoaded">
           <RangeSlider v-model="ranges" />
         </div>
       </div>
@@ -111,7 +111,6 @@ import Loading from '@views/Loading.vue';
 import Product from '../components/Product.vue';
 import Pagination from '../components/ui/Pagination.vue';
 import CustomSelector from '../components/ui/CustomSelector.vue';
-import util from '../util/index';
 import RangeSlider from '../components/ui/RangeSlider.vue';
 
 export default {
@@ -153,6 +152,7 @@ export default {
   },
   async beforeMount() {
     const { searchTerm } = this.$route.query;
+
     if (searchTerm) {
       this.searchTerm = searchTerm;
       this.isLoading = true;

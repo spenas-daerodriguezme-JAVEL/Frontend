@@ -44,7 +44,6 @@
 <script>
 import { mapMutations } from 'vuex';
 import util from '../util/index';
-import VAPI from '../http_common';
 
 const { URI } = process.env;
 
@@ -86,22 +85,14 @@ export default {
       },
     };
   },
-  async mounted() {
-    if (!this.isDouble) {
+  mounted() {
+    setTimeout(() => {
       this.setImages();
-    }
+    }, 1000);
   },
-  beforeMount() {
+  created() {
     this.setInitialProperties();
     this.putImages();
-    // this.presentationOptions = this.data.price.map(
-    //   function(o, index) {
-    //     return {
-    //       label: o.dimention,
-    //       value: index
-    //     }
-    //   }
-    // );
   },
   computed: {
     outOfStock() {
@@ -144,11 +135,8 @@ export default {
       if (this.product.properties === null) {
         this.product.properties = {};
         this.product.properties.description = '';
-        this.product.images = [
-          util.getImageFromProduct([], 1, this.product.businessLine),
-          util.getImageFromProduct([], 1, this.product.businessLine),
-        ];
-      } else if (this.product.properties.images.length <= 0) {
+      }
+      if (this.product.properties.images.length === 0) {
         this.product.images = [
           util.getImageFromProduct([], 1, this.product.businessLine),
           util.getImageFromProduct([], 1, this.product.businessLine),
@@ -176,14 +164,14 @@ export default {
           right: rect.left + blockSize * (i + 1),
         });
       }
-      const self = this;
+
       display.onmousemove = (e) => {
-        const image = self.getBlock(limits, e);
-        self.activeImage = image;
+        const image = this.getBlock(limits, e);
+        this.activeImage = image;
       };
 
       display.onmouseleave = () => {
-        self.activeImage = -1;
+        this.activeImage = -1;
       };
     },
     putImages() {
@@ -194,8 +182,8 @@ export default {
             images.push(imageName);
           }
         });
-        for (let index = 0; index < images.length; index++) {
-          this.product.images = images;
+        if (images.length > 0) {
+          this.product.images.splice(0, this.product.images.length, ...images);
         }
       }
     },
