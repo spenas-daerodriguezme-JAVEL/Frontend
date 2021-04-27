@@ -8,9 +8,9 @@
       <div class="w-70 pad" ref="column2">
         <h1 ref="title2">Crea tu cuenta</h1>
 
-        <LoadingAnimation v-show="isCreatingAccount"/>
+        <LoadingAnimation v-show="isCreatingAccount" />
 
-        <div class="frow">
+        <div class="frow" v-if="!isNitSet">
           <input-base v-model="account.name" label="Nombre" class="input--medium"></input-base>
           <input-base
             v-model="account.lastName"
@@ -18,7 +18,13 @@
             class="input--medium"
           ></input-base>
         </div>
-
+        <div class="frow" v-else>
+          <input-base
+            :label="'Razón Social'"
+            class="input--medium"
+            v-model="account.name"
+          ></input-base>
+        </div>
         <div class="frow">
           <input-base
             label="Correo"
@@ -33,7 +39,7 @@
             :options="idTypeOptions"
           ></custom-selector>
           <input-base
-            label="Número de documento"
+            :label="idType === 'NIT' ? 'NIT' : 'Número de documento'"
             type="email"
             class="input--medium"
             v-model="account.identificationNumber"
@@ -121,11 +127,13 @@
         </div>
 
         <div class="frow">
-          <div class="btn"
+          <div
+            class="btn"
             @click="register"
             style="max-width: 100px; margin-left: 20px;"
             :class="{ 'btn--disable': !isTermsAndConditionsAccepted }"
-          > Regístrate </div>
+          >Regístrate
+          </div>
         </div>
       </div>
     </div>
@@ -135,7 +143,6 @@
         <div class="title__menu">{{ modalMsg }}</div>
       </div>
     </modal-info>
-    
   </div>
 </template>
 
@@ -171,6 +178,7 @@ export default {
       isTermsAndConditionsAccepted: false,
       modalMsg: '',
       isCreatingAccount: false,
+      isNitSet: false,
     };
   },
   computed: {
@@ -185,6 +193,9 @@ export default {
       }
 
       return [{ value: '', label: '' }];
+    },
+    idType() {
+      return this.account.identificationType;
     },
   },
   beforeMount() {
@@ -218,10 +229,15 @@ export default {
   components: {
     LoadingAnimation: Loading,
   },
+  watch: {
+    idType(val) {
+      val === 'NIT' ? (this.isNitSet = true) : (this.isNitSet = false);
+    },
+  },
   methods: {
     async register() {
       if (!this.isTermsAndConditionsAccepted) {
-        return ;
+        return;
       }
       this.isCreatingAccount = true;
       const { modal } = this.$refs;
@@ -284,7 +300,7 @@ export default {
       if (this.account.name.length < 2 || this.account.name.length > 50) {
         errors.push('El nombre debe ser de mínimo 2 caracteres y máximo 50 caracteres');
       }
-      if (this.account.lastName.length < 2 || this.account.lastName.length > 50) {
+      if ((this.account.lastName.length < 2 || this.account.lastName.length > 50) && !this.isNitSet) {
         errors.push('El apellido debe ser de mínimo 2 caracteres y máximo 50 caracteres');
       }
       if (this.account.email.length < 5 || this.account.email.length > 255) {
@@ -380,7 +396,7 @@ h1
 .btn--disable
     background: gray !important
     cursor: not-allowed !important
-    
+
     &:after
       background: gray !important
 
