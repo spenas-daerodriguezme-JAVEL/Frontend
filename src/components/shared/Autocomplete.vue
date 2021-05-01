@@ -1,9 +1,9 @@
 <template>
   <div>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-    />
+    /> -->
     <div style="position: relative;" v-bind:class="{ open: openSuggestion }">
       <input
         class="form-control"
@@ -112,4 +112,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+
+</style>
