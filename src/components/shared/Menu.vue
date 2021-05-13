@@ -334,11 +334,11 @@ export default {
 }
 
 .menu__logo {
-  margin-left: 2px;
-  margin-bottom: 15px;
   img {
+    height: 70px;
     margin: auto;
-    height: 80px;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 }
 
